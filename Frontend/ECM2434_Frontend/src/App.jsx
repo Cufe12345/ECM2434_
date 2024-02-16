@@ -2,9 +2,13 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import testRequest from './api/testRequest'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  //Function to test api request to backend(django server)
+  const [response, setResponse] = useState(null);
 
   return (
     <>
@@ -28,6 +32,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <button onClick={() => {setResponse("Sending..."); testRequest(setResponse)}}>Test API Request</button>
+      {/* Display the response from the API request */}
+      {response === null ? null : <p>{response}</p>}
     </>
   )
 }
