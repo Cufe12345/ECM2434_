@@ -15,7 +15,7 @@ function App() {
   const testApiRequest = async () => {
     setResponse("Sending...");
     try {
-      const res = await axios.get('http://localhost:8000/App/');
+      const res = await axios.get('http://localhost:8000/api/test_api/');
       setResponse(res.data); // Assuming your API returns a simple string or JSON object
     } catch (error) {
       console.error("There was an error!", error);
