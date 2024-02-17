@@ -1,14 +1,14 @@
-import React, {useState,useEffect} from "react";
 import axios from "axios";
 
-export default function testRequest(setResponse){
-    axios.get("http://localhost:8000/test")
+export default function testRequest(setResponse) {
+  axios
+    .get("http://localhost:8000/api/test_api/")
     .then((response) => {
-        console.log(response);
-        setResponse(response.data);
-    }).catch((error) => {
-        console.log(error);
-        setResponse(error.message);
+      console.log(response);
+      setResponse(response.data.message);
+    })
+    .catch((error) => {
+      console.log(error);
+      setResponse(error.message);
     });
 }
-
