@@ -1,15 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect, React } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import testRequest from './api/testRequest'
+import axios from 'axios';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
+  /* BROKEN
   //Function to test api request to backend(django server)
   const [response, setResponse] = useState(null);
 
+  // Example function to send a GET request to Django backend
+  const testApiRequest = async () => {
+    setResponse("Sending...");
+    try {
+      const res = await axios.get('http://127.0.0.1:8000/api/test_api2/');
+      setResponse(res.data); // Assuming your API returns a simple string or JSON object
+    } catch (error) {
+      console.error("There was an error!", error);
+      setResponse("Error in fetching data");
+    }
+  };
+  */
   return (
     <>
       <div>
@@ -32,11 +47,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <button onClick={() => {setResponse("Sending..."); testRequest(setResponse)}}>Test API Request</button>
-      {/* Display the response from the API request */}
-      {response === null ? null : <p>{response}</p>}
+      <button /*onClick={testApiRequest}*/>Test API Request</button>
     </>
   )
 }
 
-export default App
+export default App;
