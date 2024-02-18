@@ -29,6 +29,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SECURE_SSL_REDIRECT = True
+
+
+#HTTPS ONLY SETTINGS 
+
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE =True
 
 # Application definition
 
@@ -42,10 +49,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'myapi',
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
-    #'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
