@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const baseURL = "http://localhost:8000/api/";
-// Currently set to HTTP. Could use a config file to modify this easily. 
+// Currently set to HTTP. Could use a config file to modify this easily.
 
 export default class ApiClient {
   constructor() {
@@ -30,8 +30,12 @@ export default class ApiClient {
   }
 
   async post(url, data, config) {
-    const response = await this.axios.post(url, data, config);
-    return response.data;
+    const response = await this.axios.post(url, data, config).then((response) => {
+      return response.data;
+    }).catch((error) => {
+      console.log(error);
+      return error;
+    });
   }
 
   async login(email, password) {
@@ -39,4 +43,5 @@ export default class ApiClient {
     return response;
   }
 }
+
 
