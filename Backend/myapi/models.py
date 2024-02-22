@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 '''
 Good documentation: https://www.freecodecamp.org/news/common-django-model-fields-and-their-use-cases/
-
+                    https://radixweb.com/blog/create-rest-api-using-django-rest-framework
 Django models are a powerful abstraction that simplifies the tasks of 
 creating, reading, updating, and deleting database records,
 as well as managing database schemas.
@@ -27,11 +27,14 @@ as well as managing database schemas.
 '''
 
 class User(models.Model):
-    userID = models.BigAutoField(primary_key=True)
+    userID = models.CharField(max_length=50,primary_key=True)
+    
 
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)
-
+    typeName = models.CharField(max_length=80)
+    typeDescription = models.CharField(max_length=150)
+    
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
     userID = models.ForeignKey(User, on_delete=models.PROTECT)

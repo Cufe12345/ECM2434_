@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Quest
+from .models import Quest, User
 
 admin.site.register(Quest)
+admin.site.register(User)
 
 # Register your models here.
 '''
