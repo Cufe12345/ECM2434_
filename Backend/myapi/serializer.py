@@ -1,7 +1,29 @@
 from rest_framework import serializers
-from .models import Quest, Society
+from django.contrib.auth.models import User
+from .models import Quest, Society, Membership, UserProfile
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+        
+class UserProfileGetSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True) 
+    class Meta:
+        model = UserProfile
+        fields = ('user','birthday','bio','rank')
 
+class UserProfileAddSerializer(serializers.ModelSerializer):
+    user = UserSerializer
+    class Meta:
+        model = UserProfile
+        fields = ('user','birthday','bio','rank')
+        
+class UserProfileAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('user','birthday','bio','rank')
+        
 class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
@@ -26,12 +48,12 @@ class SocietyAddSerializer(serializers.ModelSerializer):
 
 class MembershipGetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Society
+        model = Membership
         fields = ('membershipID','societyID','since','state')
         
 class MembershipAddSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Society
+        model = Membership
         fields = ('user','societyID','state')
 
  
