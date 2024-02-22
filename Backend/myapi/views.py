@@ -3,11 +3,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from .models import Quest
+from .serializer import QuestSerializer
 
 
 @api_view(['GET'])
-def test_api2(request):
-    return Response({'message': 'Hello, world!'})
+def getQuest(request):
+    app = Quest.objects.all()
+    serializer = QuestSerializer(app, many=True)
+    return Response(serializer.data)
 
 class TestAPIView(APIView):
     """

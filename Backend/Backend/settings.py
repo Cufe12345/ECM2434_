@@ -149,7 +149,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Assuming 'dist' is inside the 'static' directory
+    os.path.join(BASE_DIR, 'static'),  
 ]
 
 
