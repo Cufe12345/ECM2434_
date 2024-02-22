@@ -29,11 +29,34 @@ as well as managing database schemas.
 class User(models.Model):
     userID = models.CharField(max_length=50,primary_key=True)
     
+class Leaderboard(models.Model):
+    leaderboardID = models.BigAutoField(primary_key=True)
+    leaderboardName = models.CharField(max_length=50)
+    leaderboardDescription = models.CharField(max_length=150)
+    startDate = models.DateField()
+    endDate = models.DateField()
+
+class UserLeaderboard(models.Model):
+    userLeaderboardID = models.BigAutoField(primary_key=True)
+    userID = models.ForeignKey(User, on_delete=models.PROTECT)
+    leaderboardID = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
+    score = models.IntegerField()
+
+class RewardLeaderboard(models.Model):
+    rewardLeaderboardID = models.BigAutoField(primary_key=True)
+    leaderboardID = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
+    rankingCondition = models.IntegerField()
+    currency = models.IntegerField()
+
+class RewardQuest(models.Model):
+    rewardQuestID = models.BigAutoField(primary_key=True)
+    currency = models.IntegerField()
 
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)
     typeName = models.CharField(max_length=80)
     typeDescription = models.CharField(max_length=150)
+    rewardQuestID = models.ForeignKey(RewardQuest, on_delete=models.PROTECT)
     
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
