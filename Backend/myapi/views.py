@@ -3,11 +3,35 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from .models import Quest, User
+from .serializer import QuestSerializer, UserSerializer
 
 
 @api_view(['GET'])
-def test_api2(request):
-    return Response({'message': 'Hello, world!'})
+def getQuest(request):
+    app = Quest.objects.all()
+    serializer = QuestSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addQuest(request):
+    serializer = QuestSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getUser(request):
+    app = User.objects.all()
+    serializer = UserSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addUser(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
 
 class TestAPIView(APIView):
     """
