@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useUser } from '../contexts/userContext';
-
+import {CreateQuestForm} from '../components/forms/createQuest/createQuestForm';
 const Home = () => {
     
     //This is how you use the user context, you can access all these variables and functions from the context
@@ -15,6 +15,7 @@ const Home = () => {
             : 
             <div>
                 <h1>Home</h1>
+                {/* <CreateQuestForm/> */}
             </div>
     );
 }
