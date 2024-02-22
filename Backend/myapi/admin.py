@@ -1,10 +1,23 @@
 from django.contrib import admin
-from .models import Quest, User
+from .models import Quest, Society, UserProfile, Membership
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
 
 admin.site.register(Quest)
-admin.site.register(User)
+admin.site.register(Society)
+admin.site.register(Membership)
 
-# Register your models here.
+class ProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = 'User Profiles'
+
+class CustumizedUserAdmin(UserAdmin):
+    inlines = (ProfileInline, )
+    
+admin.site.unregister(User)
+admin.site.register(User, CustumizedUserAdmin)
+
 '''
 The admin.py file in a Django application is used to register your models with Django's built-in admin interface. 
 Django's admin interface is a powerful and auto-generated tool that allows for easy database management.

@@ -1,13 +1,37 @@
 from rest_framework import serializers
-from .models import Quest, User
+from .models import Quest, Society
 
 
-class QuestSerializer(serializers.ModelSerializer):
+class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('questID','quest_name','date_created','Task','state')
+        fields = ('name','task','state')
         
-class UserSerializer(serializers.ModelSerializer):
+class QuestGetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('userID',)
+        model = Quest
+        fields = ('questID','name','date_created','task','state','reward')
+       
+class SocietyGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Society
+        verbose_name_plural = "Societies"
+        fields = ('societyID','name','description','numberOfMembers','societyXP')
+        
+class SocietyAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Society
+        verbose_name_plural = "Societies"
+        fields = ('name','description')
+
+class MembershipGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Society
+        fields = ('membershipID','societyID','since','state')
+        
+class MembershipAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Society
+        fields = ('user','societyID','state')
+
+ 
