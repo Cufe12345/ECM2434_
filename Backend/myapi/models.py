@@ -64,6 +64,7 @@ class RewardLeaderboard(models.Model):
     rankingCondition = models.IntegerField()
     currency = models.IntegerField()
 
+
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=80)
