@@ -3,26 +3,52 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Quest, User
-from .serializer import QuestSerializer, UserSerializer
+from .models import Quest, Society, Membership
+from .serializer import QuestAddSerializer,QuestGetSerializer, SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer
 
 
 @api_view(['GET'])
 def getQuest(request):
     app = Quest.objects.all()
-    serializer = QuestSerializer(app, many=True)
+    serializer = QuestGetSerializer(app, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
 def addQuest(request):
-    serializer = QuestSerializer(data=request.data)
+    serializer = QuestAddSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
 
 @api_view(['GET'])
+def getSociety(request):
+    app = Society.objects.all()
+    serializer = SocietyGetSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addSociety(request):
+    serializer = SocietyAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getMembership(request):
+    app = Membership.objects.all()
+    serializer = MembershipGetSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addMembership(request):
+    serializer = MembershipAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+'''
+@api_view(['GET'])
 def getUser(request):
-    app = User.objects.all()
+    app = userProfile.objects.all()
     serializer = UserSerializer(app, many=True)
     return Response(serializer.data)
 
@@ -32,6 +58,8 @@ def addUser(request):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+'''
+
 
 class TestAPIView(APIView):
     """

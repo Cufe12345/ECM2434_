@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 '''
@@ -26,19 +29,32 @@ as well as managing database schemas.
     These migrations are used to evolve your database schema over time as you change your models
 '''
 
-class User(models.Model):
-    userID = models.CharField(max_length=50,primary_key=True)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", primary_key=True)
+    birthday = models.DateField(null=True, unique=False)
+    bio = models.CharField(max_length=150, default="")
+    rank = models.PositiveIntegerField(default=1, unique=False)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.get_or_create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    profile, created = UserProfile.objects.get_or_create(user=instance)
+    profile.save()
     
 class Leaderboard(models.Model):
     leaderboardID = models.BigAutoField(primary_key=True)
     leaderboardName = models.CharField(max_length=50)
     leaderboardDescription = models.CharField(max_length=150)
-    startDate = models.DateField()
+    startDate = models.DateField(auto_now_add=True)
     endDate = models.DateField()
 
 class UserLeaderboard(models.Model):
     userLeaderboardID = models.BigAutoField(primary_key=True)
-    userID = models.ForeignKey(User, on_delete=models.PROTECT)
+    #user = models.ForeignKey(User, on_delete=models.PROTECT)
     leaderboardID = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
     score = models.IntegerField()
 
@@ -48,22 +64,50 @@ class RewardLeaderboard(models.Model):
     rankingCondition = models.IntegerField()
     currency = models.IntegerField()
 
-class RewardQuest(models.Model):
-    rewardQuestID = models.BigAutoField(primary_key=True)
-    currency = models.IntegerField()
 
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)
-    typeName = models.CharField(max_length=80)
-    typeDescription = models.CharField(max_length=150)
-    rewardQuestID = models.ForeignKey(RewardQuest, on_delete=models.PROTECT)
+    name = models.CharField(max_length=80)
+    description = models.CharField(max_length=150, default="")
     
+    def __str__(self):
+        return self.name
+
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
-    userID = models.ForeignKey(User, on_delete=models.PROTECT)
-    questTypeID = models.ForeignKey(QuestType, on_delete=models.PROTECT)
-    quest_name = models.CharField(max_length=50)
-    date_created = models.DateField(auto_now_add=True)
-    Task = models.CharField(max_length=150)
-    state = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    #questTypeID = models.ForeignKey(QuestType, on_delete=models.PROTECT)
+    name = models.CharField(max_length=50)
+    date_created = models.DateField(auto_now_add=True, unique=False)
+    task = models.CharField(max_length=150, default=0)
+    reward = models.PositiveBigIntegerField(default=0, unique=False)
+    state = models.BooleanField(default=False, unique=False)
+    
+    def __str__(self):
+        return self.name
+    
+class Society(models.Model):
+    societyID = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=150, default="")
+    numberOfMembers = models.PositiveBigIntegerField(default=0, unique=False)
+    societyXP = models.PositiveBigIntegerField(default=0, unique=False)
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = "Societies"
+
+class Membership(models.Model):
+    membershipID = models.BigAutoField(primary_key=True)
+    societyID = models.ForeignKey(Society, on_delete=models.PROTECT)
+    name = name = models.CharField(max_length=80)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    since = models.DateField(auto_now_add=True, unique=False)
+    state = models.BooleanField(default=False, unique=False)
+    
+    def __str__(self):
+        return self.name
+    
     
