@@ -18,6 +18,7 @@ class CustumizedUserAdmin(UserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, CustumizedUserAdmin)
 admin.site.register(UserProfile)
+admin.site.register(Friend)
 
 '''
 The admin.py file in a Django application is used to register your models with Django's built-in admin interface. 
