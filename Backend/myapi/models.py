@@ -74,10 +74,22 @@ class QuestType(models.Model):
     def __str__(self):
         return self.name
 
+class Location(models.Model):
+    locationID = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    def __str__(self):
+        return self.name
+
+
+
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    questTypeID = models.ForeignKey(QuestType, on_delete=models.PROTECT)
+    questTypeID = models.ForeignKey(QuestType, on_delete=models.CASCADE)
+    locationID = models.ForeignKey(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     date_created = models.DateField(auto_now_add=True, unique=False)
     task = models.CharField(max_length=150, default=0)

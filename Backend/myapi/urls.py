@@ -33,6 +33,10 @@ urlpatterns = [
     path('quest/type/',views.getQuestType, name='QuestType'),
     # add a questType
     path('quest/type/add',views.addQuestType, name='Add a quest type'),
+    # see location
+    path('quest/location/',views.getLocation, name='get all locations'),
+    # add a location
+    path('quest/location/add',views.addLocation, name='add a location'),
     # see al societies
     path('society/',views.getSociety, name='Society'),
     # add a society

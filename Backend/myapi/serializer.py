@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Quest, QuestType, Society, Membership, UserProfile
+from .models import Quest, QuestType, Society, Membership, UserProfile,Location
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,7 +37,17 @@ class QuestGetSerializer(serializers.ModelSerializer):
 class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('name','task','reward')
+        fields = ('name','questTypeID','task','state','reward')
+
+class LocationGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ('locationID','name','latitude','longitude')
+
+class LocationAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ('name','latitude','longitude')
        
 class SocietyGetSerializer(serializers.ModelSerializer):
     class Meta:

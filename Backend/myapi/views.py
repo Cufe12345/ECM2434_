@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status, generics, permissions
-from .models import Quest, Society, Membership, UserProfile, QuestType
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer, QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer, SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer
+from .models import Quest, Society, Membership, UserProfile, QuestType, Location
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer, QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer
 
 class TestAPIView(APIView):
     """
@@ -51,6 +51,19 @@ def getQuest(request):
 @api_view(['POST'])
 def addQuest(request):
     serializer = QuestAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getLocation(request):
+    app = Location.objects.all()
+    serializer = LocationGetSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addLocation(request):
+    serializer = LocationAddSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)

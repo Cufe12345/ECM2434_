@@ -1,12 +1,9 @@
 from django.contrib import admin
-from .models import Quest, Society, UserProfile, Membership, QuestType, Friend
+from .models import Quest, Society, UserProfile, Membership, QuestType, Friend, Location
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
-admin.site.register(Quest)
-admin.site.register(Society)
-admin.site.register(Membership)
-admin.site.register(Friend)
+
 
 class ProfileInline(admin.StackedInline):
     model = UserProfile
@@ -19,7 +16,12 @@ class CustumizedUserAdmin(UserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, CustumizedUserAdmin)
 admin.site.register(UserProfile)
+admin.site.register(Quest)
+admin.site.register(Friend)
 admin.site.register(QuestType)
+admin.site.register(Society)
+admin.site.register(Membership)
+admin.site.register(Location)
 
 '''
 The admin.py file in a Django application is used to register your models with Django's built-in admin interface. 
