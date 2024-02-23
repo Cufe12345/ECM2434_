@@ -28,11 +28,11 @@ export default class ApiClient {
     // const response = await this.axios.get(url, config);
     const requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' , 'Authorization': 'Token '+config},
-  };
-  const response = await fetch(baseURL+url, requestOptions);
-  const response_data = await response.json();
-  return (response_data);
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Token ' + config },
+    };
+    const response = await fetch(baseURL + url, requestOptions);
+    const response_data = await response.json();
+    return (response_data);
   }
 
   async post(url, data) {
@@ -47,10 +47,10 @@ export default class ApiClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
-  };
-  const response = await fetch(baseURL+url, requestOptions);
-  const response_data = await response.json();
-  return (response_data);
+    };
+    const response = await fetch(baseURL + url, requestOptions);
+    const response_data = await response.json();
+    return (response_data);
   }
 
   async login(username, password) {
@@ -58,8 +58,14 @@ export default class ApiClient {
     return response;
   }
   async fetchUserData(token) {
-    const response = await this.get("user/",token);
+    const response = await this.get("user/", token);
     return response;
+  }
+
+  async register(email, username, password) {
+    console.log("Reached");
+    const response1 = await this.post("account/users/", { email, username, password });
+    return response1;
   }
 }
 
