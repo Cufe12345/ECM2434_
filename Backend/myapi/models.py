@@ -77,7 +77,7 @@ class QuestType(models.Model):
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    #questTypeID = models.ForeignKey(QuestType, on_delete=models.PROTECT)
+    questTypeID = models.ForeignKey(QuestType, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     date_created = models.DateField(auto_now_add=True, unique=False)
     task = models.CharField(max_length=150, default=0)

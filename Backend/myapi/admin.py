@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 admin.site.register(Quest)
 admin.site.register(Society)
 admin.site.register(Membership)
-admin.site.regist(Friend)
+admin.site.register(Friend)
 
 class ProfileInline(admin.StackedInline):
     model = UserProfile
