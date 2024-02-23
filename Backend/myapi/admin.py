@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Quest, Society, UserProfile, Membership
+from .models import Quest, Society, UserProfile, Membership, Friend
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
