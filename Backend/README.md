@@ -13,7 +13,7 @@
 - run : python manage.py runserver
 
 ( HTTPS 🔒:
-- python manage.py runserver_plus --cert-file cert.pem --key-file key.pem )
+- python manage.py runserver_plus --cert-file SSL/cert.pem --key-file SSL/key.pem )
 
   ## NOTE ##
   
