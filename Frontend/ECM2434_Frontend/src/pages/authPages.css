@@ -29,6 +29,17 @@
     flex-direction: column;
 
 }
-.fields p{
+
+.fields p {
     padding-top: 20px;
+}
+
+.names {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.names input {
+    width: 48%;
 }
