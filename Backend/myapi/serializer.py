@@ -11,18 +11,18 @@ class UserProfileGetSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True) 
     class Meta:
         model = UserProfile
-        fields = ('user','birthday','bio','rank')
+        fields = ('user','birthday','bio','rank','XP')
 
 class UserProfileAddSerializer(serializers.ModelSerializer):
     user = UserSerializer
     class Meta:
         model = UserProfile
-        fields = ('user','birthday','bio','rank')
+        fields = ('user','birthday','bio','rank','XP')
         
 class UserProfileAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('user','birthday','bio','rank')
+        fields = ('user','birthday','bio','rank','XP')
         
 class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:

@@ -34,6 +34,7 @@ class UserProfile(models.Model):
     birthday = models.DateField(null=True, unique=False)
     bio = models.CharField(max_length=150, default="")
     rank = models.PositiveIntegerField(default=1, unique=False)
+    XP = models.PositiveIntegerField(default=0, unique=False)
     
     def __str__(self):
         return self.user.username
