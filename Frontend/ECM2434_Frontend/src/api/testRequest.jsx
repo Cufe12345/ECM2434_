@@ -25,21 +25,40 @@ export default class ApiClient {
   }
 
   async get(url, config) {
-    const response = await this.axios.get(url, config);
-    return response.data;
+    // const response = await this.axios.get(url, config);
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' , 'Authorization': 'Token '+config},
+  };
+  const response = await fetch(baseURL+url, requestOptions);
+  const response_data = await response.json();
+  return (response_data);
   }
 
-  async post(url, data, config) {
-    const response = await this.axios.post(url, data, config).then((response) => {
-      return response.data;
-    }).catch((error) => {
-      console.log(error);
-      return error;
-    });
+  async post(url, data) {
+    // const response = await this.axios.post(url, data).then((response) => {
+    //   response.headers["Access-Control-Allow-Origin"] = "*";
+    //   return response.data;
+    // }).catch((error) => {
+    //   console.log(error);
+    //   return error;
+    // });
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+  };
+  const response = await fetch(baseURL+url, requestOptions);
+  const response_data = await response.json();
+  return (response_data);
   }
 
-  async login(email, password) {
-    const response = await this.post("/v1/users/login/", { email, password });
+  async login(username, password) {
+    const response = await this.post("account/token/login", { username, password });
+    return response;
+  }
+  async fetchUserData(token) {
+    const response = await this.get("user/",token);
     return response;
   }
 }

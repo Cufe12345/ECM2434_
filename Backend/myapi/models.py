@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 '''
@@ -48,26 +49,22 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     profile, created = UserProfile.objects.get_or_create(user=instance)
     profile.save()
+
+class Friend(models.Model):
+    user1 = models.ForeignKey(User, related_name='friends_user1',on_delete=models.CASCADE)
+    user2 = models.ForeignKey(User, related_name='friends_user2',on_delete=models.CASCADE)
     
-class Leaderboard(models.Model):
-    leaderboardID = models.BigAutoField(primary_key=True)
-    leaderboardName = models.CharField(max_length=50)
-    leaderboardDescription = models.CharField(max_length=150)
-    startDate = models.DateField(auto_now_add=True)
-    endDate = models.DateField()
-
-class UserLeaderboard(models.Model):
-    userLeaderboardID = models.BigAutoField(primary_key=True)
-    #user = models.ForeignKey(User, on_delete=models.PROTECT)
-    leaderboardID = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
-    score = models.IntegerField()
-
-class RewardLeaderboard(models.Model):
-    rewardLeaderboardID = models.BigAutoField(primary_key=True)
-    leaderboardID = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
-    rankingCondition = models.IntegerField()
-    currency = models.IntegerField()
-
+    def __str__(self):
+        return f"{self.user1.id} |  {self.user2.id}"
+    
+    def clean(self):
+        # Check if user1 is the same as user2
+        if self.user1 == self.user2:
+            raise ValidationError("user1 and user2 cannot be the same.")
+        
+    def save(self, *args, **kwargs): 
+        self.clean()
+        super(Friend, self).save(*args, **kwargs)
 
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)

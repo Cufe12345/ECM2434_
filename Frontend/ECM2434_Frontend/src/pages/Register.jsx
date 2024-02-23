@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "./AuthPages.css";
+import "./authPages.css";
 
 const Register = () => {
     return (<>

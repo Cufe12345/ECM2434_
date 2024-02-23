@@ -1,5 +1,5 @@
 import { createContext,useContext,useEffect,useState } from "react";
-
+import ApiClient from "../api/index";
 const UserContext = createContext({});
 
 // Custom hook to use the user context
@@ -21,6 +21,17 @@ export function UserContextProvider({ children }) {
             //setUserData
             //setUserDataLoading
             console.log("Fetching user data")
+            console.log("USER: ",user)
+            ApiClient.api.fetchUserData(user).then((res) => {
+                console.log(res)
+                setUserData(res);
+                setUserDataLoading(false);
+            }).catch((error) => {
+                console.log(error);
+                setUserDataError(error);
+                setUserDataLoading(false);
+            });
+
 
         }
         else{
