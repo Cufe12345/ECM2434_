@@ -65,8 +65,11 @@ Endpoint : api/leaderboard_n/
 
 ------------------------------------------------------------------------------------
 
-
-
+## To add a new QuestType, use the following JSON structure:
+{
+  "name": "Double XP",
+  "description" : "this is a for quests that have double xp"
+}
 
 
 
