@@ -4,6 +4,11 @@ from django.conf.urls import include
 from django.conf import settings
 from .views import TestAPIView, CurrentUserProfileView, TopNUsersView, Top10UsersView
 
+#Test account:
+#email: test@gmail.com
+#username: test
+#password: test12345
+
 urlpatterns = [
     #test
     path('test_api/', TestAPIView.as_view(), name='test_api'),
@@ -16,7 +21,7 @@ urlpatterns = [
     path('users/',views.getUser, name='Users profiles'),
     # get this user in full profile
     path('user/',CurrentUserProfileView.as_view(), name='Users profiles'),
-    # add a new user full profile
+    # add a new user full profile - this should be done in backend when user registers not called by frontend
     path('user/add/',views.addUser, name='Add full user'),
     # get top 10 best users for leaderboard
     path('leaderboard_10/', Top10UsersView.as_view(), name='Leaderboard Top 10'),
