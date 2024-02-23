@@ -66,11 +66,11 @@ class Friend(models.Model):
         self.clean()
         super(Friend, self).save(*args, **kwargs)
 
+
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=80, unique=True)
     description = models.CharField(max_length=150, default="")
-    
     def __str__(self):
         return self.name
 
@@ -110,5 +110,3 @@ class Membership(models.Model):
     
     def __str__(self):
         return self.name
-    
-    
