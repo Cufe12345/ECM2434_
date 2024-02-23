@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status, generics, permissions
-from .models import Quest, Society, Membership, UserProfile
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,QuestGetSerializer,QuestAddSerializer, SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer
+from .models import Quest, Society, Membership, UserProfile, QuestType, Location
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer, QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer
 
 class TestAPIView(APIView):
     """
@@ -30,6 +30,19 @@ def addUser(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def getQuestType(request):
+    app = QuestType.objects.all()
+    serializer = QuestTypeGetSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addQuestType(request):
+    serializer = QuestTypeAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def getQuest(request):
     app = Quest.objects.all()
     serializer = QuestGetSerializer(app, many=True)
@@ -38,6 +51,19 @@ def getQuest(request):
 @api_view(['POST'])
 def addQuest(request):
     serializer = QuestAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getLocation(request):
+    app = Location.objects.all()
+    serializer = LocationGetSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addLocation(request):
+    serializer = LocationAddSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)

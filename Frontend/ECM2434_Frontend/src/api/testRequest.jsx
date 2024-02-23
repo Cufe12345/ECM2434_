@@ -35,7 +35,7 @@ export default class ApiClient {
     return (response_data);
   }
 
-  async post(url, data) {
+  async post(url, data, token) {
     // const response = await this.axios.post(url, data).then((response) => {
     //   response.headers["Access-Control-Allow-Origin"] = "*";
     //   return response.data;
@@ -43,9 +43,10 @@ export default class ApiClient {
     //   console.log(error);
     //   return error;
     // });
+
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' , 'Authorization': token ? ('Token '+token): ''},
       body: JSON.stringify(data)
     };
     const response = await fetch(baseURL + url, requestOptions);
@@ -66,6 +67,10 @@ export default class ApiClient {
     console.log("Reached");
     const response1 = await this.post("account/users/", { email, username, password });
     return response1;
+  }
+  async createQuest(token, data) {
+    const response = await this.post("quest/add/", data, token);
+    return response;
   }
 }
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Quest, Society, Membership, UserProfile
+from .models import Quest, QuestType, Society, Membership, UserProfile,Location
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,21 +18,36 @@ class UserProfileAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('user','birthday','bio','rank','XP')
-        
-class UserProfileAddSerializer(serializers.ModelSerializer):
+
+class QuestTypeGetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
-        fields = ('user','birthday','bio','rank','XP')
-        
-class QuestAddSerializer(serializers.ModelSerializer):
+        model = QuestType
+        fields = ('questTypeID','name','description')
+
+class QuestTypeAddSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Quest
-        fields = ('name','task','state')
-        
+        model = QuestType
+        fields = ('name','description')
+
 class QuestGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('questID','name','date_created','task','state','reward')
+        fields = ('questID','name','questTypeID','date_created','task','state','reward')
+
+class QuestAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quest
+        fields = ('name','questTypeID','task','state','reward')
+
+class LocationGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ('locationID','name','latitude','longitude')
+
+class LocationAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ('name','latitude','longitude')
        
 class SocietyGetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,5 +70,3 @@ class MembershipAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = ('user','societyID','state')
-
- 

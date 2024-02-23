@@ -65,6 +65,27 @@ Endpoint : api/leaderboard_n/
 
 ------------------------------------------------------------------------------------
 
+## To add a new QuestType, use the following JSON structure:
+
+Endpoint : api/quest/type/add
+
+{
+  "name": "Double XP",
+  "description" : "this is a for quests that have double xp"
+}
+
+-------------------------------------------------------------------------------------
+
+## To add a location, the JSON should be formatted as follows:
+
+Endpoint : api/quest/location/
+
+{
+  "name" : "park",
+  "latitude" : 12323.2121,
+  "longitude" : -74.0060
+}
+
 
 
 
