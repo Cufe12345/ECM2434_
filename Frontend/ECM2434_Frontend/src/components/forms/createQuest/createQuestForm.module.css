@@ -1,0 +1,17 @@
+.inputField{
+    width: 50%;
+    padding: 12px 20px;
+    /* margin-top: 8px;
+    margin-bottom: 19px;
+    margin-right: 8px; */
+    margin: 8px 19px 8px 3px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.locationContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
