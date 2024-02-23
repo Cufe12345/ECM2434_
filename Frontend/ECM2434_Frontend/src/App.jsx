@@ -3,6 +3,8 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import { UserContextProvider } from "./contexts/userContext";
 
 function App() {
@@ -13,11 +15,12 @@ function App() {
     <UserContextProvider>
       <>
         <Navbar />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path="/about" element={<About />} /> */}
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        {/* <Route path="/about" element={<About />} /> */}
+      </Routes>
       </>
     </UserContextProvider>
   );
