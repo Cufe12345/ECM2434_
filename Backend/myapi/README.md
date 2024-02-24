@@ -23,7 +23,7 @@ Endpoint : api/quest/add/
   "name": "Quest Name",
   "questTypeID" : 1,
   "task": "Task Description",
-  "reward" : 40
+  "reward" : 40,
   "state": False
 }
 
