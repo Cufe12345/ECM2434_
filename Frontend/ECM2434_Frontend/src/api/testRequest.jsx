@@ -63,9 +63,17 @@ export default class ApiClient {
     return response;
   }
 
-  async register(email, username, password) {
+  async register(email, username, password,first_name,last_name,) {
     console.log("Reached");
-    const response1 = await this.post("account/users/", { email, username, password });
+    let obj = {
+      email: email,
+      username: username,
+      password: password,
+      first_name: first_name,
+      last_name: last_name,
+    }
+    console.log(obj);
+    const response1 = await this.post("account/users/", obj);
     return response1;
   }
   async createQuest(token, data) {

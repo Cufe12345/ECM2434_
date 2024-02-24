@@ -13,8 +13,6 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const[username,setUsername]=useState('');
-    const[password,setPassword]=useState('');
 
     const onSubmit = (e) => {
         e.preventDefault();
