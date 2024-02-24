@@ -92,6 +92,10 @@ export default class ApiClient {
     const response = await this.get("quest/type/", token);
     return response;
   }
+  async fetchQuests(token) {
+    const response = await this.get("quest/", token);
+    return response;
+  }
 }
 
 
