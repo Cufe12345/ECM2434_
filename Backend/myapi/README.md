@@ -25,7 +25,7 @@ Endpoint : api/quest/add/
   "locationID" : 1,
   "task": "Task Description",
   "reward" : 40,
-  "state": False
+  "state": "False"
 }
 
 ----------------------------------------------------------------------------
