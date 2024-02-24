@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.conf.urls import include
 from django.conf import settings
-from .views import TestAPIView, CurrentUserProfileView, TopNUsersView, Top10UsersView
+from .views import TestAPIView, CurrentUserProfileView, TopNUsersView, Top10UsersView, Top10FriendsView, FriendView, TopNFriendsView
 #Test account:
 #email: test@gmail.com
 #username: test
@@ -21,11 +21,17 @@ urlpatterns = [
     # get all users in full profile
     path('users/',views.getUser, name='Users profiles'),
     # get this user in full profile
-    path('user/',CurrentUserProfileView.as_view(), name='Users profiles'),
+    path('user/',CurrentUserProfileView.as_view(), name='User profile'),
     # get top 10 best users for leaderboard
     path('leaderboard_10/', Top10UsersView.as_view(), name='Leaderboard Top 10'),
     # get top n best users for leaderboard
     path('leaderboard_n/', TopNUsersView.as_view(), name='Leaderboard Top N'),
+    # get friend list
+    path('friends/',FriendView.as_view(), name='Friends'),
+    # get top 10 friend leaderboard
+    path('friends/leaderboard_10/', Top10FriendsView.as_view(), name='Friends Leaderboard'),
+    # get top n friend leaderboard
+    path('friends/leaderboard_n/', TopNFriendsView.as_view(), name='Friends Leaderboard N'),
     # see all quests
     path('quest/',views.getQuest, name='Quest'),
     # add a quest

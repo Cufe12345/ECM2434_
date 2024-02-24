@@ -1,6 +1,6 @@
 from rest_framework import serializers
 #from django.contrib.auth.models import User
-from .models import Quest, QuestType, Society, Membership, UserProfile,Location
+from .models import Quest, QuestType, Society, Membership, UserProfile,Location, Friend
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 
 class UserProfileAddSerializer(BaseUserCreateSerializer):
@@ -64,3 +64,8 @@ class MembershipAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = ('user','societyID','state')
+
+class FriendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Friend
+        fields = ('user1','user2')
