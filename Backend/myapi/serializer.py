@@ -11,7 +11,7 @@ class UserProfileAddSerializer(BaseUserCreateSerializer):
 class UserProfileGetSerializer(BaseUserCreateSerializer):
     class Meta:
         model = UserProfile
-        fields = ['username','first_name','last_name','email','birthday','bio','rank','XP']
+        fields = ['id','username','first_name','last_name','email','birthday','bio','rank','XP']
 
 class QuestTypeGetSerializer(serializers.ModelSerializer):
     class Meta:
