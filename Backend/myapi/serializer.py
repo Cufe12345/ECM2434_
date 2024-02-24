@@ -1,23 +1,17 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import Quest, QuestType, Society, Membership, UserProfile,Location
+#from django.contrib.auth.models import User
+from .models import Quest, QuestType, Society, Membership, UserProfile,Location, Friend
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
-        
-class UserProfileGetSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True) 
+class UserProfileAddSerializer(BaseUserCreateSerializer):
+    class Meta(BaseUserCreateSerializer.Meta):
+        model = UserProfile
+        fields = ['id','username','first_name','last_name','email','bio','password']
+
+class UserProfileGetSerializer(BaseUserCreateSerializer):
     class Meta:
         model = UserProfile
-        fields = ('user','birthday','bio','rank','XP')
-
-class UserProfileAddSerializer(serializers.ModelSerializer):
-    user = UserSerializer
-    class Meta:
-        model = UserProfile
-        fields = ('user','birthday','bio','rank','XP')
+        fields = ['username','first_name','last_name','email','birthday','bio','rank','XP']
 
 class QuestTypeGetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,3 +64,8 @@ class MembershipAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = ('user','societyID','state')
+
+class FriendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Friend
+        fields = ('user1','user2')

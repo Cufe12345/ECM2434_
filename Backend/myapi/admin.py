@@ -1,21 +1,20 @@
 from django.contrib import admin
-from .models import Quest, Society, UserProfile, Membership, QuestType, Friend, Location
-from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
+from .models import UserProfile
+from .models import UserProfile ,Quest, Society,  Membership, QuestType, Friend, Location
 
-
-
-class ProfileInline(admin.StackedInline):
+class UserProfileAdmin(UserAdmin):
     model = UserProfile
-    can_delete = False
-    verbose_name_plural = 'User Profiles'
+    # Add all other fieldsets you need
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('birthday', 'bio', 'rank', 'XP')}),
+    )
+    # This will add a filter horizontal widget to select groups easily
+    filter_horizontal = ('groups',)
 
-class CustumizedUserAdmin(UserAdmin):
-    inlines = (ProfileInline, )
-    
-admin.site.unregister(User)
-admin.site.register(User, CustumizedUserAdmin)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)
+#admin.site.register(UserProfile)
 admin.site.register(Quest)
 admin.site.register(Friend)
 admin.site.register(QuestType)
