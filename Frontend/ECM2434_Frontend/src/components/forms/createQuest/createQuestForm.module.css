@@ -70,3 +70,10 @@
     text-align: center;
     display: contents;
 }
+.buttonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    padding-top: 10px;
+}
