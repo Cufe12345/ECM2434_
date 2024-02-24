@@ -104,7 +104,7 @@ class CurrentUserProfileView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        return self.request.user.profile
+        return self.request.user
     
 # get 10 best users 
 class Top10UsersView(APIView):
