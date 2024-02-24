@@ -22,7 +22,7 @@ Endpoint : api/quest/add/
 {
   "name": "Quest Name",
   "task": "Task Description",
-  "state": "Initial State"
+  "state": False
 }
 
 ----------------------------------------------------------------------------
