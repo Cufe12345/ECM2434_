@@ -11,7 +11,7 @@ class UserProfileAddSerializer(BaseUserCreateSerializer):
 class UserProfileGetSerializer(BaseUserCreateSerializer):
     class Meta:
         model = UserProfile
-        fields = ['username','first_name','last_name','email','birthday','bio','rank','XP']
+        fields = ['id','username','first_name','last_name','email','birthday','bio','rank','XP']
 
 class QuestTypeGetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,12 +26,12 @@ class QuestTypeAddSerializer(serializers.ModelSerializer):
 class QuestGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('questID','name','questTypeID','date_created','task','state','reward')
+        fields = ('questID','user','questTypeID','name','date_created','task','locationID','state','reward')
 
 class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('name','questTypeID','task','state','reward')
+        fields = ('user','questTypeID','locationID','name','task','reward','state')
 
 class LocationGetSerializer(serializers.ModelSerializer):
     class Meta:

@@ -80,6 +80,18 @@ export default class ApiClient {
     const response = await this.post("quest/add/", data, token);
     return response;
   }
+  async fetchLocations(token) {
+    const response = await this.get("quest/location/", token);
+    return response;
+  }
+  async addLocation(token, data) {
+    const response = await this.post("quest/location/add", data, token);
+    return response;
+  }
+  async fetchTypes(token) {
+    const response = await this.get("quest/type/", token);
+    return response;
+  }
 }
 
 

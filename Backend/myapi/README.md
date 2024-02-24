@@ -20,9 +20,13 @@ Endpoint : api/account/users/
 Endpoint : api/quest/add/
 
 {
+  "user" : 1,
+  "questTypeID" : 1,
+  "locationID" : 1,
   "name": "Quest Name",
   "task": "Task Description",
-  "state": "Initial State"
+  "reward" : 40,
+  "state": "False"
 }
 
 ----------------------------------------------------------------------------
