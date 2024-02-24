@@ -61,6 +61,16 @@ Endpoint : api/leaderboard_n/
 
 ------------------------------------------------------------------------------------
 
+## To get the n best users WITHIN YOUR FRIENDS, the JSON should be formatted as follows:
+
+Endpoint : api/friends/leaderboard_n/
+
+{
+  "n": 5
+}
+
+------------------------------------------------------------------------------------
+
 ## To add a new QuestType, use the following JSON structure:
 
 Endpoint : api/quest/type/add
