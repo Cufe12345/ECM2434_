@@ -26,12 +26,12 @@ class QuestTypeAddSerializer(serializers.ModelSerializer):
 class QuestGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('questID','name','questTypeID','date_created','task','state','reward')
+        fields = ('questID','user','questTypeID','name','date_created','task','locationID','state','reward')
 
 class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('name','questTypeID','task','state','reward')
+        fields = ('user','questTypeID','locationID','name','task','reward','state')
 
 class LocationGetSerializer(serializers.ModelSerializer):
     class Meta:
