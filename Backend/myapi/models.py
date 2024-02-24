@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
 '''
 Good documentation: https://www.freecodecamp.org/news/common-django-model-fields-and-their-use-cases/
                     https://radixweb.com/blog/create-rest-api-using-django-rest-framework
@@ -29,58 +29,53 @@ as well as managing database schemas.
     These migrations are used to evolve your database schema over time as you change your models
 '''
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", primary_key=True)
-    birthday = models.DateField(null=True, unique=False)
+
+class UserProfile(AbstractUser):
+    birthday = models.DateField(null=True, blank=True)
     bio = models.CharField(max_length=150, default="")
-    rank = models.PositiveIntegerField(default=1, unique=False)
-    XP = models.PositiveIntegerField(default=0, unique=False)
+    rank = models.PositiveIntegerField(default=1)
+    XP = models.PositiveIntegerField(default=0)
+
+class Friend(models.Model):
+    user1 = models.ForeignKey(UserProfile, related_name='friends_user1',on_delete=models.CASCADE)
+    user2 = models.ForeignKey(UserProfile, related_name='friends_user2',on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.user.username
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.get_or_create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    profile, created = UserProfile.objects.get_or_create(user=instance)
-    profile.save()
+        return f"{self.user1.id} |  {self.user2.id}"
     
-class Leaderboard(models.Model):
-    leaderboardID = models.BigAutoField(primary_key=True)
-    leaderboardName = models.CharField(max_length=50)
-    leaderboardDescription = models.CharField(max_length=150)
-    startDate = models.DateField(auto_now_add=True)
-    endDate = models.DateField()
-
-class UserLeaderboard(models.Model):
-    userLeaderboardID = models.BigAutoField(primary_key=True)
-    #user = models.ForeignKey(User, on_delete=models.PROTECT)
-    leaderboardID = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
-    score = models.IntegerField()
-
-class RewardLeaderboard(models.Model):
-    rewardLeaderboardID = models.BigAutoField(primary_key=True)
-    leaderboardID = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
-    rankingCondition = models.IntegerField()
-    currency = models.IntegerField()
+    def clean(self):
+        # Check if user1 is the same as user2
+        if self.user1 == self.user2:
+            raise ValidationError("user1 and user2 cannot be the same.")
+        
+    def save(self, *args, **kwargs): 
+        self.clean()
+        super(Friend, self).save(*args, **kwargs)
 
 
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=80, unique=True)
     description = models.CharField(max_length=150, default="")
-    
     def __str__(self):
         return self.name
 
+class Location(models.Model):
+    locationID = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    def __str__(self):
+        return self.name
+
+
+
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    #questTypeID = models.ForeignKey(QuestType, on_delete=models.PROTECT)
+    user = models.ForeignKey(UserProfile, on_delete=models.PROTECT)
+    questTypeID = models.ForeignKey(QuestType, on_delete=models.CASCADE)
+    locationID = models.ForeignKey(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     date_created = models.DateField(auto_now_add=True, unique=False)
     task = models.CharField(max_length=150, default=0)
@@ -107,11 +102,9 @@ class Membership(models.Model):
     membershipID = models.BigAutoField(primary_key=True)
     societyID = models.ForeignKey(Society, on_delete=models.PROTECT)
     name = name = models.CharField(max_length=80)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     since = models.DateField(auto_now_add=True, unique=False)
     state = models.BooleanField(default=False, unique=False)
     
     def __str__(self):
         return self.name
-    
-    
