@@ -11,7 +11,6 @@ Endpoint : api/account/users/
   'email" : "adas@dasd.com",
   "bio" : "test bio",
   "password" : "adsa"
-
 }
 
 ---------------------------------------------------------------------------
