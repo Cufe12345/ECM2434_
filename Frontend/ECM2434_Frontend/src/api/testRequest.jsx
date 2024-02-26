@@ -106,4 +106,12 @@ export default class ApiClient {
     const response = await this.get("quest/", token);
     return response;
   }
+  async fetchImage(imgPath,token){
+    const response = await this.get("media/iamges/"+imgPath,token);
+    return response;
+  }
+  async fetchAllImages(token){
+    const response = await this.get("media/images/",token);
+    return response;
+  }
 }
