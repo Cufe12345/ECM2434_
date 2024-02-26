@@ -74,6 +74,11 @@ class AllImageGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ['imageID','image','name','description']
+
+class ImageUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ['image', 'name', 'description']
         
         
 class ImageGetSerializer(serializers.ModelSerializer):
