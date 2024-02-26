@@ -3,7 +3,7 @@ import { useUser } from '../contexts/userContext';
 import ApiClient from '../api/index';
 import { useState, useEffect } from 'react';
 import classes from './dailyQuest.module.css';
-import image from"../assets/600px-Example_image.png";
+import image from"../assets/images/600px-Example_image.png";
 export function DailyQuest() {
     const { user, setUser,userDataLoading } = useUser();
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '../contexts/userContext';
 import {CreateQuestForm} from '../components/forms/createQuest/createQuestForm';
 import {DailyQuest} from '../components/dailyQuest';
@@ -10,7 +10,8 @@ const Home = () => {
     //This is how you use the user context, you can access all these variables and functions from the context
     const { user,setUser,userData,userDataError,userDataLoading} = useUser();
     //ctrl i
-
+    const [showForm, setShowForm] = useState(false);
+    const [showDailyQuest, setShowDailyQuest] = useState(false);
     const [cookies, setCookie] = useCookies(['user'])
 
     //Loads the user from the cookies if set
@@ -26,12 +27,19 @@ const Home = () => {
             <h1>Loading...</h1>
             : 
             <div className={classes.container}>
-                <h1>Home</h1>
-                <p>Just putting these components below here so i can see them login first before using form</p>
-                <p>If you create a quest in form the Daily quest will update with the newly created quest when you reload</p>
-                <DailyQuest/>
-                <CreateQuestForm/>
-
+                <div className={classes.leftSideContent}>
+                    <h1>Daily <span className={classes.ecoGradient}>Eco</span> Quest</h1>
+                    <div className={classes.textGroup}>
+                        <h5>Challenge your friends at Uni,</h5>
+                        <h5>Save the planet.</h5>
+                    </div>
+                    <div className={classes.buttonGroup}>
+                        <button className={classes.createQuestButton} onClick={() => setShowForm(!showForm)}>Create Quest</button>
+                        <button className={classes.dailyQuestButton} onClick={() => setShowDailyQuest(!showDailyQuest)}>Daily Quest</button>
+                    </div>
+                </div>
+                {showForm && <CreateQuestForm />}
+                {showDailyQuest && <DailyQuest />}
             </div>
     );
 }
