@@ -14,6 +14,7 @@ const Register = () => {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [isValid, setIsValid] = useState(false);
     const [emailValid, setEmailValid] = useState(false);
     const [passwordValid, setPasswordValid] = useState(false);
@@ -64,7 +65,7 @@ const Register = () => {
         e.preventDefault();
         // console.log(data)
         console.log(username)
-        ApiClient.api.register(email, username, password).then((res) => {
+        ApiClient.api.register(email, username, password,firstName,lastName).then((res) => {
             console.log(res)
             console.log("Registered")
             // navigate('/');
@@ -81,8 +82,8 @@ const Register = () => {
                 <form onSubmit={onSubmit}>
                     <div className="fields">
                         <div className="names">
-                            <input type="text" placeholder="First Name" />
-                            <input type="text" placeholder="Last Name" />
+                            <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
+                            <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
                         </div>
                         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                         <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />

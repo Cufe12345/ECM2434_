@@ -2,20 +2,15 @@
 
 ## To add a new UserProfile, your JSON payload should look like this:
 
-Endpoint : api/user/add/
+Endpoint : api/account/users/
 
 {
-  "user": {
-    "username": "johndoe",
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "johndoe@example.com"
-  },
-  "birthday": "1990-01-01",
-  "bio": "A short bio here",
-  "rank": 1
-  "XP" : 123
-
+  "username" : "user213",
+  "first_name" : "Jhon",
+  "last_name" : "ripley",
+  'email" : "adas@dasd.com",
+  "bio" : "test bio",
+  "password" : "adsa"
 }
 
 ---------------------------------------------------------------------------
@@ -25,9 +20,13 @@ Endpoint : api/user/add/
 Endpoint : api/quest/add/
 
 {
+  "user" : 1,
+  "questTypeID" : 1,
+  "locationID" : 1,
   "name": "Quest Name",
   "task": "Task Description",
-  "state": "Initial State"
+  "reward" : 40,
+  "state": "False"
 }
 
 ----------------------------------------------------------------------------
@@ -65,6 +64,16 @@ Endpoint : api/leaderboard_n/
 
 ------------------------------------------------------------------------------------
 
+## To get the n best users WITHIN YOUR FRIENDS, the JSON should be formatted as follows:
+
+Endpoint : api/friends/leaderboard_n/
+
+{
+  "n": 5
+}
+
+------------------------------------------------------------------------------------
+
 ## To add a new QuestType, use the following JSON structure:
 
 Endpoint : api/quest/type/add
@@ -85,23 +94,4 @@ Endpoint : api/quest/location/
   "latitude" : 12323.2121,
   "longitude" : -74.0060
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

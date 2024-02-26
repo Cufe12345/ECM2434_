@@ -11,6 +11,8 @@ const Login = () => {
     const { setUser } = useUser();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+  
+    const navigate = useNavigate();
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +28,7 @@ const Login = () => {
             console.log(res)
             setUser(res.auth_token);
             // toast.success('Login successful');
-            // navigate('/');
+            navigate('/');
         }).catch((error) => {
             console.log(error);
             // toast.error(`Login failed - ${error.response.detail ?? 'Contact support'}`);

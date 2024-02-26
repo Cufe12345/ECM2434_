@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3r!14127ayrc-q8tasx@wg&lk)^a(2*hvkkzrs84do5&l@1^*q'
+SECRET_KEY = 'django-insecure-p+55jrq4wwud&65-*^d)bl^+6la*rd0qg_xv-r#vajzw*5*dqh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -62,9 +62,13 @@ REST_FRAMEWORK = {
     ]
 }
 
+AUTH_USER_MODEL = 'myapi.UserProfile'
+
 # configure Djoser
 DJOSER = {
-    "USER_ID_FIELD": "username"
+    'SERIALIZERS' : {
+        'user_create' : 'myapi.serializer.UserProfileAddSerializer'
+    }
 }
 
 MIDDLEWARE = [
@@ -148,9 +152,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static'),  
+#]
 
 
 # Default primary key field type

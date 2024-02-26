@@ -1,10 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
 '''
 Good documentation: https://www.freecodecamp.org/news/common-django-model-fields-and-their-use-cases/
                     https://radixweb.com/blog/create-rest-api-using-django-rest-framework
@@ -30,29 +29,16 @@ as well as managing database schemas.
     These migrations are used to evolve your database schema over time as you change your models
 '''
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", primary_key=True)
-    birthday = models.DateField(null=True, unique=False)
+
+class UserProfile(AbstractUser):
+    birthday = models.DateField(null=True, blank=True)
     bio = models.CharField(max_length=150, default="")
-    rank = models.PositiveIntegerField(default=1, unique=False)
-    XP = models.PositiveIntegerField(default=0, unique=False)
-    
-    def __str__(self):
-        return self.user.username
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.get_or_create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    profile, created = UserProfile.objects.get_or_create(user=instance)
-    profile.save()
+    rank = models.PositiveIntegerField(default=1)
+    XP = models.PositiveIntegerField(default=0)
 
 class Friend(models.Model):
-    user1 = models.ForeignKey(User, related_name='friends_user1',on_delete=models.CASCADE)
-    user2 = models.ForeignKey(User, related_name='friends_user2',on_delete=models.CASCADE)
+    user1 = models.ForeignKey(UserProfile, related_name='friends_user1',on_delete=models.CASCADE)
+    user2 = models.ForeignKey(UserProfile, related_name='friends_user2',on_delete=models.CASCADE)
     
     def __str__(self):
         return f"{self.user1.id} |  {self.user2.id}"
@@ -87,7 +73,7 @@ class Location(models.Model):
 
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(UserProfile, on_delete=models.PROTECT)
     questTypeID = models.ForeignKey(QuestType, on_delete=models.CASCADE)
     locationID = models.ForeignKey(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
@@ -116,7 +102,7 @@ class Membership(models.Model):
     membershipID = models.BigAutoField(primary_key=True)
     societyID = models.ForeignKey(Society, on_delete=models.PROTECT)
     name = name = models.CharField(max_length=80)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     since = models.DateField(auto_now_add=True, unique=False)
     state = models.BooleanField(default=False, unique=False)
     
