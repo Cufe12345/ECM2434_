@@ -15,12 +15,12 @@ function App() {
     <UserContextProvider>
       <>
         <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        {/* <Route path="/about" element={<About />} /> */}
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* <Route path="/about" element={<About />} /> */}
+        </Routes>
       </>
     </UserContextProvider>
   );

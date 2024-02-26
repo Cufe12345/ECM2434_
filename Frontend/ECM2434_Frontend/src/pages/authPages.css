@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 80%;
+    height: calc(100vh - 100px);
 }
 
 .containerBox {
@@ -27,7 +27,15 @@
 .fields {
     display: flex;
     flex-direction: column;
+    gap: 20px;
+}
 
+.fields input {
+    width: 100%;
+    padding: 7px;
+    padding-left: 10px;
+    border: 1px solid #000000;
+    border-radius: 8px;
 }
 
 .fields p {
@@ -41,5 +49,20 @@
 }
 
 .names input {
-    width: 48%;
+    width: 46%;
+}
+
+.error {
+    color: red;
+    font-size: 1em;
+    padding-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 10px;
+}
+
+.error p {
+    padding: 0;
+    margin: 0;
 }
