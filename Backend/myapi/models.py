@@ -85,6 +85,15 @@ class Quest(models.Model):
     def __str__(self):
         return self.name
     
+class Image(models.Model):
+    imageID = models.BigAutoField(primary_key=True)
+    image = models.ImageField(upload_to='images/')
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=150)
+    
+    def __str__(self):
+        return self.name
+
 class Society(models.Model):
     societyID = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)
