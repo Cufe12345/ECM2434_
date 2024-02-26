@@ -15,23 +15,42 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    cursor: default;
 }
 
 .leftSideContent button {
-    max-width: 120px;
     font-size: 1rem;
-    padding: 10px 1px;
-    background-color: #56E990;
+    padding: 10px 12px;
     color: rgb(0, 0, 0);
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.leftSideContent button:hover {
-    background-color: #4abf7d;
+.buttonGroup {
+    display: flex;
+    gap: 20px;
 }
 
+/*.leftSideContent button:hover {
+    
+}*/
+
+.createQuestButton {
+    background-color: #34a264; 
+}
+
+.createQuestButton:hover {
+    background-color: #ffffff; 
+}
+
+.dailyQuestButton {
+    background-color: #96EF89; 
+}
+
+.dailyQuestButton:hover {
+    background-color: #ffffff;
+}
 
 .ecoGradient {
     background: linear-gradient(90deg, #245D3D 0%, #56E990 60%, #96EF89 100%);
@@ -41,8 +60,10 @@
 }
 
 h1 {
-    font-size: 3rem;
-    font-weight: bold;
+    font-size: 3.5rem;
+    font-weight: bolder;
+    color: black;
+
 }
 
 .textGroup {

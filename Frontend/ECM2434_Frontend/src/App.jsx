@@ -6,23 +6,25 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { UserContextProvider } from "./contexts/userContext";
+import {CookiesProvider,useCookies} from 'react-cookie';
 
 function App() {
   const [count, setCount] = useState(0);
   const [response, setResponse] = useState(null);
-
   return (
-    <UserContextProvider>
-      <>
-        <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        {/* <Route path="/about" element={<About />} /> */}
-      </Routes>
-      </>
-    </UserContextProvider>
+    <CookiesProvider>
+      <UserContextProvider>
+        <>
+          <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* <Route path="/about" element={<About />} /> */}
+        </Routes>
+        </>
+      </UserContextProvider>
+    </CookiesProvider>
   );
 }
 

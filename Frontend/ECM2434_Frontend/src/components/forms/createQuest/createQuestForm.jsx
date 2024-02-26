@@ -67,6 +67,11 @@ export function CreateQuestForm() {
     async function fetchTypes(){
         setFetchingTypes(true);
         ApiClient.api.fetchTypes(user).then((res) => {
+            //at later date add error handling for invalid token and check properly ie if 401 etc
+            if(res.detail === "Invalid token."){
+                console.error("Invalid token");
+                return;
+            }
             console.log(res);
             setTypes(res);
                  //If there are quest types, set the type select value to the first type so that if the user does not change the value in the select field, the first type will be selected by default
@@ -88,6 +93,12 @@ export function CreateQuestForm() {
     async function fetchLocations(override = false){
         setFetchingLocations(true);
         ApiClient.api.fetchLocations(user).then((res) => {
+
+            //at later date add error handling for invalid token and check properly ie if 401 etc
+            if(res.detail === "Invalid token."){
+                console.error("Invalid token");
+                return;
+            }
             console.log(res);
             setListOfLocations(res);
             //If there are locations, set the location select value to the first location so that if the user does not change the value in the select field, the first location will be selected by default
@@ -217,7 +228,7 @@ export function CreateQuestForm() {
                             
                             {types.length === 0 && !fetchingTypes && (<option value="null">No Types</option>)}
                             {fetchingTypes && (<option value="null">Fetching Types</option>)}
-                            {types.map((type,index) => {
+                            {types?.map((type,index) => {
                                 return <option value={type.name}>{type.name}</option>
                             })}
                             
@@ -233,7 +244,7 @@ export function CreateQuestForm() {
                         <select value={locationSelectValue} className={classes.selectField} name="location" id="location" onChange={onSelectChange}>
                             {listOfLocations.length === 0 && !fetchingLocations && (<option value="null">No Locations</option>)}
                             {fetchingLocations && (<option value="null">Fetching Locations</option>)}
-                            {listOfLocations.map((location,index) => {
+                            {listOfLocations?.map((location,index) => {
                                 return <option value={location.name}>{location.name}</option>
                             })}
                             
