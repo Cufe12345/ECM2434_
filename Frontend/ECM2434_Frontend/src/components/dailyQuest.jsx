@@ -13,6 +13,7 @@ export function DailyQuest({onDailyQuestComplete}) {
     //Stores the location of the quest
     const[location,setLocation] = useState(null);
 
+
     
     useEffect(() => {
         fetchQuests();
