@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 from django.conf.urls import include
 from django.conf import settings
-from .views import TestAPIView, CurrentUserProfileView, TopNUsersView, Top10UsersView, Top10FriendsView, FriendView, TopNFriendsView
+from django.conf.urls.static import static
+from .views import TestAPIView, CurrentUserProfileView, TopNUsersView, Top10UsersView, Top10FriendsView, FriendView, TopNFriendsView,AllImageGetSerializer
 #Test account:
 #email: test@gmail.com
 #username: test
@@ -52,4 +53,9 @@ urlpatterns = [
     path('society/membership/',views.getMembership, name='Memberships'),
     # add amembership to a society
     path('society/membership/add',views.addMembership, name='Add Memberships'),
+    #get images
+    path('media/images/',views.getAllImages, name='Get All images'),
+    #to get a individual image go to : api/media/images/[image path]
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
