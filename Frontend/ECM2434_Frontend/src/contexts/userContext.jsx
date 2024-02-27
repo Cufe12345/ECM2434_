@@ -1,5 +1,6 @@
 import { createContext,useContext,useEffect,useState } from "react";
 import ApiClient from "../api/index";
+import { useCookies } from 'react-cookie';
 const UserContext = createContext({});
 
 // Custom hook to use the user context
@@ -13,13 +14,15 @@ export function UserContextProvider({ children }) {
     const [userData, setUserData] = useState(null);
     const [userDataLoading, setUserDataLoading] = useState(true);
     const [userDataError, setUserDataError] = useState(null);
-
+    const [cookies, setCookie] = useCookies(['user'])
 
   useEffect(() => {
+
+        
         if(user){
-            //Fetch user data
-            //setUserData
-            //setUserDataLoading
+            //Sets the user to the cookie if it exists
+            setCookie('user', user, { path: '/' });
+
             console.log("Fetching user data")
             console.log("USER: ",user)
             ApiClient.api.fetchUserData(user).then((res) => {
@@ -35,6 +38,7 @@ export function UserContextProvider({ children }) {
 
         }
         else{
+            
             console.log("Cant fetch data, user not logged in")
             setUserDataError("User not logged in");
             setUserDataLoading(false);

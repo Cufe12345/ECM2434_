@@ -62,11 +62,43 @@ export default class ApiClient {
     return response;
   }
 
-  async register(email, username, password) {
+  async register(email, username, password, first_name, last_name,) {
     console.log("Reached");
-    const response1 = await this.post("account/users/", { email, username, password });
+    let obj = {
+      email: email,
+      username: username,
+      password: password,
+      first_name: first_name,
+      last_name: last_name,
+    }
+    console.log(obj);
+    const response1 = await this.post("account/users/", obj);
     return response1;
   }
+
+  async createQuest(token, data) {
+    const response = await this.post("quest/add/", data, token);
+    return response;
+  }
+  async fetchLocations(token) {
+    const response = await this.get("quest/location/", token);
+    return response;
+  }
+  async addLocation(token, data) {
+    const response = await this.post("quest/location/add", data, token);
+    return response;
+  }
+  async fetchTypes(token) {
+    const response = await this.get("quest/type/", token);
+    return response;
+  }
+  async fetchQuests(token) {
+    const response = await this.get("quest/", token);
+    return response;
+  }
+
+  async getTopTen(token, n) {
+    const response = await this.get("leaderboard_10/", token);
+    return response;
+  }
 }
-
-
