@@ -31,6 +31,7 @@ as well as managing database schemas.
 
 
 class UserProfile(AbstractUser):
+    email = models.EmailField(unique=True)
     birthday = models.DateField(null=True, blank=True)
     bio = models.CharField(max_length=150, default="")
     rank = models.PositiveIntegerField(default=1)

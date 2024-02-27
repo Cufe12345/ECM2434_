@@ -3,7 +3,7 @@ from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import TestAPIView, CurrentUserProfileView, TopNUsersView, Top10UsersView, Top10FriendsView, FriendView, TopNFriendsView,AllImageGetSerializer
+from .views import TestAPIView, CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,AllImageGetSerializer
 #Test account:
 #email: test@gmail.com
 #username: test
@@ -23,12 +23,18 @@ urlpatterns = [
     path('users/',views.getUser, name='Users profiles'),
     # get this user in full profile
     path('user/',CurrentUserProfileView.as_view(), name='User profile'),
+    # get user by username
+    path('users/getByUsername/',GetUserByUsernameView.as_view(), name='Get user by username'),
     # get top 10 best users for leaderboard
     path('leaderboard_10/', Top10UsersView.as_view(), name='Leaderboard Top 10'),
     # get top n best users for leaderboard
     path('leaderboard_n/', TopNUsersView.as_view(), name='Leaderboard Top N'),
-    # get friend list
+    # get logged user friend list
     path('friends/',FriendView.as_view(), name='Friends'),
+    # add friend
+    path('friends/add/',views.addFriend, name='Add Friends'),
+    # get all friends
+    path('friends/all/',views.getAllFriends, name='see all Friends'),
     # get top 10 friend leaderboard
     path('friends/leaderboard_10/', Top10FriendsView.as_view(), name='Friends Leaderboard'),
     # get top n friend leaderboard
@@ -53,9 +59,12 @@ urlpatterns = [
     path('society/membership/',views.getMembership, name='Memberships'),
     # add amembership to a society
     path('society/membership/add',views.addMembership, name='Add Memberships'),
+    # Upload an image
+    path('media/images/upload',ImageUploadView.as_view(), name='add a image'),
     #get images
     path('media/images/',views.getAllImages, name='Get All images'),
-    #to get a individual image go to : api/media/images/[image path]
+    #get full url of images
+    path('media/images/<int:pk>/', ImageView.as_view(), name='image-url'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

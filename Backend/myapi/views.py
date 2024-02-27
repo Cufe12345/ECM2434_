@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.generics import RetrieveAPIView
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.http import require_http_methods
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, generics, permissions
 from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer, QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
 from django.db.models import Q
 
 class TestAPIView(APIView):
@@ -106,6 +108,31 @@ def getAllImages(request):
     serializer = AllImageGetSerializer(app, many=True)
     return Response(serializer.data)
 
+class ImageView(APIView):
+    def get(self, request, pk, format=None):
+        try:
+            image = Image.objects.get(pk=pk)
+        except Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        # Pass the request to the serializer context
+        serializer = ImageGetSerializer(image, context={'request': request})
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def getAllFriends(request):
+    app = Friend.objects.all()
+    serializer = FriendSerializer(app, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addFriend(request):
+    serializer = FriendSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
+
 # get logged user full profile
 class CurrentUserProfileView(generics.RetrieveAPIView):
     serializer_class = UserProfileGetSerializer
@@ -113,6 +140,19 @@ class CurrentUserProfileView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+class GetUserByUsernameView(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        if not username:
+            return Response({"error": "Username not provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = UserProfile.objects.get(username=username)
+            serializer = UserProfileAddSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except UserProfile.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
     
 # get 10 best users 
 class Top10UsersView(APIView):
@@ -196,5 +236,13 @@ class TopNFriendsView(APIView):
         serializer = UserProfileGetSerializer(friends, many=True)
         return Response(serializer.data)
     
+class ImageUploadView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
 
-    
+    def post(self, request, *args, **kwargs):
+        serializer = ImageUploadSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
