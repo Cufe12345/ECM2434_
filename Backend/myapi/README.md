@@ -88,6 +88,7 @@ Endpoint : api/quest/type/add
 ## To add a location, the JSON should be formatted as follows:
 
 Endpoint : api/quest/location/
+Endpoint : api/quest/location/add
 
 {
   "name" : "park",
@@ -95,3 +96,63 @@ Endpoint : api/quest/location/
   "longitude" : -74.0060
 }
 
+-------------------------------------------------------------------------------------
+
+## To upload an image, the multipart/form-data should be formatted as follows:
+
+Endpoint : api/media/images/upload
+
+{
+  "image" : "image_field.jpg",
+  "name" : "image name",
+  "description" : "this is the description of the image"
+}
+
+-------------------------------------------------------------------------------------
+
+## To add a friend, the JSON should be formatted as follows:
+
+Endpoint : api/friends/add/
+
+{
+  "user1" : 1,
+  "user2" : 2
+}
+
+-------------------------------------------------------------------------------------
+
+## To get all friends of a user, the JSON should be formatted as follows:
+
+Endpoint : api/friends/all/
+
+------------------------------------------------------------------------------------
+
+## To get the 10 best users, the JSON should be formatted as follows:
+
+Endpoint : api/leaderboard_10/
+
+------------------------------------------------------------------------------------
+
+## To get the n best users WITHIN YOUR FRIENDS, the JSON should be formatted as follows:
+
+Endpoint : api/friends/leaderboard_10/
+
+------------------------------------------------------------------------------------
+
+## To get all users, the JSON should be formatted as follows:
+
+Endpoint : api/users/
+
+------------------------------------------------------------------------------------
+
+## To get all images, the JSON should be formatted as follows:
+
+Endpoint : api/media/images/
+
+------------------------------------------------------------------------------------
+
+## To get all members of a soceity, the JSON should be formatted as follows:
+
+Endpoint : api/society/membership/
+
+------------------------------------------------------------------------------------
