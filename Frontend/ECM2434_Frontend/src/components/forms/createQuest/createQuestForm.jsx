@@ -3,6 +3,7 @@ import { useState } from 'react';
 import classes from './createQuestForm.module.css';
 import { useUser } from '../../../contexts/userContext';
 import ApiClient from '../../../api/index';
+import { ImageSubmit } from '../../imageSubmit';
 export function CreateQuestForm() {
     //Fetch the user context from the user context provider
     const { user, userDataLoading,userData} = useUser();
@@ -35,7 +36,7 @@ export function CreateQuestForm() {
     const [reward, setReward] = useState("");
 
     //Stores the image that the user uploads, this is not currently used or storing the image correctly i dont think
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState();
 
     //Stores whether the user wants to show the custom location fields
     const [showCustomLocation, setShowCustomLocation] = useState(false);
@@ -141,8 +142,14 @@ export function CreateQuestForm() {
      * Adds the quest to the database
      */
     function createQuest(){
-        console.log("Creating Quest");
 
+        console.log("Creating Quest");
+        console.log(image)
+        ApiClient.api.uploadImage(user,image).then((res) => {
+            console.log(res);
+        }).catch((error) => {
+            console.warn(error);
+        });
         //Get the locationID from the location name that was selected
         let locationID = -1;
         for(let i = 0; i < listOfLocations.length; i++){
@@ -271,7 +278,8 @@ export function CreateQuestForm() {
                 <div className={classes.inputContainer}>
 
                 <h3>Upload an example image of the completed quest</h3>   
-                <input className={classes.inputField} type="file" accept="image/*" placeholder="Add Image" value={image} onChange={(e) => setImage(e.target.value)}/>
+                {/* <input className={classes.inputField} type="file" accept="image/*" placeholder="Add Image" value={image} onChange={(e) => setImage(e.target.value)}/> */}
+                <ImageSubmit setImage={setImage} img={image}/>
                     
             </div>
             )}

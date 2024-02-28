@@ -38,7 +38,8 @@ export default class ApiClient {
     return response_data;
   }
 
-  async post(url, data, token) {
+  async post(url, data, token,image) {
+  
     // const response = await this.axios.post(url, data).then((response) => {
     //   response.headers["Access-Control-Allow-Origin"] = "*";
     //   return response.data;
@@ -50,7 +51,7 @@ export default class ApiClient {
     const requestOptions = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": image ? "image/jpeg" : "application/json",
         Authorization: token ? "Token " + token : "",
       },
       body: JSON.stringify(data),
@@ -112,6 +113,10 @@ export default class ApiClient {
   }
   async fetchAllImages(token){
     const response = await this.get("media/images/",token);
+    return response;
+  }
+  async uploadImage(token,data){
+    const response = await this.post("media/images/upload/",data,token,true);
     return response;
   }
 }
