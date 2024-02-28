@@ -1,15 +1,17 @@
+"""
+Author: @Stickman230 - Maxime Reynaud, @Utzo-Main - IBENYE, Uzodinma, @charlesmentuni - Charles Ment 
+Email: mpcr201@exeter.ac.uk, ui204@exeter.ac.uk, cm1099@exeter.ac.uk
+
+This file defines how we acces the API endpoints via urls
+"""
 from django.urls import path
 from . import views
 from django.conf.urls import include
 from django.conf import settings
-from .views import TestAPIView, CurrentUserProfileView, TopNUsersView, Top10UsersView, Top10FriendsView, FriendView, TopNFriendsView
-#Test account:
-#email: test@gmail.com
-#username: test
-#password: test12345
+from django.conf.urls.static import static
+from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView, SetDeveloperView,SetGameKeeperView, SetPlayerView
+
 urlpatterns = [
-    #test
-    path('test_api/', TestAPIView.as_view(), name='test_api'),
     #account/users/ and account/users/me/ for short user info
     path('account/',include('djoser.urls')),
     #account/token/login/ and account/token/logout/ for token control
@@ -22,12 +24,24 @@ urlpatterns = [
     path('users/',views.getUser, name='Users profiles'),
     # get this user in full profile
     path('user/',CurrentUserProfileView.as_view(), name='User profile'),
+    # get user by username
+    path('users/getByUsername/',GetUserByUsernameView.as_view(), name='Get user by username'),
+    # set user as gamekeeper
+    path('users/set-gamekeeper/<str:username>/', SetGameKeeperView.as_view(), name='set-gamekeeper'),
+    # set user as gamekeeper
+    path('users/set-developer/<str:username>/', SetDeveloperView.as_view(), name='set-developer'),
+    # set user as gamekeeper
+    path('users/set-player/<str:username>/', SetPlayerView.as_view(), name='set-player'),
     # get top 10 best users for leaderboard
     path('leaderboard_10/', Top10UsersView.as_view(), name='Leaderboard Top 10'),
     # get top n best users for leaderboard
     path('leaderboard_n/', TopNUsersView.as_view(), name='Leaderboard Top N'),
-    # get friend list
+    # get logged user friend list
     path('friends/',FriendView.as_view(), name='Friends'),
+    # add friend
+    path('friends/add/',views.addFriend, name='Add Friends'),
+    # get all friends
+    path('friends/all/',views.getAllFriends, name='see all Friends'),
     # get top 10 friend leaderboard
     path('friends/leaderboard_10/', Top10FriendsView.as_view(), name='Friends Leaderboard'),
     # get top n friend leaderboard
@@ -52,4 +66,12 @@ urlpatterns = [
     path('society/membership/',views.getMembership, name='Memberships'),
     # add amembership to a society
     path('society/membership/add',views.addMembership, name='Add Memberships'),
+    # Upload an image
+    path('media/images/upload',ImageUploadView.as_view(), name='add a image'),
+    #get images
+    path('media/images/',views.getAllImages, name='Get All images'),
+    #get full url of images
+    path('media/images/<int:pk>/', ImageView.as_view(), name='image-url'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
