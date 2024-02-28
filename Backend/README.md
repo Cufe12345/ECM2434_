@@ -21,16 +21,16 @@ Before you begin, ensure you have the following installed on your system:
    
 2. **Install Required Packages**
 
-    run : pip install django djangorestframework djangorestframework-simplejwt djoser django-cors-headers django-extensions Pillow
+    - pip install django djangorestframework djangorestframework-simplejwt djoser django-cors-headers django-extensions Pillow
    
 3. **Apply Migrations**
    
-    python manage.py makemigrations myapi
-    python manage.py migrate
+    - python manage.py makemigrations myapi
+    - python manage.py migrate
 
 4. **Run the Server**
    
-    python manage.py runserver
+    - python manage.py runserver
    
 ## Database Models
 
