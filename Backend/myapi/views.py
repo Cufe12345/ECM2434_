@@ -4,19 +4,22 @@ Email: mpcr201@exeter.ac.uk, ui204@exeter.ac.uk, cm1099@exeter.ac.uk
 
 This file defines how we create views using our serializers
 """
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import Group
+from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, generics, permissions
 from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
-from django.db.models import Q
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
+from .permissions import CanSetRole
+
 
 # Author: @Stickman230
 # Fetches and returns all UserProfile instances.    
@@ -37,6 +40,68 @@ def addUser(request):
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
 
+# Author: @Stickman230
+# get user role coresponding to username
+@api_view(['GET'])
+def getUserRole(request):
+    app = UserProfile.objects.all()
+    serializer = UserRoleSerializer(app, many=True)
+    return Response(serializer.data)
+
+# Author: @Stickman230
+# add a user as gamekeeper
+class SetGameKeeperView(APIView):
+    permission_classes = [permissions.IsAuthenticated,CanSetRole]
+    def post(self, request, username):
+        user_profile = get_object_or_404(UserProfile, username=username)
+
+        # Check if the request is to set the user as GameKeeper
+        user_profile.groups.clear()
+        user_profile.role = UserProfile.GAME_KEEPER
+        user_profile.is_staff = True
+        user_profile.save()
+        
+        # Add user to the gamekeeper_profile group
+        gamekeeper_group, _ = Group.objects.get_or_create(name='GameKeeper')
+        gamekeeper_group.user_set.add(user_profile)
+        return Response({'status': 'User role updated to GameKeeper'}, status=status.HTTP_200_OK)
+
+# Author: @Stickman230
+# add a user as developer 
+class SetDeveloperView(APIView):
+    permission_classes = [permissions.IsAuthenticated,CanSetRole]
+    def post(self, request, username):
+        user_profile = get_object_or_404(UserProfile, username=username)
+
+        # Check if the request is to set the user as GameKeeper
+        user_profile.groups.clear()
+        user_profile.role = UserProfile.DEVELOPER
+        user_profile.is_staff = True
+        user_profile.save()
+        
+        # Add user to the gamekeeper_profile group
+        developer_group, _ = Group.objects.get_or_create(name='Developer')
+        developer_group.user_set.add(user_profile)
+        return Response({'status': 'User role updated to Developer'}, status=status.HTTP_200_OK)
+
+# Author: @Stickman230
+# add a user as player
+class SetPlayerView(APIView):
+    permission_classes = [permissions.IsAuthenticated,CanSetRole]
+    def post(self, request, username):
+        user_profile = get_object_or_404(UserProfile, username=username)
+
+        # Check if the request is to set the user as GameKeeper
+        user_profile.groups.clear()
+        user_profile.role = UserProfile.PLAYER
+        user_profile.is_staff = False
+        user_profile.save()
+        
+        # Add user to the gamekeeper_profile group
+        developer_group, _ = Group.objects.get_or_create(name='Player')
+        developer_group.user_set.add(user_profile)
+        return Response({'status': 'User role updated to Player'}, status=status.HTTP_200_OK)
+        
 # Author: @Utzo-Main
 # Fetches and returns all QuestType instances.
 @api_view(['GET'])

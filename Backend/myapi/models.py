@@ -37,6 +37,15 @@ as well as managing database schemas.
 # --- ALL MODELS WHERE BUILD AND MAINTINED BY @Utzo-Main, @charlesmentuni and @Stickman230 ---
 class UserProfile(AbstractUser):
     email = models.EmailField(unique=True)
+    PLAYER = 'Player'
+    GAME_KEEPER = 'GameKeeper'
+    DEVELOPER = 'Developer'
+    ROLE_CHOICES = [
+        (PLAYER, 'Player'),
+        (GAME_KEEPER, 'GameKeeper'),
+        (DEVELOPER, 'Developer'),
+    ]
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=PLAYER)
     birthday = models.DateField(null=True, blank=True)
     bio = models.CharField(max_length=150, default="")
     rank = models.PositiveIntegerField(default=1)
@@ -80,7 +89,7 @@ class Quest(models.Model):
     questTypeID = models.ForeignKey(QuestType, on_delete=models.CASCADE)
     locationID = models.ForeignKey(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    date_created = models.DateField(auto_now_add=True, unique=False)
+    date_created = models.DateTimeField(auto_now_add=True, unique=False)
     task = models.CharField(max_length=150, default=0)
     reward = models.PositiveBigIntegerField(default=0, unique=False)
     state = models.BooleanField(default=False, unique=False)

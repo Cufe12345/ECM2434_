@@ -9,11 +9,9 @@ from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import TestAPIView, CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView
+from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView, SetDeveloperView,SetGameKeeperView, SetPlayerView
 
 urlpatterns = [
-    #test
-    path('test_api/', TestAPIView.as_view(), name='test_api'),
     #account/users/ and account/users/me/ for short user info
     path('account/',include('djoser.urls')),
     #account/token/login/ and account/token/logout/ for token control
@@ -28,6 +26,12 @@ urlpatterns = [
     path('user/',CurrentUserProfileView.as_view(), name='User profile'),
     # get user by username
     path('users/getByUsername/',GetUserByUsernameView.as_view(), name='Get user by username'),
+    # set user as gamekeeper
+    path('users/set-gamekeeper/<str:username>/', SetGameKeeperView.as_view(), name='set-gamekeeper'),
+    # set user as gamekeeper
+    path('users/set-developer/<str:username>/', SetDeveloperView.as_view(), name='set-developer'),
+    # set user as gamekeeper
+    path('users/set-player/<str:username>/', SetPlayerView.as_view(), name='set-player'),
     # get top 10 best users for leaderboard
     path('leaderboard_10/', Top10UsersView.as_view(), name='Leaderboard Top 10'),
     # get top n best users for leaderboard

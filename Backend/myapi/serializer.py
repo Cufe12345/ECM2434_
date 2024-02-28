@@ -21,7 +21,14 @@ class UserProfileAddSerializer(BaseUserCreateSerializer):
 class UserProfileGetSerializer(BaseUserCreateSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id','username','first_name','last_name','email','birthday','bio','rank','XP']
+        fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP']
+
+# Author: @Stickman230
+# Serializer for retrieving role related to username      
+class UserRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['username','role']
         
 # Author: @Utzo-Main
 # Serializer for retrieving quest type information
