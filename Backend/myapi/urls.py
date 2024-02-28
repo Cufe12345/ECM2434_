@@ -1,13 +1,16 @@
+"""
+Author: @Stickman230 - Maxime Reynaud, @Utzo-Main - IBENYE, Uzodinma, @charlesmentuni - Charles Ment 
+Email: mpcr201@exeter.ac.uk, ui204@exeter.ac.uk, cm1099@exeter.ac.uk
+
+This file defines how we acces the API endpoints via urls
+"""
 from django.urls import path
 from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import TestAPIView, CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,AllImageGetSerializer
-#Test account:
-#email: test@gmail.com
-#username: test
-#password: test12345
+from .views import TestAPIView, CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView
+
 urlpatterns = [
     #test
     path('test_api/', TestAPIView.as_view(), name='test_api'),
