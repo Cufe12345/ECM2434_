@@ -5,14 +5,42 @@ import { DailyQuest } from "../components/dailyQuest";
 import { SubmitQuestForm } from "../components/forms/submitQuest/submitQuestForm";
 import classes from "./Home.module.css";
 import { useCookies } from "react-cookie";
+import { Popup } from "../components/popup";
 
 const Home = () => {
   //This is how you use the user context, you can access all these variables and functions from the context
   const { user, setUser, userData, userDataError, userDataLoading } = useUser();
-  //ctrl i
+  
+  //Controls the visibility of the create quest form
   const [showForm, setShowForm] = useState(false);
+
+    //Controls the visibility of the daily quest component
   const [showDailyQuest, setShowDailyQuest] = useState(false);
+
+  //Cookie for user
   const [cookies, setCookie] = useCookies(["user"]);
+
+  //Controls the visibility of the submit quest form
+  const [showSubmitQuest, setShowSubmitQuest] = useState(false);
+
+    //Controls the visibility of the popup
+  const [open, setOpen] = useState(false);
+
+  //Handles the closing of the popup
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    //Handles the opening of the submit quest form when the daily quest component button is clicked
+    const handleCompleteQuest = () => {
+        setShowSubmitQuest(true);
+    }
+
+    //Handles the closing of the submit quest form
+    const handleCloseSubmitQuest = () => {
+        setShowSubmitQuest(false);
+    }
+
 
   //Loads the user from the cookies if set
   useEffect(() => {
@@ -55,10 +83,13 @@ const Home = () => {
         </div>
       ) : (
         <div className={classes.container}>
-          {/* <DailyQuest />
-          <CreateQuestForm /> */}
-          <SubmitQuestForm />
+            {/* <CreateQuestForm/> */}
+            {showSubmitQuest ?(<SubmitQuestForm onBackClick={handleCloseSubmitQuest} setOpen={setOpen}/>): <DailyQuest onDailyQuestComplete={handleCompleteQuest}/>}
+                <Popup handleClose={handleClose} open={open}>
+                    <h5 className={classes.popupText}>Submitted Successfully</h5>
+                </Popup>
         </div>
+        
       )}
     </>
   );

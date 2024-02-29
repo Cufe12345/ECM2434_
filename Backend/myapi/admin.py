@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from .models import UserProfile
-from .models import UserProfile ,Quest, Society,  Membership, QuestType, Friend, Location
+from .models import UserProfile ,Quest, Society,  Membership, QuestType, Friend, Location, Image
 
 class UserProfileAdmin(UserAdmin):
     model = UserProfile
@@ -21,6 +21,7 @@ admin.site.register(QuestType)
 admin.site.register(Society)
 admin.site.register(Membership)
 admin.site.register(Location)
+admin.site.register(Image)
 
 '''
 The admin.py file in a Django application is used to register your models with Django's built-in admin interface. 

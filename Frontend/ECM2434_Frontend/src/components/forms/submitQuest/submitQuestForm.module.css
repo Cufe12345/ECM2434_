@@ -1,7 +1,8 @@
 .card{
     margin: 0 auto;
-    width: auto;
-    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     background-color: white;
@@ -11,6 +12,31 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+}
+.backButton{
+    width: auto;
+    padding: 3px 7.5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+
+}
+.backButton p{
+    font-size: 17.5px;
+    color: #000000;
+    margin: 0;
+
+}
+.backContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
 }
 .submitButton{
@@ -24,12 +50,4 @@
     border: none;
     cursor: pointer;
     transition: 0.3s;
-}
-.card input{
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 10px;
-    /* border: 1px solid #458d47; */
-    font-size: 20px;
 }

@@ -31,6 +31,7 @@ as well as managing database schemas.
 
 
 class UserProfile(AbstractUser):
+    email = models.EmailField(unique=True)
     birthday = models.DateField(null=True, blank=True)
     bio = models.CharField(max_length=150, default="")
     rank = models.PositiveIntegerField(default=1)
@@ -85,6 +86,15 @@ class Quest(models.Model):
     def __str__(self):
         return self.name
     
+class Image(models.Model):
+    imageID = models.BigAutoField(primary_key=True)
+    image = models.ImageField(upload_to='images/')
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=150)
+    
+    def __str__(self):
+        return self.name
+
 class Society(models.Model):
     societyID = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)

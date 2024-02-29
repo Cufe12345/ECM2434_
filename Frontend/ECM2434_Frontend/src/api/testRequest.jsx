@@ -1,4 +1,5 @@
 import axios from "axios";
+import { json } from "react-router-dom";
 
 const baseURL = "http://localhost:8000/api/";
 // Currently set to HTTP. Could use a config file to modify this easily.
@@ -38,7 +39,8 @@ export default class ApiClient {
     return response_data;
   }
 
-  async post(url, data, token) {
+  async post(url, data, token,image) {
+  
     // const response = await this.axios.post(url, data).then((response) => {
     //   response.headers["Access-Control-Allow-Origin"] = "*";
     //   return response.data;
@@ -54,6 +56,26 @@ export default class ApiClient {
         Authorization: token ? "Token " + token : "",
       },
       body: JSON.stringify(data),
+    };
+    const response = await fetch(baseURL + url, requestOptions);
+    const response_data = await response.json();
+    return response_data;
+  }
+  async postImage(url, data, token,image) {
+    
+    let formData = new FormData();
+      formData.append('image', image);
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        // "Content-Type":"multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        Authorization: token ? "Token " + token : "",
+        // "X-CSRFToken": "Zq"
+      },
+      
+      body: formData,
     };
     const response = await fetch(baseURL + url, requestOptions);
     const response_data = await response.json();
@@ -104,6 +126,18 @@ export default class ApiClient {
   }
   async fetchQuests(token) {
     const response = await this.get("quest/", token);
+    return response;
+  }
+  async fetchImage(imgPath,token){
+    const response = await this.get("media/iamges/"+imgPath,token);
+    return response;
+  }
+  async fetchAllImages(token){
+    const response = await this.get("media/images/",token);
+    return response;
+  }
+  async uploadImage(token,data,image){
+    const response = await this.postImage("media/images/upload",data,token,image);
     return response;
   }
 }
