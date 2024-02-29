@@ -36,22 +36,9 @@ def addUser(request):
     print("give me a user")
     serializer = UserProfileAddSerializer(data=request.data)
     if serializer.is_valid():
-        #token = default_token_generator.make_token(serializer.data)
-        success = send_mail(
-        'Activate your account',
-        'Click the link to activate your account: http://localhost:8000/activate/', recipient_list=["loughkevin55@gmail.com"], from_email=None, fail_silently=False)
-        serializer.save()
         
         
-        #{uid}/{token}'.format(uid=user.id, token=user.token)
-        # send_mail(
-        #     'Activate your account',
-        #     'Click the link to activate your account: http://localhost:8000/activate/{uid}/{token}'.format(uid=serializer.data['id'], token=token), recipient_list=[serializer.data['email']], from_email=None, fail_silently=False)
-        # send_mail(
-        # 'Activate your account',
-        # 'Click the link to activate your account: http://localhost:8000/activate/', recipient_list=["loughkevin55@gmail.com"], from_email=None, fail_silently=False)
-        #{uid}/{token}'.format(uid=user.id, token=user.token)
-        return Response(success, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=400)
 
 @api_view(['GET'])
