@@ -1,4 +1,5 @@
 import axios from "axios";
+import { json } from "react-router-dom";
 
 const baseURL = "http://localhost:8000/api/";
 // Currently set to HTTP. Could use a config file to modify this easily.
@@ -51,10 +52,30 @@ export default class ApiClient {
     const requestOptions = {
       method: "POST",
       headers: {
-        "Content-Type": image ? "image/jpeg" : "application/json",
+        "Content-Type": "application/json",
         Authorization: token ? "Token " + token : "",
       },
       body: JSON.stringify(data),
+    };
+    const response = await fetch(baseURL + url, requestOptions);
+    const response_data = await response.json();
+    return response_data;
+  }
+  async postImage(url, data, token,image) {
+    
+    let formData = new FormData();
+      formData.append('image', image);
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        // "Content-Type":"multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        Authorization: token ? "Token " + token : "",
+        // "X-CSRFToken": "Zq"
+      },
+      
+      body: formData,
     };
     const response = await fetch(baseURL + url, requestOptions);
     const response_data = await response.json();
@@ -115,8 +136,8 @@ export default class ApiClient {
     const response = await this.get("media/images/",token);
     return response;
   }
-  async uploadImage(token,data){
-    const response = await this.post("media/images/upload/",data,token,true);
+  async uploadImage(token,data,image){
+    const response = await this.postImage("media/images/upload",data,token,image);
     return response;
   }
 }

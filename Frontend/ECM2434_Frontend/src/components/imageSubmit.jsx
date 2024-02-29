@@ -1,6 +1,8 @@
 import React from "react";
 import classes from "./imageSubmit.module.css";
 import { useDropzone } from "react-dropzone";
+
+//Created by Cufe12345(Callum Young)
 export function ImageSubmit({setImage,img}) {
 
     //Handles the file drop

@@ -4,6 +4,8 @@ import classes from './createQuestForm.module.css';
 import { useUser } from '../../../contexts/userContext';
 import ApiClient from '../../../api/index';
 import { ImageSubmit } from '../../imageSubmit';
+
+//Created by Cufe12345(Callum Young)
 export function CreateQuestForm() {
     //Fetch the user context from the user context provider
     const { user, userDataLoading,userData} = useUser();
@@ -141,15 +143,26 @@ export function CreateQuestForm() {
     /**
      * Adds the quest to the database
      */
-    function createQuest(){
+    async function createQuest(){
 
         console.log("Creating Quest");
         console.log(image)
-        ApiClient.api.uploadImage(user,image).then((res) => {
+        let dataImg = {
+            "name": image.name,
+            "description": "n/a for now",
+        }
+        let imgURL = null;
+        await ApiClient.api.uploadImage(user,dataImg,image).then((res) => {
+            
+            imgURL = res?.image;
             console.log(res);
         }).catch((error) => {
             console.warn(error);
         });
+        if(imgURL === null || imgURL === undefined){
+            console.error("Image failed to upload");
+            return;
+        }
         //Get the locationID from the location name that was selected
         let locationID = -1;
         for(let i = 0; i < listOfLocations.length; i++){
@@ -178,6 +191,7 @@ export function CreateQuestForm() {
             questTypeID: questTypeID,
             reward: Number(reward),
             user: userData.id,
+            imgURL: imgURL,
         }
         console.log(data);
         ApiClient.api.createQuest(user,data).then((res) => {

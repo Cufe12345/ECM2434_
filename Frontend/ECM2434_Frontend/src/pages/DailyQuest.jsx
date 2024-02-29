@@ -1,5 +1,5 @@
 import React from "react";
-
+//Created by Cufe12345(Callum Young)
 export default function DailyQuest() {
   return (
     <div>

@@ -2,6 +2,8 @@ import React from "react";
 import classes from "./submitQuestForm.module.css";
 import { useUser } from "../../../contexts/userContext";
 import { ImageSubmit } from "../../imageSubmit";
+
+//Created by Cufe12345(Callum Young)
 export function SubmitQuestForm({onBackClick,setOpen}) {
   const { user, userData } = useUser();
 

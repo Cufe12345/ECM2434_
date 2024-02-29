@@ -40,6 +40,10 @@
     justify-content: center;
     align-items: center;
     padding-top: 10px;
+    width: auto;
+    height: auto;
+    max-width: 400px;
+    /* max-height: 300px; */
 }
 .button{
     width: 100%;
@@ -50,4 +54,15 @@
     border-radius: 4px;
     box-sizing: border-box;
     background-color: #f5f5f5;
+}
+.mapContainer{
+    height: 400px;
+    width: 400px;
+    /* position: relative; */
+    overflow: hidden;
+    display: block;
+}
+#leaflet-container {
+    width: 100px;
+    height: 100px;
 }
