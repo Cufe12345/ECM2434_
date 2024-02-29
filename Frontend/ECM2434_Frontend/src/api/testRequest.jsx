@@ -114,4 +114,9 @@ export default class ApiClient {
     const response = await this.get("media/images/",token);
     return response;
   }
+
+  async getTopTen(token) {
+    const response = await this.get("leaderboard_10/", token);
+    return response;
+  }
 }
