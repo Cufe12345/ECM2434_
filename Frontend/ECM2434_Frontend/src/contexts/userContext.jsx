@@ -1,6 +1,8 @@
 import { createContext,useContext,useEffect,useState } from "react";
 import ApiClient from "../api/index";
 import { useCookies } from 'react-cookie';
+
+//Created by Cufe12345(Callum Young)
 const UserContext = createContext({});
 
 // Custom hook to use the user context
@@ -14,6 +16,7 @@ export function UserContextProvider({ children }) {
     const [userData, setUserData] = useState(null);
     const [userDataLoading, setUserDataLoading] = useState(true);
     const [userDataError, setUserDataError] = useState(null);
+    const [cookieCSRF, setCookieCSRF] = useCookies(['csrftoken'])
     const [cookies, setCookie] = useCookies(['user'])
 
   useEffect(() => {
@@ -25,6 +28,7 @@ export function UserContextProvider({ children }) {
 
             console.log("Fetching user data")
             console.log("USER: ",user)
+            console.log("COOKIE: ",cookieCSRF)
             ApiClient.api.fetchUserData(user).then((res) => {
                 console.log(res)
                 setUserData(res);
