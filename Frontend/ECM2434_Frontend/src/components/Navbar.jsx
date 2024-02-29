@@ -4,11 +4,12 @@ import { useCookies } from "react-cookie";
 import { useUser } from "../contexts/userContext";
 import { useEffect } from "react";
 import ApiClient from "../api/index";
+import classes from "./Navbar.module.css";
 
 const Navbar = ({ }) => {
     const [cookies, setCookie] = useCookies(["user"]);
 
-    const { user, setUser, setUserData } = useUser();
+    const { user, setUser} = useUser();
 
     //Loads the user from the cookies if set
     useEffect(() => {
@@ -17,6 +18,12 @@ const Navbar = ({ }) => {
         }
         //maybe redirect to login page if no user
     }, [cookies.user]);
+
+    //Logs the user out
+    function logout() {
+        setCookie("user", "", { path: "/" });
+        setUser(null);
+    }
 
     return (
         <div className="banner">
@@ -28,7 +35,7 @@ const Navbar = ({ }) => {
                     {user ? (
                         <>
                             <NavLink to="/Profile">Profile</NavLink>
-                            <NavLink to="/">Logout</NavLink>
+                            <button className={classes.button} onClick={logout}>Logout</button>
                         </>
                     ) : (
                         <>

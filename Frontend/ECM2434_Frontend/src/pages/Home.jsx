@@ -24,11 +24,17 @@ const Home = () => {
   const [showSubmitQuest, setShowSubmitQuest] = useState(false);
 
   //Controls the visibility of the popup
-  const [open, setOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  //Handles the visibility of the create quest form
+  const [showCreateQuest, setShowCreateQuest] = useState(false);
+
+  //The text to be displayed in the popup
+  const [popupText, setPopupText] = useState("");
 
   //Handles the closing of the popup
   const handleClose = () => {
-    setOpen(false);
+    setShowPopup(false);
   };
 
   //Handles the opening of the submit quest form when the daily quest component button is clicked
@@ -40,6 +46,17 @@ const Home = () => {
   const handleCloseSubmitQuest = () => {
     setShowSubmitQuest(false);
   };
+
+  //Handles the opening of the create quest form 
+  const handleCreateQuest = () => {
+    setShowCreateQuest(true);
+  };
+
+  //Handles the closing of the create quest form
+  const handleCloseCreateQuest = () => {
+    setShowCreateQuest(false);
+  };
+
 
   //Loads the user from the cookies if set
   useEffect(() => {
@@ -85,14 +102,15 @@ const Home = () => {
           {showSubmitQuest ? (
             <SubmitQuestForm
               onBackClick={handleCloseSubmitQuest}
-              setOpen={setOpen}
+              setOpen={setShowPopup}
             />
           ) : (
-            <DailyQuest onDailyQuestComplete={handleCompleteQuest} />
+            showCreateQuest ?( <CreateQuestForm handleClose={handleCloseCreateQuest} setPopupMessage={setPopupText} setShowPopup={setShowPopup}/>):
+           ( <DailyQuest onDailyQuestComplete={handleCompleteQuest} onCreateQuestClick={handleCreateQuest}/>)
+          
           )}
-          <CreateQuestForm />
-          <Popup handleClose={handleClose} open={open}>
-            <h5 className={classes.popupText}>Submitted Successfully</h5>
+          <Popup handleClose={handleClose} open={showPopup}>
+            <h5 className={classes.popupText}>{popupText}</h5>
           </Popup>
         </div>
       )}
