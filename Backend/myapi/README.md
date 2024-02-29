@@ -27,6 +27,7 @@ Endpoint : api/quest/add/
   "task": "Task Description",
   "reward" : 40,
   "state": "False"
+  "imgURL" : "adad/dada/ad.jpg"
 }
 
 ----------------------------------------------------------------------------
@@ -87,7 +88,6 @@ Endpoint : api/quest/type/add
 
 ## To add a location, the JSON should be formatted as follows:
 
-Endpoint : api/quest/location/
 Endpoint : api/quest/location/add
 
 {
@@ -121,6 +121,32 @@ Endpoint : api/friends/add/
 
 -------------------------------------------------------------------------------------
 
+## To add a quest submission, the JSON should be formatted as follows:
+
+Endpoint : api/quest/submissions/add
+
+{
+  "questID" : "2",
+  "user" : "2",
+  "imgURL" : "sfds/asd.jpg",
+  "info" : "this is a sub for a quest",
+  "verified" : "False"
+}
+
+-------------------------------------------------------------------------------------
+
+## To get all images, the JSON should be formatted as follows:
+
+Endpoint : api/media/images/upload
+
+{
+  "image" : "asda/asds.jpg", 
+  "name" : "myimage", 
+  "description" : "this is a image"
+}
+
+------------------------------------------------------------------------------------
+
 ## To get all friends of a user, the JSON should be formatted as follows:
 
 Endpoint : api/friends/all/
@@ -135,7 +161,7 @@ Endpoint : api/leaderboard_10/
 
 ## To get the n best users WITHIN YOUR FRIENDS, the JSON should be formatted as follows:
 
-Endpoint : api/friends/leaderboard_10/
+Endpoint : api/friends/leaderboard_n/
 
 ------------------------------------------------------------------------------------
 
