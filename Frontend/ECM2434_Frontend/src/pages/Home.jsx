@@ -83,7 +83,7 @@ const Home = () => {
         </div>
       ) : (
         <div className={classes.container}>
-            <CreateQuestForm/>
+            {/* <CreateQuestForm/> */}
             {showSubmitQuest ?(<SubmitQuestForm onBackClick={handleCloseSubmitQuest} setOpen={setOpen}/>): <DailyQuest onDailyQuestComplete={handleCompleteQuest}/>}
                 <Popup handleClose={handleClose} open={open}>
                     <h5 className={classes.popupText}>Submitted Successfully</h5>
