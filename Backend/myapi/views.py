@@ -289,7 +289,7 @@ class GetUserByUsernameView(APIView):
         
         try:
             user = UserProfile.objects.get(username=username)
-            serializer = UserProfileAddSerializer(user)
+            serializer = UserProfileGetSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserProfile.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
