@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'myapi',
     'django_extensions',
+    'django.core.mail',
 ]
 
 #configure DRF
@@ -67,10 +68,27 @@ AUTH_USER_MODEL = 'myapi.UserProfile'
 # configure Djoser
 DJOSER = {
     'SERIALIZERS' : {
+        #'token_create': 'apps.accounts.serializers.CustomTokenCreateSerializer',
         'user_create' : 'myapi.serializer.UserProfileAddSerializer'
     }
+    # },
+    # 'USER_ID_FIELD': 'username',
+    # 'LOGIN_FIELD': 'email',
+    # 'SEND_ACTIVATION_EMAIL': True,
+    # 'ACTIVATION_URL': 'activate/{uid}/{token}',
+    # 'EMAIL': {
+    #     'activation': 'path.to.custom_activation_email',
+    # }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+SITE_NAME = "Conurrent Threaders"
+DEFAULT_FROM_EMAIL = "concurrentthreader@gmail.com"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = "concurrentthreader@gmail.com"
+EMAIL_HOST_PASSWORD = 'zqgk vnku dndz eims'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
