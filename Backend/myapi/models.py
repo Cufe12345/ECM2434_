@@ -50,6 +50,7 @@ class UserProfile(AbstractUser):
     bio = models.CharField(max_length=150, default="")
     rank = models.PositiveIntegerField(default=1)
     XP = models.PositiveIntegerField(default=0)
+    streak = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=False)
 
 class Friend(models.Model):
