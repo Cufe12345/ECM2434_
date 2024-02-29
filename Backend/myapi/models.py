@@ -1,3 +1,10 @@
+"""
+Authors: @Stickman230 - Maxime Reynaud, @Utzo-Main - IBENYE, Uzodinma, @charlesmentuni - Charles Ment 
+Email: mpcr201@exeter.ac.uk, ui204@exeter.ac.uk, cm1099@exeter.ac.uk
+
+This file defines how we build our models and extend the user class
+Models include : Quest, QuestType, Society, Membership, UserProfile,Location, Friend, Image
+"""
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -5,8 +12,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
 
 '''
-Good documentation: https://www.freecodecamp.org/news/common-django-model-fields-and-their-use-cases/
-                    https://radixweb.com/blog/create-rest-api-using-django-rest-framework
 Django models are a powerful abstraction that simplifies the tasks of 
 creating, reading, updating, and deleting database records,
 as well as managing database schemas.
@@ -29,13 +34,24 @@ as well as managing database schemas.
     These migrations are used to evolve your database schema over time as you change your models
 '''
 
-
+# --- ALL MODELS WHERE BUILD AND MAINTINED BY @Utzo-Main, @charlesmentuni and @Stickman230 ---
 class UserProfile(AbstractUser):
     email = models.EmailField(unique=True)
+    PLAYER = 'Player'
+    GAME_KEEPER = 'GameKeeper'
+    DEVELOPER = 'Developer'
+    ROLE_CHOICES = [
+        (PLAYER, 'Player'),
+        (GAME_KEEPER, 'GameKeeper'),
+        (DEVELOPER, 'Developer'),
+    ]
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=PLAYER)
     birthday = models.DateField(null=True, blank=True)
     bio = models.CharField(max_length=150, default="")
     rank = models.PositiveIntegerField(default=1)
     XP = models.PositiveIntegerField(default=0)
+    streak = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=False)
 
 class Friend(models.Model):
     user1 = models.ForeignKey(UserProfile, related_name='friends_user1',on_delete=models.CASCADE)
@@ -53,7 +69,6 @@ class Friend(models.Model):
         self.clean()
         super(Friend, self).save(*args, **kwargs)
 
-
 class QuestType(models.Model):
     questTypeID = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=80, unique=True)
@@ -70,15 +85,13 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class Quest(models.Model):
     questID = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(UserProfile, on_delete=models.PROTECT)
     questTypeID = models.ForeignKey(QuestType, on_delete=models.CASCADE)
     locationID = models.ForeignKey(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    date_created = models.DateField(auto_now_add=True, unique=False)
+    date_created = models.DateTimeField(auto_now_add=True, unique=False)
     task = models.CharField(max_length=150, default=0)
     reward = models.PositiveBigIntegerField(default=0, unique=False)
     state = models.BooleanField(default=False, unique=False)

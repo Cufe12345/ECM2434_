@@ -1,22 +1,29 @@
+"""
+Author: @Stickman230 - Maxime Reynaud, @Utzo-Main - IBENYE, Uzodinma, @charlesmentuni - Charles Ment 
+Email: mpcr201@exeter.ac.uk, ui204@exeter.ac.uk, cm1099@exeter.ac.uk
+
+This file defines how we acces the API endpoints via urls
+"""
 from django.urls import path
 from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import TestAPIView, CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,AllImageGetSerializer
-#Test account:
-#email: test@gmail.com
-#username: test
-#password: test12345
+from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView, SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification
+
 urlpatterns = [
-    #test
-    path('test_api/', TestAPIView.as_view(), name='test_api'),
     #account/users/ and account/users/me/ for short user info
     path('account/',include('djoser.urls')),
     #account/token/login/ and account/token/logout/ for token control
     path('account/',include('djoser.urls.authtoken')),
     # add a new user full profile - this should be done in backend when user registers not called by frontend
     path('account/users/',views.addUser, name='Add full user'),
+    # send activation email
+    path('activate/', EmailVerification.as_view(), name='Send activation email'),
+    path('activate/<username1>/<token>/', EmailVerification.as_view(), name='Activate email'),
+
+    # path('forgot_password/', ForgotPassword.as_view(), name='Send forgot password email'),
+    # path('forgot_password/<username1>/<token>/', ForgotPassword.as_view(), name='New password'),
     
     # -- you have to be logged in for all below endpoints --
     # get all users in full profile
@@ -25,6 +32,12 @@ urlpatterns = [
     path('user/',CurrentUserProfileView.as_view(), name='User profile'),
     # get user by username
     path('users/getByUsername/',GetUserByUsernameView.as_view(), name='Get user by username'),
+    # set user as gamekeeper
+    path('users/set-gamekeeper/<str:username>/', SetGameKeeperView.as_view(), name='set-gamekeeper'),
+    # set user as gamekeeper
+    path('users/set-developer/<str:username>/', SetDeveloperView.as_view(), name='set-developer'),
+    # set user as gamekeeper
+    path('users/set-player/<str:username>/', SetPlayerView.as_view(), name='set-player'),
     # get top 10 best users for leaderboard
     path('leaderboard_10/', Top10UsersView.as_view(), name='Leaderboard Top 10'),
     # get top n best users for leaderboard

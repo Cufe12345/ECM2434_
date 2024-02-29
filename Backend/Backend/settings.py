@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'myapi',
     'django_extensions',
+    'django.core.mail',
 ]
 
 #configure DRF
@@ -67,14 +68,23 @@ AUTH_USER_MODEL = 'myapi.UserProfile'
 # configure Djoser
 DJOSER = {
     'SERIALIZERS' : {
+        #'token_create': 'apps.accounts.serializers.CustomTokenCreateSerializer',
         'user_create' : 'myapi.serializer.UserProfileAddSerializer'
     }
 }
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+SITE_NAME = "Conurrent Threaders"
+DEFAULT_FROM_EMAIL = "concurrentthreader@gmail.com"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = "concurrentthreader@gmail.com"
+EMAIL_HOST_PASSWORD = 'zqgk vnku dndz eims'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -104,10 +114,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Backend.wsgi.application'
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOWED_ORIGINS = [  
-    'http://localhost:5173', # React app runs on localhost:5173
-]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
