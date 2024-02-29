@@ -16,8 +16,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, generics, permissions
-from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
+from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image, QuestSubmission
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,QuestSubAddSerializer,QuestSubGetSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
 from .permissions import CanSetRole
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
@@ -137,6 +137,42 @@ def addQuest(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    
+# Author: @Stickman230
+# Fetches and returns all Quest submission instances.
+class QuestSubListView(generics.ListAPIView):
+    serializer_class = QuestSubGetSerializer
+
+    def get_queryset(self):
+        # Filter the queryset to include only verified submissions
+        return QuestSubmission.objects.filter()
+
+# Author: @Stickman230
+# Creates a new Quest submission instance from the request data.
+@api_view(['POST'])
+def addQuestSub(request):
+    serializer = QuestSubAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+# Author: @Stickman230
+# retruns only verified submissions   
+class VerifiedQuestSubListView(generics.ListAPIView):
+    serializer_class = QuestSubGetSerializer
+
+    def get_queryset(self):
+        # Filter the queryset to include only verified submissions
+        return QuestSubmission.objects.filter(verified=True)
+
+# Author: @Stickman230
+# retruns only non verified submissions  
+class NonVerifiedQuestSubListView(generics.ListAPIView):
+    serializer_class = QuestSubGetSerializer
+
+    def get_queryset(self):
+        # Filter the queryset to include only verified submissions
+        return QuestSubmission.objects.filter(verified=False)
 
 # Author: @Stickman230
 # Fetches and returns all Location instances.
