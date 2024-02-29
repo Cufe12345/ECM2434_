@@ -32,6 +32,14 @@ export function UserContextProvider({ children }) {
             console.log("COOKIE: ",cookieCSRF)
             ApiClient.api.fetchUserData(user).then((res) => {
                 console.log(res)
+                //If the token is invalid, log the user out
+                if(res.detail){
+                  if(res.detail === "Invalid token."){
+                    console.log("Invalid token, logging out")
+                    setUser(null);
+                    setCookie("user", "", { path: "/" });
+                  }
+                }
                 setUserData(res);
                 setUserDataLoading(false);
             }).catch((error) => {
