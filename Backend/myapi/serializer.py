@@ -56,7 +56,7 @@ class QuestGetSerializer(serializers.ModelSerializer):
 class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('user','questTypeID','locationID','name','task','reward','state')
+        fields = ('user','questTypeID','locationID','name','task','reward','state','imgURL')
         
 # Author: @Stickman230
 # Serializer for retrieving location information
