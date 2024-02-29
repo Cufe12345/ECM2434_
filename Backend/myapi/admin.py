@@ -7,7 +7,7 @@ This file defines how the admin portal is build, and adds fields realated to our
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from .models import UserProfile ,Quest, Society,  Membership, QuestType, Friend, Location, Image
+from .models import UserProfile ,Quest, Society,  Membership, QuestType, Friend, Location, Image, QuestSubmission
 
 '''
 The admin.py file in a Django application is used to register your models with Django's built-in admin interface. 
@@ -62,5 +62,6 @@ admin.site.register(Society)
 admin.site.register(Membership)
 admin.site.register(Location)
 admin.site.register(Image)
+admin.site.register(QuestSubmission)
 
 

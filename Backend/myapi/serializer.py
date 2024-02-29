@@ -6,7 +6,7 @@ This file defines how we serialize our models and what we retrun from them depen
 """
 
 from rest_framework import serializers
-from .models import Quest, QuestType, Society, Membership, UserProfile,Location, Friend, Image
+from .models import Quest, QuestType, Society, Membership, UserProfile,Location, Friend, Image,QuestSubmission
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 
 # Author: @Stickman230
@@ -57,6 +57,20 @@ class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
         fields = ('user','questTypeID','locationID','name','task','reward','state','imgURL')
+        
+# Author: @Stickman230
+# Serializer for retrieving quest submission information
+class QuestSubGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestSubmission
+        fields = ('questsubID','questID','user','imgURL','info','verified')
+
+# Author: @Stickman230
+# Serializer for adding quest submission information
+class QuestSubAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestSubmission
+        fields = ('questID','user','imgURL','info','verified')
         
 # Author: @Stickman230
 # Serializer for retrieving location information

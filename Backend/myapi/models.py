@@ -110,6 +110,18 @@ class Quest(models.Model):
     
     def __str__(self):
         return self.name
+
+class QuestSubmission(models.Model):
+    questsubID = models.BigAutoField(primary_key=True)
+    questID = models.ForeignKey(Quest,on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    imgURL = models.CharField(max_length=200)
+    info = models.CharField(max_length=150, default="The task has been completed")
+    verified = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"Quest submission for quest {self.questID.questID}"
+    
     
 class Society(models.Model):
     societyID = models.BigAutoField(primary_key=True)

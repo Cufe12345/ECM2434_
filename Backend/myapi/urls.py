@@ -9,7 +9,7 @@ from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView, SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification
+from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,VerifiedQuestSubListView,QuestSubListView,NonVerifiedQuestSubListView ,SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification
 
 urlpatterns = [
     #account/users/ and account/users/me/ for short user info
@@ -64,6 +64,14 @@ urlpatterns = [
     path('quest/location/',views.getLocation, name='get all locations'),
     # add a location
     path('quest/location/add',views.addLocation, name='add a location'),
+    # get all submissions for quests
+    path('quest/submissions/',QuestSubListView.as_view(), name='get all submissions'),
+    # add a submission to a quest 
+    path('quest/submissions/add/',views.addQuestSub, name='add a submissions'),
+    # get all valid submissions for quests
+    path('quest/submissions/valid',VerifiedQuestSubListView.as_view(), name='get all valid submissions'),
+    # get all non valid submission to a quest 
+    path('quest/submissions/non-valid',NonVerifiedQuestSubListView.as_view(), name='get all non-valid submissions'),
     # see al societies
     path('society/',views.getSociety, name='Society'),
     # add a society
