@@ -24,7 +24,7 @@ Django's admin interface is a powerful and auto-generated tool that allows for e
 class UserProfileAdmin(UserAdmin):
     model = UserProfile
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('role','birthday', 'bio', 'rank', 'XP')}),
+        (None, {'fields': ('role','birthday', 'bio', 'rank', 'XP','streak')}),
     )
     # This will add a filter horizontal widget to select groups easily
     filter_horizontal = ('groups','user_permissions')

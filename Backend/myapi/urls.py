@@ -9,7 +9,7 @@ from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView, SetDeveloperView,SetGameKeeperView, SetPlayerView
+from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView, SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification
 
 urlpatterns = [
     #account/users/ and account/users/me/ for short user info
@@ -18,6 +18,12 @@ urlpatterns = [
     path('account/',include('djoser.urls.authtoken')),
     # add a new user full profile - this should be done in backend when user registers not called by frontend
     path('account/users/',views.addUser, name='Add full user'),
+    # send activation email
+    path('activate/', EmailVerification.as_view(), name='Send activation email'),
+    path('activate/<username1>/<token>/', EmailVerification.as_view(), name='Activate email'),
+
+    # path('forgot_password/', ForgotPassword.as_view(), name='Send forgot password email'),
+    # path('forgot_password/<username1>/<token>/', ForgotPassword.as_view(), name='New password'),
     
     # -- you have to be logged in for all below endpoints --
     # get all users in full profile

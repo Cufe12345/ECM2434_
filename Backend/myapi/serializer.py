@@ -21,7 +21,7 @@ class UserProfileAddSerializer(BaseUserCreateSerializer):
 class UserProfileGetSerializer(BaseUserCreateSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP']
+        fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP','streak']
 
 # Author: @Stickman230
 # Serializer for retrieving role related to username      
