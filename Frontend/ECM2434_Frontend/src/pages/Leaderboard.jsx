@@ -9,6 +9,7 @@ import ApiClient from "../api/index";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { useUser } from '../contexts/userContext';
+import React, { useState, useEffect } from 'react';
 
 
 import './leaderboard.css';
@@ -46,20 +47,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const Leaderboard = () => {
-    const { user, setUser, userDataLoading } = useUser();
-    console.log(user)
-    let data = [];
-    ApiClient.api.getTopTen(user).then((res) => {
-        console.log(res);
-        for (let i = 0; i < res.length; i++) {
-            data.push(res[i]);
-            console.log(data[i])
-        }
-    }).catch((error) => {
-        console.log(error);
-    });
+    const { user } = useUser(); // Assuming useUser() returns the current user context
+    const [data, setData] = useState([]); // Initialize the data state to an empty array
 
-    console.log(data)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await ApiClient.api.getTopTen(user);
+                setData(res); // Update the state with the fetched data
+            } catch (error) {
+                console.error("Failed to fetch leaderboard data:", error);
+            }
+        };
+
+        fetchData();
+    }, [user]); // Dependency array: the effect runs when the `user` object changes
 
     return (
         <>
@@ -75,11 +77,11 @@ const Leaderboard = () => {
                     </TableHead>
                     <TableBody>
                         {data.map((item, index) => (
-                            <StyledTableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <StyledTableCell className="rank" padding="checkbox">{index + 1}</StyledTableCell>
+                            <StyledTableRow key={item.id || index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <StyledTableCell className="rank" padding="checkbox">{item.rank || index + 1}</StyledTableCell>
                                 <StyledTableCell>{item.first_name + " " + item.last_name}</StyledTableCell>
                                 <StyledTableCell>{item.username}</StyledTableCell>
-                                <StyledTableCell>{item.score}</StyledTableCell>
+                                <StyledTableCell>{item.XP}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
