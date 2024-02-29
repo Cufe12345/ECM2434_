@@ -135,18 +135,6 @@ Endpoint : api/quest/submissions/add
 
 -------------------------------------------------------------------------------------
 
-## To get all images, the JSON should be formatted as follows:
-
-Endpoint : api/media/images/upload
-
-{
-  "image" : "asda/asds.jpg", 
-  "name" : "myimage", 
-  "description" : "this is a image"
-}
-
-------------------------------------------------------------------------------------
-
 ## To get all friends of a user, the JSON should be formatted as follows:
 
 Endpoint : api/friends/all/
