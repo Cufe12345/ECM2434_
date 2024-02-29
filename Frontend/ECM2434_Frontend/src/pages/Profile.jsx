@@ -6,34 +6,37 @@ import { CiStar } from "react-icons/ci";
 import ApiClient from "../api/index";
 import { useState } from "react";
 import { useUser } from "../contexts/userContext";
+import { useEffect } from "react";
 
 const Profile = () => {
     const { user } = useUser();
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({});
     const [userDataLoading, setUserDataLoading] = useState(true);
 
     const username = "test0";
-    console.log(user)
+    console.log(userData)
 
-    ApiClient.api.fetchUsernameData({ "username": username }, user).then((res) => {
-        console.log(res)
-        setUserData(res);
-        setUserDataLoading(false);
-    }
-    ).catch((error) => {
-        console.log(error);
-        setUserDataLoading(false);
-    });
+    useEffect(() => {
+        setUserDataLoading(true); // Set loading to true when the component mounts
+        ApiClient.api.fetchUsernameData({ "username": username }, user)
+            .then((res) => {
+                console.log(res);
+                setUserData(res);
+                setUserDataLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setUserDataLoading(false);
+            });
+    }, [user]);
 
-
-    const progress = 50;
     return (
         <div className="container">
             <div className="profile">
                 <div className="header">
                     <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />
-                    <h1>Full Name</h1>
-                    <h2> Username </h2>
+                    <h1>{userData.first_name + ' ' + userData.last_name}</h1>
+                    <h2> {userData.username} </h2>
                 </div>
                 <div className="icons">
                     <div className="stats">
@@ -41,14 +44,15 @@ const Profile = () => {
                             <IoFlameSharp style={{ color: '#A00120' }} />
                             <p>Streak</p>
                         </div>
-                        <p>42</p>
+                        <p>{userData.streak}</p>
                     </div>
                     <div className="stats">
                         <div className="icon">
                             <IoMdCheckboxOutline style={{ color: '#A00120' }} />
-                            <p>Completed</p>
+                            <p>Role</p>
+                            {/* Should change this to completed tasks in future */}
                         </div>
-                        <p>42</p>
+                        <p>{userData.role}</p>
                     </div>
 
                     <div className="stats">
@@ -56,7 +60,7 @@ const Profile = () => {
                             <CiStar style={{ color: '#A00120' }} />
                             <p>Rank</p>
                         </div>
-                        <p>11</p>
+                        <p>{userData.rank}</p>
                     </div>
 
                     {/* XP Bar */}

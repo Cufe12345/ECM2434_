@@ -9,9 +9,9 @@
     max-width: 800px;
     width: 80vw;
     height: 70vh;
-    background-color: rgba(75, 120, 78, 0.976);
     border-radius: 8px;
     border: 2px solid black;
+    background: linear-gradient(to top, rgb(220, 255, 220), white);
     padding-left: 30px;
     padding-right: 30px;
     display: flex;
