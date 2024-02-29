@@ -1,5 +1,7 @@
 import axios from "axios";
 
+
+
 const baseURL = "http://localhost:8000/api/";
 // Currently set to HTTP. Could use a config file to modify this easily.
 
@@ -39,14 +41,6 @@ export default class ApiClient {
   }
 
   async post(url, data, token) {
-    // const response = await this.axios.post(url, data).then((response) => {
-    //   response.headers["Access-Control-Allow-Origin"] = "*";
-    //   return response.data;
-    // }).catch((error) => {
-    //   console.log(error);
-    //   return error;
-    // });
-
     const requestOptions = {
       method: "POST",
       headers: {
@@ -106,17 +100,29 @@ export default class ApiClient {
     const response = await this.get("quest/", token);
     return response;
   }
-  async fetchImage(imgPath,token){
-    const response = await this.get("media/iamges/"+imgPath,token);
+  async fetchImage(imgPath, token) {
+    const response = await this.get("media/iamges/" + imgPath, token);
     return response;
   }
-  async fetchAllImages(token){
-    const response = await this.get("media/images/",token);
+  async fetchAllImages(token) {
+    const response = await this.get("media/images/", token);
     return response;
   }
 
   async getTopTen(token) {
     const response = await this.get("leaderboard_10/", token);
+    return response;
+  }
+
+  async logout(token) {
+    const response = await this.post("account/token/logout", null, token);
+    return response;
+  }
+
+  async fetchUsernameData(data, token) {
+    console.log("data: ", data);
+    console.log("token: ", token);
+    const response = await this.get("users/getByUsername/", token, data);
     return response;
   }
 }
