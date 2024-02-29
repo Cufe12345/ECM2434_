@@ -122,7 +122,7 @@ export default class ApiClient {
   async fetchUsernameData(data, token) {
     console.log("data: ", data);
     console.log("token: ", token);
-    const response = await this.get("users/getByUsername/", token, data);
+    const response = await this.post("users/getByUsername/", data, token);
     return response;
   }
 }
