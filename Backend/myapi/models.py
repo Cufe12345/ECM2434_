@@ -53,6 +53,8 @@ class UserProfile(AbstractUser):
     streak = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=False)
 
+    
+
 class Friend(models.Model):
     user1 = models.ForeignKey(UserProfile, related_name='friends_user1',on_delete=models.CASCADE)
     user2 = models.ForeignKey(UserProfile, related_name='friends_user2',on_delete=models.CASCADE)
@@ -95,7 +97,6 @@ class Quest(models.Model):
     task = models.CharField(max_length=150, default=0)
     reward = models.PositiveBigIntegerField(default=0, unique=False)
     state = models.BooleanField(default=False, unique=False)
-    imgURL = models.CharField(max_length=150, default="")
     
     def __str__(self):
         return self.name
