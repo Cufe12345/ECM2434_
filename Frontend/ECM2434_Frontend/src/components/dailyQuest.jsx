@@ -4,6 +4,10 @@ import ApiClient from '../api/index';
 import { useState, useEffect } from 'react';
 import classes from './dailyQuest.module.css';
 import image from"../assets/images/600px-Example_image.png";
+import {Map} from './map';
+
+//Created by Cufe12345(Callum Young)
+
 export function DailyQuest({onDailyQuestComplete}) {
     const { user, setUser,userDataLoading } = useUser();
 
@@ -13,6 +17,7 @@ export function DailyQuest({onDailyQuestComplete}) {
     //Stores the location of the quest
     const[location,setLocation] = useState(null);
 
+    
 
     
     useEffect(() => {
@@ -21,6 +26,7 @@ export function DailyQuest({onDailyQuestComplete}) {
 
     useEffect(() => {
         if(quest){
+            console.log(quest)
             fetchLocations(quest.locationID);
         }
     }, [quest]);
@@ -77,11 +83,15 @@ export function DailyQuest({onDailyQuestComplete}) {
                 <div className={classes.imgContainer2}>
                     <p className={classes.questName}>Location: {location?.name}</p>
                     {/*this will be a map in the future*/}
-                    <img className={classes.img} src={image} alt="Example Image" />
+                    {/* <img className={classes.img} src={image} alt="Example Image" /> */}
+                    <div className={classes.mapContainer} id={classes.map}>
+                    {location?.longitude && location?.latitude ? <Map center={[location?.longitude,location?.latitude]} zoom={10} scrollWheelZoom={false}/> : null}
+                    {/* <Map center={[location?.longitude,location?.latitude]} zoom={10} scrollWheelZoom={false}/> */}
+                    </div>
                 </div>
                 <div className={classes.imgContainer2}>
                     <p className={classes.questName}>Example Image</p>
-                    <img className={classes.img} src={image} alt="Example Image" />
+                    <img className={classes.img} src={"http://localhost:8000"+quest?.imgURL} alt="Example Image" />
                 </div>
             </div>
             <button className={classes.button} onClick={onDailyQuestComplete}>Complete Quest</button>

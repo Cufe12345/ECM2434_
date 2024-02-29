@@ -95,6 +95,7 @@ class Quest(models.Model):
     task = models.CharField(max_length=150, default=0)
     reward = models.PositiveBigIntegerField(default=0, unique=False)
     state = models.BooleanField(default=False, unique=False)
+    imgURL = models.CharField(max_length=150, default="")
     
     def __str__(self):
         return self.name

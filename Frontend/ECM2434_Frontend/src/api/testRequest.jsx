@@ -1,4 +1,5 @@
 import axios from "axios";
+import { json } from "react-router-dom";
 
 
 
@@ -40,7 +41,18 @@ export default class ApiClient {
     return response_data;
   }
 
-  async post(url, data, token) {
+
+  async post(url, data, token,image) {
+  
+    // const response = await this.axios.post(url, data).then((response) => {
+    //   response.headers["Access-Control-Allow-Origin"] = "*";
+    //   return response.data;
+    // }).catch((error) => {
+    //   console.log(error);
+    //   return error;
+    // });
+
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -48,6 +60,26 @@ export default class ApiClient {
         Authorization: token ? "Token " + token : "",
       },
       body: JSON.stringify(data),
+    };
+    const response = await fetch(baseURL + url, requestOptions);
+    const response_data = await response.json();
+    return response_data;
+  }
+  async postImage(url, data, token,image) {
+    
+    let formData = new FormData();
+      formData.append('image', image);
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        // "Content-Type":"multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        Authorization: token ? "Token " + token : "",
+        // "X-CSRFToken": "Zq"
+      },
+      
+      body: formData,
     };
     const response = await fetch(baseURL + url, requestOptions);
     const response_data = await response.json();
@@ -125,4 +157,10 @@ export default class ApiClient {
     const response = await this.post("users/getByUsername/", data, token);
     return response;
   }
+
+  async uploadImage(token,data,image){
+    const response = await this.postImage("media/images/upload",data,token,image);
+    return response;
+  }
 }
+

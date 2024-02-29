@@ -10,11 +10,11 @@ import { Popup } from "../components/popup";
 const Home = () => {
   //This is how you use the user context, you can access all these variables and functions from the context
   const { user, setUser, userData, userDataError, userDataLoading } = useUser();
-  
+
   //Controls the visibility of the create quest form
   const [showForm, setShowForm] = useState(false);
 
-    //Controls the visibility of the daily quest component
+  //Controls the visibility of the daily quest component
   const [showDailyQuest, setShowDailyQuest] = useState(false);
 
   //Cookie for user
@@ -23,24 +23,23 @@ const Home = () => {
   //Controls the visibility of the submit quest form
   const [showSubmitQuest, setShowSubmitQuest] = useState(false);
 
-    //Controls the visibility of the popup
+  //Controls the visibility of the popup
   const [open, setOpen] = useState(false);
 
   //Handles the closing of the popup
-    const handleClose = () => {
-        setOpen(false);
-    }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    //Handles the opening of the submit quest form when the daily quest component button is clicked
-    const handleCompleteQuest = () => {
-        setShowSubmitQuest(true);
-    }
+  //Handles the opening of the submit quest form when the daily quest component button is clicked
+  const handleCompleteQuest = () => {
+    setShowSubmitQuest(true);
+  };
 
-    //Handles the closing of the submit quest form
-    const handleCloseSubmitQuest = () => {
-        setShowSubmitQuest(false);
-    }
-
+  //Handles the closing of the submit quest form
+  const handleCloseSubmitQuest = () => {
+    setShowSubmitQuest(false);
+  };
 
   //Loads the user from the cookies if set
   useEffect(() => {
@@ -83,10 +82,18 @@ const Home = () => {
         </div>
       ) : (
         <div className={classes.container}>
-            {showSubmitQuest ?(<SubmitQuestForm onBackClick={handleCloseSubmitQuest} setOpen={setOpen}/>): <DailyQuest onDailyQuestComplete={handleCompleteQuest}/>}
-                <Popup handleClose={handleClose} open={open}>
-                    <h5 className={classes.popupText}>Submitted Successfully</h5>
-                </Popup>
+          {showSubmitQuest ? (
+            <SubmitQuestForm
+              onBackClick={handleCloseSubmitQuest}
+              setOpen={setOpen}
+            />
+          ) : (
+            <DailyQuest onDailyQuestComplete={handleCompleteQuest} />
+          )}
+          <CreateQuestForm />
+          <Popup handleClose={handleClose} open={open}>
+            <h5 className={classes.popupText}>Submitted Successfully</h5>
+          </Popup>
         </div>
       )}
     </>
