@@ -47,25 +47,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Leaderboard = () => {
     const { user, setUser, userDataLoading } = useUser();
-    const data = [
-        { firstName: "Jeremy", lastName: "Smith", username: "jeremysmith", score: 100 },
-        { firstName: "John", lastName: "Doe", username: "johndoe", score: 90 },
-        { firstName: "Jane", lastName: "Doe", username: "janedoe", score: 80 },
-        { firstName: "John", lastName: "Smith", username: "johnsmith", score: 70 },
-        { firstName: "Jane", lastName: "Smith", username: "janesmith", score: 60 },
-        { firstName: "John", lastName: "Doe", username: "johndoe", score: 50 },
-        { firstName: "Jane", lastName: "Doe", username: "janedoe", score: 40 },
-        { firstName: "John", lastName: "Smith", username: "johnsmith", score: 30 },
-        { firstName: "Jane", lastName: "Smith", username: "janesmith", score: 20 },
-        { firstName: "John", lastName: "Doe", username: "johndoe", score: 10 }
-    ];
-
+    console.log(user)
+    let data = [];
     ApiClient.api.getTopTen(user).then((res) => {
         console.log(res);
-
+        for (let i = 0; i < res.length; i++) {
+            data.push(res[i]);
+            console.log(data[i])
+        }
     }).catch((error) => {
         console.log(error);
     });
+
+    console.log(data)
 
     return (
         <>
@@ -83,7 +77,7 @@ const Leaderboard = () => {
                         {data.map((item, index) => (
                             <StyledTableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <StyledTableCell className="rank" padding="checkbox">{index + 1}</StyledTableCell>
-                                <StyledTableCell>{item.firstName + " " + item.lastName}</StyledTableCell>
+                                <StyledTableCell>{item.first_name + " " + item.last_name}</StyledTableCell>
                                 <StyledTableCell>{item.username}</StyledTableCell>
                                 <StyledTableCell>{item.score}</StyledTableCell>
                             </StyledTableRow>
