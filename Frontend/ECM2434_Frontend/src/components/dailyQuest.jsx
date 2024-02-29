@@ -3,8 +3,8 @@ import { useUser } from '../contexts/userContext';
 import ApiClient from '../api/index';
 import { useState, useEffect } from 'react';
 import classes from './dailyQuest.module.css';
-import image from"../assets/images/600px-Example_image.png";
-export function DailyQuest({onDailyQuestComplete}) {
+import image from"../assets/600px-Example_image.png";
+export function DailyQuest() {
     const { user, setUser,userDataLoading } = useUser();
 
     //Stores todays quest
@@ -12,7 +12,6 @@ export function DailyQuest({onDailyQuestComplete}) {
 
     //Stores the location of the quest
     const[location,setLocation] = useState(null);
-
 
     
     useEffect(() => {
@@ -84,7 +83,7 @@ export function DailyQuest({onDailyQuestComplete}) {
                     <img className={classes.img} src={image} alt="Example Image" />
                 </div>
             </div>
-            <button className={classes.button} onClick={onDailyQuestComplete}>Complete Quest</button>
+            <button className={classes.button}>Complete Quest</button>
 
         </div>
     )

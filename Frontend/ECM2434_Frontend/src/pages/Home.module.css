@@ -2,73 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     height: 90vh;
     background-color: #f5f5f5;
-}
-
-.leftSideContent {
-    align-self: flex-start;
-    text-align: left;
-    padding-left: 50px; 
-    width: 100%; 
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    cursor: default;
-}
-
-.leftSideContent button {
-    font-size: 1rem;
-    padding: 10px 12px;
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.buttonGroup {
-    display: flex;
-    gap: 20px;
-}
-
-/*.leftSideContent button:hover {
-    
-}*/
-
-.createQuestButton {
-    background-color: #34a264; 
-}
-
-.createQuestButton:hover {
-    background-color: #ffffff; 
-}
-
-.dailyQuestButton {
-    background-color: #96EF89; 
-}
-
-.dailyQuestButton:hover {
-    background-color: #ffffff;
-}
-
-.ecoGradient {
-    background: linear-gradient(90deg, #245D3D 0%, #56E990 60%, #96EF89 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-h1 {
-    font-size: 3.5rem;
-    font-weight: bolder;
-    color: black;
-
-}
-
-.textGroup {
-    margin-bottom: 20px;
-}
-.popupText{
-    padding-bottom: 13px;
 }
