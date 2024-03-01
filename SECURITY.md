@@ -22,10 +22,6 @@ We comit to review and remove unnecessary or unused dependencies to minimize the
 Public Reporting Guidelines: Clear guidelines are in the repository's README.md on how to report security vulnerabilities, including a dedicated contact email.
 Responsible Disclosure Policy: Responsible disclosure can be made here (e.g., securityecm2434@proton.me) for researchers to report vulnerabilities and establish a timeline for acknowledgment and remediation.
 
-## Incident Response ##
-Incident Response Plan: Develop and maintain an incident response plan detailing steps to be taken in the event of a security breach, including internal notification procedures, mitigation strategies, and external communication plans.
-Regular Review and Testing: Regularly review and test the incident response plan to ensure its effectiveness and update it based on evolving security threats.
-
 ## Data Protection ##
 We Ensure that all sensitive data, both at rest and in transit, is encrypted using strong encryption standards.
 Strict access controls made for both the application and its data, ensuring that only authorized personnel have access based on the principle of least privilege.
