@@ -20,7 +20,7 @@ We comit to review and remove unnecessary or unused dependencies to minimize the
 
 ## Vulnerability Reporting ##
 Public Reporting Guidelines: Clear guidelines are in the repository's README.md on how to report security vulnerabilities, including a dedicated contact email.
-Responsible Disclosure Policy: Responsible disclosure can be made here (e.g., concurrentthreader@gmail.com) for researchers to report vulnerabilities and establish a timeline for acknowledgment and remediation.
+Responsible Disclosure Policy: Responsible disclosure can be made here (e.g., securityecm2434@proton.me) for researchers to report vulnerabilities and establish a timeline for acknowledgment and remediation.
 
 ## Incident Response ##
 Incident Response Plan: Develop and maintain an incident response plan detailing steps to be taken in the event of a security breach, including internal notification procedures, mitigation strategies, and external communication plans.
