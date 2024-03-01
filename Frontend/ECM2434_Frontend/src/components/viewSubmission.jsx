@@ -38,7 +38,7 @@ export function ViewSubmission() {
             }
             let validSubmissions = [];
             for(let i = 0; i < res.length; i++){
-                if(res[i].questID === dailyQuest.questID){
+                if(res[i].questID === dailyQuest.questID && res[i].verified === false){
                     validSubmissions.push(res[i]);
                 }
             }
