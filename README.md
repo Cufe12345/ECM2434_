@@ -1,4 +1,4 @@
-# Software Engineering Web App
+# EcoQuest Web App
 
 Welcome to the repository for our Sustainability Challenges and Quests Web App! This project combines the power of Django and React.js to create an interactive platform where users can engage with various sustainability challenges and quests to learn about and contribute to a more sustainable future.
 
