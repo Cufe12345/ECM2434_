@@ -1,4 +1,4 @@
-# Project Security Policy for ECM2434 #
+# Project Security Policy for EcoQuest #
 
 This document outlines the security policy for the ECM2434 project, a web application utilizing a Django backend and a React.js frontend.
 Our commitment is to protect our users' data and maintain the integrity and confidentiality of our application through rigorous security measures.
