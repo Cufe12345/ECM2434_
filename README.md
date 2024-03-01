@@ -33,9 +33,9 @@ Follow these instructions to get a copy of the project up and running on your lo
 - Node.js 14+
 - npm (comes with Node.js)
 
-## Public Reporting Guidelines
+## --------------------------------------- Public Reporting Guidelines ---------------------------
 
-# Reporting a Vulnerability: #
+## Reporting a Vulnerability: #
 
 Contact: Please report any security vulnerabilities by emailing us directly at securityecm2434@proton.me. Provide a detailed summary of the vulnerability, including the potential impact and how it might be exploited.
 
@@ -45,11 +45,11 @@ Information to Include: Where possible, include steps to reproduce the vulnerabi
 
 We aim to acknowledge receipt of your report within 48 hours. Our security team will work with you to understand and validate the report. Once the report is validated, we'll work on a fix and release it in a timely manner. We’ll communicate openly with you about timelines for a fix and public disclosure, aiming for transparency and collaboration.
 
-# Our Commitment: #
+## Our Commitment: #
 
 We will investigate all credible reports and work to quickly validate and address any vulnerabilities that are reported to us.
 We will keep you informed about the progress of the vulnerability's resolution.
 Once the issue has been resolved, we will acknowledge your contribution to improving the security of ECM2434, with your permission.
 Your efforts to responsibly disclose your findings are greatly appreciated and will be taken into account to include acknowledgments once the vulnerability is confirmed and fixed.
 
-Thank you for contributing to the security of ECM2434. Together, we can keep a safer environment for everyone.
+# Thank you for contributing to the security of ECM2434. Together, we can keep a safer environment for everyone.
