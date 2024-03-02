@@ -33,7 +33,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 - Node.js 14+
 - npm (comes with Node.js)
 
-## --------------------------------------- Public Reporting Guidelines ---------------------------
+## ------------------------ Public Reporting Guidelines ----------------------
 
 ## Reporting a Vulnerability: #
 
