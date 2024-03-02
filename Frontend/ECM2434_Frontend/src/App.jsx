@@ -12,6 +12,9 @@ import { useUser } from "./contexts/userContext";
 import { CookiesProvider, useCookies } from "react-cookie";
 import Leaderboard from "./pages/Leaderboard";
 import Profile from "./pages/Profile";
+import Code_Conduct from "./pages/Code_Conduct";
+import Security from "./pages/Security";
+import { Footer } from "./components/footer";
 function App() {
 
 
@@ -28,8 +31,11 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/dailyQuest" element={<DailyQuestPage />} />
             <Route path="/submissions" element={<Submissions />} />
+            <Route path="/code_conduct" element={<Code_Conduct />} />
+            <Route path="/security" element={<Security />} />
             {/* <Route path="/about" element={<About />} /> */}
           </Routes>
+          <Footer/>
         </>
       </UserContextProvider>
     </CookiesProvider>
