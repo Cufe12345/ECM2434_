@@ -10,11 +10,11 @@ import { Popup } from "../components/popup";
 const Home = () => {
   //This is how you use the user context, you can access all these variables and functions from the context
   const { user, setUser, userData, userDataError, userDataLoading } = useUser();
-  
+
   //Controls the visibility of the create quest form
   const [showForm, setShowForm] = useState(false);
 
-    //Controls the visibility of the daily quest component
+  //Controls the visibility of the daily quest component
   const [showDailyQuest, setShowDailyQuest] = useState(false);
 
   //Cookie for user
@@ -23,23 +23,39 @@ const Home = () => {
   //Controls the visibility of the submit quest form
   const [showSubmitQuest, setShowSubmitQuest] = useState(false);
 
-    //Controls the visibility of the popup
-  const [open, setOpen] = useState(false);
+  //Controls the visibility of the popup
+  const [showPopup, setShowPopup] = useState(false);
+
+  //Handles the visibility of the create quest form
+  const [showCreateQuest, setShowCreateQuest] = useState(false);
+
+  //The text to be displayed in the popup
+  const [popupText, setPopupText] = useState("");
 
   //Handles the closing of the popup
-    const handleClose = () => {
-        setOpen(false);
-    }
+  const handleClose = () => {
+    setShowPopup(false);
+  };
 
-    //Handles the opening of the submit quest form when the daily quest component button is clicked
-    const handleCompleteQuest = () => {
-        setShowSubmitQuest(true);
-    }
+  //Handles the opening of the submit quest form when the daily quest component button is clicked
+  const handleCompleteQuest = () => {
+    setShowSubmitQuest(true);
+  };
 
-    //Handles the closing of the submit quest form
-    const handleCloseSubmitQuest = () => {
-        setShowSubmitQuest(false);
-    }
+  //Handles the closing of the submit quest form
+  const handleCloseSubmitQuest = () => {
+    setShowSubmitQuest(false);
+  };
+
+  //Handles the opening of the create quest form 
+  const handleCreateQuest = () => {
+    setShowCreateQuest(true);
+  };
+
+  //Handles the closing of the create quest form
+  const handleCloseCreateQuest = () => {
+    setShowCreateQuest(false);
+  };
 
 
   //Loads the user from the cookies if set
@@ -83,10 +99,19 @@ const Home = () => {
         </div>
       ) : (
         <div className={classes.container}>
-            {showSubmitQuest ?(<SubmitQuestForm onBackClick={handleCloseSubmitQuest} setOpen={setOpen}/>): <DailyQuest onDailyQuestComplete={handleCompleteQuest}/>}
-                <Popup handleClose={handleClose} open={open}>
-                    <h5 className={classes.popupText}>Submitted Successfully</h5>
-                </Popup>
+          {showSubmitQuest ? (
+            <SubmitQuestForm
+              onBackClick={handleCloseSubmitQuest}
+              setOpen={setShowPopup}
+            />
+          ) : (
+            showCreateQuest ?( <CreateQuestForm handleClose={handleCloseCreateQuest} setPopupMessage={setPopupText} setShowPopup={setShowPopup}/>):
+           ( <DailyQuest onDailyQuestComplete={handleCompleteQuest} onCreateQuestClick={handleCreateQuest}/>)
+          
+          )}
+          <Popup handleClose={handleClose} open={showPopup}>
+            <h5 className={classes.popupText}>{popupText}</h5>
+          </Popup>
         </div>
       )}
     </>

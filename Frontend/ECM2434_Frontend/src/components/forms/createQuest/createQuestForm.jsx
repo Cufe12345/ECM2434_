@@ -3,7 +3,10 @@ import { useState } from 'react';
 import classes from './createQuestForm.module.css';
 import { useUser } from '../../../contexts/userContext';
 import ApiClient from '../../../api/index';
-export function CreateQuestForm() {
+import { ImageSubmit } from '../../imageSubmit';
+
+//Created by Cufe12345(Callum Young)
+export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
     //Fetch the user context from the user context provider
     const { user, userDataLoading,userData} = useUser();
 
@@ -35,7 +38,7 @@ export function CreateQuestForm() {
     const [reward, setReward] = useState("");
 
     //Stores the image that the user uploads, this is not currently used or storing the image correctly i dont think
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState();
 
     //Stores whether the user wants to show the custom location fields
     const [showCustomLocation, setShowCustomLocation] = useState(false);
@@ -140,9 +143,28 @@ export function CreateQuestForm() {
     /**
      * Adds the quest to the database
      */
-    function createQuest(){
-        console.log("Creating Quest");
+    async function createQuest(){
 
+        console.log("Creating Quest");
+        console.log(image)
+
+        //Upload the image to the database
+        let dataImg = {
+            "name": image.name,
+            "description": "n/a for now",
+        }
+        let imgURL = null;
+        await ApiClient.api.uploadImage(user,dataImg,image).then((res) => {
+            
+            imgURL = res?.image;
+            console.log(res);
+        }).catch((error) => {
+            console.warn(error);
+        });
+        if(imgURL === null || imgURL === undefined){
+            console.error("Image failed to upload");
+            return;
+        }
         //Get the locationID from the location name that was selected
         let locationID = -1;
         for(let i = 0; i < listOfLocations.length; i++){
@@ -171,12 +193,18 @@ export function CreateQuestForm() {
             questTypeID: questTypeID,
             reward: Number(reward),
             user: userData.id,
+            imgURL: imgURL,
         }
         console.log(data);
         ApiClient.api.createQuest(user,data).then((res) => {
             console.log(res);
+            setPopupMessage("Quest Created!");
+            setShowPopup(true);
+            handleClose();
         }).catch((error) => {
             console.log(error);
+            setPopupMessage("Failed to create quest");
+            setShowPopup(true);
         });
     }
 
@@ -192,32 +220,36 @@ export function CreateQuestForm() {
         }
     }
 
-
+    //Handles the change of the location select field
     const onSelectChange = (e) => {
         setLocationSelectValue(e.target.value);
     }
+    //Handles the change of the quest type select field
     const onTypeSelectChange = (e) => {
         setQuestType(e.target.value);
     }
     return(
         <form className={classes.form} onSubmit={onSubmit}>
+            <div className={classes.backContainer}>
+                <button type="button" onClick={handleClose} className={classes.backButton}>Close</button>
+            </div>
             {/* <div>Step {step}</div> */}
             {step == 1 && (
                 <div className={classes.inputContainer}>
                     <h3>Enter the quest name</h3>
-                    <input className={classes.inputField} type="text" placeholder="Quest Name" value={name} onChange={(e) => setName(e.target.value)}/>
+                    <input className={classes.inputField} type="text" placeholder="Quest Name" value={name} onChange={(e) => setName(e.target.value)} required={true}/>
                 </div>
             )}
             {step === 2 && (
                 <div className={classes.inputContainer}>
                     <h3>Enter the quest description</h3>
-                    <input className={classes.inputField} type="text" placeholder="Quest Description" value={description} onChange={(e) => setDescription(e.target.value)}/>
+                    <input className={classes.inputField} type="text" placeholder="Quest Description" value={description} onChange={(e) => setDescription(e.target.value)} required={true}/>
                 </div>
             )}
             {step === 3 && (
                 <div className={classes.inputContainer}>
                     <h3>Enter the reward for completing the quest</h3>
-                    <input className={classes.inputField} type="number" placeholder="Quest Reward" value={reward} onChange={(e) => setReward(e.target.value)}/>
+                    <input className={classes.inputField} type="number" placeholder="Quest Reward" value={reward} onChange={(e) => setReward(e.target.value)} required={true}/>
                 </div>
             )}
             {step === 4 && (
@@ -271,7 +303,8 @@ export function CreateQuestForm() {
                 <div className={classes.inputContainer}>
 
                 <h3>Upload an example image of the completed quest</h3>   
-                <input className={classes.inputField} type="file" accept="image/*" placeholder="Add Image" value={image} onChange={(e) => setImage(e.target.value)}/>
+                {/* <input className={classes.inputField} type="file" accept="image/*" placeholder="Add Image" value={image} onChange={(e) => setImage(e.target.value)}/> */}
+                <ImageSubmit setImage={setImage} img={image}/>
                     
             </div>
             )}
