@@ -18,7 +18,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, generics, permissions
 from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image, QuestSubmission
 from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,QuestSubAddSerializer,QuestSubGetSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
-from .permissions import CanSetRole
+from .permissions import CanSetRole, CanVerify
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 import pdb  
@@ -198,6 +198,23 @@ def getSociety(request):
     app = Society.objects.all()
     serializer = SocietyGetSerializer(app, many=True)
     return Response(serializer.data)
+
+# Author: @charlesmentuni
+# Validate a quest submission if the user is a developer or gamekeeper
+@api_view(['POST'])   
+@permission_classes([permissions.IsAuthenticated, CanVerify])  
+def validate_quest_submission(request):
+    quest_sub = get_object_or_404(QuestSubmission, questsubID=request.data['id'])
+    # Checks that it hasn't been verified yet, so they don't receive the reward twice
+    if (quest_sub.verified == False):
+        quest_sub.verified = True
+        # Gets users to give them the reward
+        user = get_object_or_404(UserProfile, username=quest_sub.user.username)
+        user.XP += quest_sub.questID.reward
+        user.save()
+        quest_sub.save()
+        return Response({'status': 'Submission verified'}, status=status.HTTP_200_OK)
+    return Response({'status': 'Submission already verified'}, status=status.HTTP_200_OK)
 
 # Author: @Stickman230
 # Creates a new Society instance from the request data.

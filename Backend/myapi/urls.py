@@ -72,7 +72,9 @@ urlpatterns = [
     path('quest/submissions/valid',VerifiedQuestSubListView.as_view(), name='get all valid submissions'),
     # get all non valid submission to a quest 
     path('quest/submissions/non-valid',NonVerifiedQuestSubListView.as_view(), name='get all non-valid submissions'),
-    # see al societies
+    # validates quest submission if they're a game keeper
+    path('quest/submissions/validate/',views.validate_quest_submission, name='Validate quest submission'),
+    # see all societies
     path('society/',views.getSociety, name='Society'),
     # add a society
     path('society/add/',views.addSociety, name='Add Society'),
