@@ -7,6 +7,8 @@ import ApiClient from "../api/index";
 import { useState } from "react";
 import { useUser } from "../contexts/userContext";
 import { useEffect } from "react";
+import { LinearProgress, linearProgressClasses } from "@mui/material";
+
 
 const Profile = () => {
     const { user } = useUser();
@@ -64,6 +66,16 @@ const Profile = () => {
                     </div>
 
                     {/* XP Bar */}
+                    <div className="xp-bar">
+                        <LinearProgress variant="determinate" value={userData.XP % 100} sx={{
+                            width: '70%',
+                            height: '15px',
+                            border: '1px solid black',
+                            borderRadius: '2px',
+                            backgroundColor: '#E0E0E0',
+                        }} />
+                        <p>xp to next rank: {100 - (userData.XP % 100)}</p>
+                    </div>
                 </div>
             </div>
         </div>
