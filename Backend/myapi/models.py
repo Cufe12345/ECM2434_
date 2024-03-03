@@ -33,7 +33,7 @@ class UserProfile(AbstractUser):
     rank = models.PositiveIntegerField(default=1)  # Rank field with default value.
     XP = models.PositiveIntegerField(default=0)  # Experience points field with default value.
     streak = models.PositiveIntegerField(default=0)  # Streak field with default value.
-    is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
+    #is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
 
 # Defines the Friend relationship model.
 class Friend(models.Model):
@@ -118,7 +118,7 @@ class Society(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=150, default="")
     numberOfMembers = models.PositiveBigIntegerField(default=0)
-    societyXP = models.PositiveBigIntegerField
+    societyXP = models.PositiveBigIntegerField(default=0)
 
     
     def __str__(self):
