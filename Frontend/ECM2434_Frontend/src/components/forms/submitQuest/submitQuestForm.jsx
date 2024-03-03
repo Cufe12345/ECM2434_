@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./submitQuestForm.module.css";
 import { useUser } from "../../../contexts/userContext";
 import { useDropzone } from 'react-dropzone'
-
+import { ImageSubmit } from "../../imageSubmit";
 
 export function SubmitQuestForm({ onBackClick, setOpen }) {
   const { user, userData } = useUser();
@@ -17,23 +17,36 @@ export function SubmitQuestForm({ onBackClick, setOpen }) {
       setFile(acceptedFiles[0]);
     }
   });
-
   /**
    * This function submits the quest
    */
-  function submitQuest() {
+  async function submitQuest() {
     console.log("Submitting quest");
-    //submit on backend and if successful
+    let dataImg = {
+      name: file.name,
+      description: "n/a for now",
+    };
+    let imgURL = null;
+    await ApiClient.api
+      .uploadImage(user, dataImg, file)
+      .then((res) => {
+        imgURL = res?.image;
+        console.log(res);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+    //submit on backend and pass imgURL and if successful
     setOpen(true);
     //Redirect to Feed
   }
 
-
-
   return (
     <div className={classes.card}>
       <div className={classes.backContainer}>
-        <button onClick={onBackClick} className={classes.backButton}><p>Back</p></button>
+        <button onClick={onBackClick} className={classes.backButton}>
+          <p>Back</p>
+        </button>
       </div>
       <h1>Submit Quest</h1>
       <p>Attach an image of completed quest below</p>
@@ -49,7 +62,10 @@ export function SubmitQuestForm({ onBackClick, setOpen }) {
           <p className={classes.dropzoneText2}>Accepted file types: .png, .jpg, .jpeg</p>
         </div>
       )}
-      <button onClick={submitQuest} className={classes.submitButton}>Submit</button>
+      <ImageSubmit setImage={setFile} img={file} />
+      <button onClick={submitQuest} className={classes.submitButton}>
+        Submit
+      </button>
     </div>
   );
 }

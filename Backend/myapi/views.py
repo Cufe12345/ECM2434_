@@ -16,8 +16,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, generics, permissions
-from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
+from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image, QuestSubmission
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,QuestSubAddSerializer,QuestSubGetSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
 from .permissions import CanSetRole
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
@@ -137,6 +137,42 @@ def addQuest(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    
+# Author: @Stickman230
+# Fetches and returns all Quest submission instances.
+class QuestSubListView(generics.ListAPIView):
+    serializer_class = QuestSubGetSerializer
+
+    def get_queryset(self):
+        # Filter the queryset to include only verified submissions
+        return QuestSubmission.objects.filter()
+
+# Author: @Stickman230
+# Creates a new Quest submission instance from the request data.
+@api_view(['POST'])
+def addQuestSub(request):
+    serializer = QuestSubAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+# Author: @Stickman230
+# retruns only verified submissions   
+class VerifiedQuestSubListView(generics.ListAPIView):
+    serializer_class = QuestSubGetSerializer
+
+    def get_queryset(self):
+        # Filter the queryset to include only verified submissions
+        return QuestSubmission.objects.filter(verified=True)
+
+# Author: @Stickman230
+# retruns only non verified submissions  
+class NonVerifiedQuestSubListView(generics.ListAPIView):
+    serializer_class = QuestSubGetSerializer
+
+    def get_queryset(self):
+        # Filter the queryset to include only verified submissions
+        return QuestSubmission.objects.filter(verified=False)
 
 # Author: @Stickman230
 # Fetches and returns all Location instances.
@@ -210,6 +246,51 @@ class ImageView(APIView):
         serializer = ImageGetSerializer(image, context={'request': request})
         return Response(serializer.data)
         
+        
+# Author: @charlesmentuni        
+# send email verification
+class EmailVerification(APIView):
+    def get(self, request, username1, token, *args, **kwargs):
+        # Gets the user from the username passed through the url
+        user = UserProfile.objects.get(username=username1)
+        # Checks if the token is valid
+        tokenValid = default_token_generator.check_token(user, token)
+        if tokenValid:
+            # Sets the user in the database as active
+            user.is_active = True
+            user.save()
+            return Response({"message": "User activated."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def post(self, request, *args, **kwargs):
+        # Gets the user from the username passed through the header
+        userActivated = UserProfile.objects.get(username=request.data['username'])
+        # Generates a token associated with the user
+        token = default_token_generator.make_token(userActivated)
+        # Sends token to their email, so they can verify that they own their email
+        success = send_mail(
+            'Activate your account',
+            f'Click the link to activate your account: http://localhost:8000/api/activate/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
+        return Response({"message": f"Activation email sent.{success}"}, status=status.HTTP_200_OK)
+        
+# class ForgotPassword(APIView):
+#     def get(self, request, *args, **kwargs):
+#         user = UserProfile.objects.get(username=request.data['username'])
+#         token = default_token_generator.make_token(user)
+#         success = send_mail(
+#             'Reset your password',
+#             f'Click the link to reset your password: http://localhost:8000/api/reset_password/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
+#         return Response({"message": f"Password reset email sent.{success}"}, status=status.HTTP_200_OK)
+#     def post(self, request, username1, token, *args, **kwargs):
+#         user = UserProfile.objects.get(username=username1)
+#         tokenValid = default_token_generator.check_token(user, token)
+#         if tokenValid:
+#             user.set_password(request.data['password'])
+#             user.save()
+#             return Response({"message": "Password reset."}, status=status.HTTP_200_OK)
+    
+    
 # Author: @charlesmentuni        
 # send email verification
 class EmailVerification(APIView):
@@ -289,7 +370,7 @@ class GetUserByUsernameView(APIView):
         
         try:
             user = UserProfile.objects.get(username=username)
-            serializer = UserProfileGetSerializer(user)
+            serializer = UserProfileAddSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserProfile.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)

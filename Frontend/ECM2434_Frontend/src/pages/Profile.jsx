@@ -1,4 +1,3 @@
-
 import "./profile.css"
 import Avatar from '@mui/material/Avatar';
 import { IoFlameSharp } from "react-icons/io5";
