@@ -17,7 +17,7 @@ export function Map({center,zoom,scrollWheelZoom}) {
   />
   <Marker position={center}>
     <Popup>
-      A pretty CSS3 popup. <br /> Easily customizable.
+      location of the quest
     </Popup>
   </Marker>
 </MapContainer>

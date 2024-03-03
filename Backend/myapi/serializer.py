@@ -67,6 +67,7 @@ class QuestSubGetSerializer(serializers.ModelSerializer):
 
 # Author: @Stickman230
 # Serializer for adding quest submission information
+#security wise we shouldnt allow users to directly write the verified field in the submission post request
 class QuestSubAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestSubmission

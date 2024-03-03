@@ -2,74 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/userContext";
 import { CreateQuestForm } from "../components/forms/createQuest/createQuestForm";
 import { DailyQuest } from "../components/dailyQuest";
-import { SubmitQuestForm } from "../components/forms/submitQuest/submitQuestForm";
 import classes from "./Home.module.css";
-import { useCookies } from "react-cookie";
-import { Popup } from "../components/popup";
-
+import { useNavigate } from "react-router-dom";
+// import { DailyQuestPage } from "./DailyQuestPage";
 const Home = () => {
-  //This is how you use the user context, you can access all these variables and functions from the context
-  const { user, setUser, userData, userDataError, userDataLoading } = useUser();
-
-  //Controls the visibility of the create quest form
+  const { user } = useUser();
   const [showForm, setShowForm] = useState(false);
-
-  //Controls the visibility of the daily quest component
   const [showDailyQuest, setShowDailyQuest] = useState(false);
 
-  //Cookie for user
-  const [cookies, setCookie] = useCookies(["user"]);
+  const navigate = useNavigate();
 
-  //Controls the visibility of the submit quest form
-  const [showSubmitQuest, setShowSubmitQuest] = useState(false);
-
-  //Controls the visibility of the popup
-  const [showPopup, setShowPopup] = useState(false);
-
-  //Handles the visibility of the create quest form
-  const [showCreateQuest, setShowCreateQuest] = useState(false);
-
-  //The text to be displayed in the popup
-  const [popupText, setPopupText] = useState("");
-
-  //Handles the closing of the popup
-  const handleClose = () => {
-    setShowPopup(false);
-  };
-
-  //Handles the opening of the submit quest form when the daily quest component button is clicked
-  const handleCompleteQuest = () => {
-    setShowSubmitQuest(true);
-  };
-
-  //Handles the closing of the submit quest form
-  const handleCloseSubmitQuest = () => {
-    setShowSubmitQuest(false);
-  };
-
-  //Handles the opening of the create quest form 
-  const handleCreateQuest = () => {
-    setShowCreateQuest(true);
-  };
-
-  //Handles the closing of the create quest form
-  const handleCloseCreateQuest = () => {
-    setShowCreateQuest(false);
-  };
-
-
-  //Loads the user from the cookies if set
+  //This useEffect is used to check if the user is logged in, if they are then they are redirected to the daily quest page
   useEffect(() => {
-    if (cookies.user) {
-      setUser(cookies.user);
+    if (user) {
+      console.log("User is logged in");
+      navigate("/dailyQuest");
     }
-    //maybe redirect to login page if no user
-  }, [cookies.user]);
-
+  }, [user]);
   //This return is conditionally rendered based on whether the user is logged in or not
   return (
     <>
-      {user == null ? (
+     
         <div className={classes.container}>
           <div className={classes.leftSideContent}>
             <h1>
@@ -97,23 +50,7 @@ const Home = () => {
           {showForm && <CreateQuestForm />}
           {showDailyQuest && <DailyQuest />}
         </div>
-      ) : (
-        <div className={classes.container}>
-          {showSubmitQuest ? (
-            <SubmitQuestForm
-              onBackClick={handleCloseSubmitQuest}
-              setOpen={setShowPopup}
-            />
-          ) : (
-            showCreateQuest ?( <CreateQuestForm handleClose={handleCloseCreateQuest} setPopupMessage={setPopupText} setShowPopup={setShowPopup}/>):
-           ( <DailyQuest onDailyQuestComplete={handleCompleteQuest} onCreateQuestClick={handleCreateQuest}/>)
-          
-          )}
-          <Popup handleClose={handleClose} open={showPopup}>
-            <h5 className={classes.popupText}>{popupText}</h5>
-          </Popup>
-        </div>
-      )}
+     
     </>
   );
 };

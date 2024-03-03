@@ -8,11 +8,11 @@ import {Map} from './map';
 
 //Created by Cufe12345(Callum Young)
 
-export function DailyQuest({onDailyQuestComplete,onCreateQuestClick}) {
+export function DailyQuest({onDailyQuestComplete,onCreateQuestClick,quest,fetchQuests}) {
     const { user, setUser,userDataLoading,userData } = useUser();
 
     //Stores todays quest
-    const[quest,setQuest] = useState(null);
+    // const[quest,setQuest] = useState(null);
 
     //Stores the location of the quest
     const[location,setLocation] = useState(null);
@@ -21,10 +21,11 @@ export function DailyQuest({onDailyQuestComplete,onCreateQuestClick}) {
     const mapRef = useRef();
     
 
-    /*Fetches the quests on component mount*/
+    /*Fetches the quests once the users data is finished loading*/
     useEffect(() => {
+        if(userDataLoading) return;
         fetchQuests();
-    }, []);
+    }, [userDataLoading]);
 
     /*Fetches the location of the quest when the quest is set*/
     useEffect(() => {
@@ -33,6 +34,8 @@ export function DailyQuest({onDailyQuestComplete,onCreateQuestClick}) {
             fetchLocations(quest.locationID);
         }
     }, [quest]);
+
+
 
     /*Is called when the image is resized  and resizes the map's height so it matches*/
     const imageRef = useCallback(node => {
@@ -57,23 +60,7 @@ export function DailyQuest({onDailyQuestComplete,onCreateQuestClick}) {
     //         element.style.maxHeight = `${imageRef?.current.clientHeight}px`;
     //     }
     // }, [imageRef?.current?.clientHeight]);
-    /**
-     * This function fetches the quests of the user
-     */
-    function fetchQuests() {
-        ApiClient.api.fetchQuests(user).then((res) => {
-            console.log(res)
-            for (let i = res.length-1; i > 0; i--) {
-                //should be equal to true but for testing purposes we will keep it as false
-                if (res[i].state === true) {
-                    setQuest(res[i]);
-                    break;
-                }
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
+   
 
     /**
      * This function fetches the location of the quest
