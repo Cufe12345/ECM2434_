@@ -6,6 +6,8 @@ import { useState } from "react";
 import ApiClient from "../api/index";
 import { useUser } from "../contexts/userContext";
 import { CiWarning } from "react-icons/ci";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 const Register = () => {
@@ -22,6 +24,8 @@ const Register = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [repeatPasswordError, setRepeatPasswordError] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // TODO: Include regex checks here
@@ -65,14 +69,16 @@ const Register = () => {
         e.preventDefault();
         // console.log(data)
         console.log(username)
-        ApiClient.api.register(email, username, password,firstName,lastName).then((res) => {
+        ApiClient.api.register(email, username, password, firstName, lastName).then((res) => {
             console.log(res)
             console.log("Registered")
-            // navigate('/');
+            toast.success("Registration successful! Please verify your email.");
+            navigate('/login');
         }).catch((error) => {
             console.log(error);
+            console.log(error.response.data)
+            toast.error("Registration failed: " + error.response.data.message);
         });
-
     }
 
     return (<>
@@ -82,8 +88,8 @@ const Register = () => {
                 <form onSubmit={onSubmit}>
                     <div className="fields">
                         <div className="names">
-                            <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
-                            <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
+                            <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                            <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                         </div>
                         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                         <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />

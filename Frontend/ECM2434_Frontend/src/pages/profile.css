@@ -1,3 +1,11 @@
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
 .profile {
     margin: 10vw;
     max-width: 800px;
@@ -80,4 +88,14 @@ h2 {
 .xp-bar p {
     font-size: 12px;
     font-weight: 700;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: end;
+    position: absolute;
+    width: 80vw;
+    max-width: 800px;
+    margin-right: 10%;
+    margin-top: 4%;
 }
