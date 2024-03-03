@@ -1,15 +1,17 @@
 import React from "react";
 import classes from "./submitQuestForm.module.css";
 import { useUser } from "../../../contexts/userContext";
-import {useDropzone} from 'react-dropzone'
-export function SubmitQuestForm({onBackClick,setOpen}) {
+import { useDropzone } from 'react-dropzone'
+
+
+export function SubmitQuestForm({ onBackClick, setOpen }) {
   const { user, userData } = useUser();
 
   //Stores the file
   const [file, setFile] = React.useState(null);
 
   //Handles the file drop
-  const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop: acceptedFiles => {
       console.log(acceptedFiles);
       setFile(acceptedFiles[0]);
@@ -38,9 +40,9 @@ export function SubmitQuestForm({onBackClick,setOpen}) {
       {file ? (
         <div className={classes.imgContainer}>
 
-          <img src={URL.createObjectURL(file)} alt="Quest" className={classes.imgPreview}/>
-        </div> 
-      ):( 
+          <img src={URL.createObjectURL(file)} alt="Quest" className={classes.imgPreview} />
+        </div>
+      ) : (
         <div {...getRootProps()} className={classes.dropzone}>
           <input {...getInputProps()} />
           <p className={classes.dropzoneText1}>Drag & drop images here or Browse</p>

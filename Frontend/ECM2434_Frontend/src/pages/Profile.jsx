@@ -1,13 +1,18 @@
+
 import "./profile.css"
 import Avatar from '@mui/material/Avatar';
 import { IoFlameSharp } from "react-icons/io5";
 import { IoMdCheckboxOutline } from "react-icons/io";
 import { CiStar } from "react-icons/ci";
+import { FaUserEdit } from "react-icons/fa";
 import ApiClient from "../api/index";
 import { useState } from "react";
 import { useUser } from "../contexts/userContext";
 import { useEffect } from "react";
-import { LinearProgress, linearProgressClasses } from "@mui/material";
+import { LinearProgress } from "@mui/material";
+import Button from '@mui/material/Button';
+import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 
 const Profile = () => {
@@ -39,6 +44,25 @@ const Profile = () => {
                     <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />
                     <h1>{userData.first_name + ' ' + userData.last_name}</h1>
                     <h2> {userData.username} </h2>
+                </div>
+                <div className="buttonContainer">
+                    <NavLink to="/profile/edit">
+                        <Button variant="contained" sx={
+                            {
+                                height: '40px',
+                                color: '#000000',
+                                border: '1px solid #000000',
+                                fontSize: '16px',
+                                fontWeight: 'bold',
+                                backgroundColor: '#EDF0EC',
+                                '&:hover': {
+                                    backgroundColor: '#EAFCE8',
+                                    opacity: '0.8'
+                                }
+                            }
+                        }> <FaUserEdit style={{ marginRight: '5px' }} />
+                            Edit Profile</Button>
+                    </NavLink>
                 </div>
                 <div className="icons">
                     <div className="stats">
