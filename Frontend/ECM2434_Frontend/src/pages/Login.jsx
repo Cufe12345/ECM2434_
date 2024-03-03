@@ -5,6 +5,7 @@ import { useUser } from "../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ApiClient from "../api/index";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { setUser } = useUser();
@@ -28,28 +29,13 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         setUser(res.auth_token);
-        // toast.success('Login successful');
+        toast.success('Login successful');
         navigate("/");
       })
       .catch((error) => {
         console.log(error);
-        // toast.error(`Login failed - ${error.response.detail ?? 'Contact support'}`);
+        toast.error(`Login failed - ${error.response.data.message ?? "Contact support."}`);
       });
-    //   setUser({
-    //     info: {
-    //       id: res.id,
-    //       email: res.email,
-    //       role: res.role,
-    //     },
-    //     isLoggedIn: true,
-    //   });
-    //   toast.success('Login successful');
-    //   navigate('/');
-    // })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     toast.error(`Login failed - ${error.response.detail ?? 'Contact support'}`);
-    //   });
   };
   return (
     <>
