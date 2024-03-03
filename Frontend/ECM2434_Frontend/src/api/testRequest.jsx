@@ -172,5 +172,9 @@ export default class ApiClient {
     const response = await this.get("quest/submissions/",token);
     return response;
   }
+  async verifySubmission(token,data){
+    const response = await this.post("quest/submissions/validate/",data,token);
+    return response;
+  }
 }
 

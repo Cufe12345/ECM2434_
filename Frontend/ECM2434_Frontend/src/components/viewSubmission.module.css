@@ -43,7 +43,7 @@
     /* width: fit-content; */
     /* height: fit-content; */
     /* max-width: 800px; */
-    /* max-height: 400px; */
+    max-height: 400px;
     border-radius: 10px;
     /* border-color: #000000;
     border-width: 2px;

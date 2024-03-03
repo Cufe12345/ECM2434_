@@ -3,24 +3,41 @@ import classes from "./viewSubmission.module.css";
 import { useUser } from "../contexts/userContext";
 import ApiClient from "../api/index";
 export function ViewSubmission() {
+
+    //Stores all the valid submissions
     const [submissions, setSubmissions] = useState([]);
+
+    //Stores if the submissions are being fetched
     const [fetchingSubmissions, setFetchingSubmissions] = useState(false);
+
+    //Stores the current selected submission
     const [submission, setSubmission] = useState(null);
+
+    //Stores the user data and token
     const { user, userData, userDataLoading } = useUser();
+
+    //Stores the daily quest
     const [dailyQuest, setDailyQuest] = useState(null);
 
+    //Fetches the daily quest once the user data is loaded
     useEffect(() => {
         if (!userDataLoading) {
             fetchDailyQuest();
         }
     }, [userDataLoading]);
 
+    //Fetches the submissions once the daily quest is set
     useEffect(() => {
         if(dailyQuest){
             setFetchingSubmissions(true);
             fetchSubmissions();
         }
     }, [dailyQuest]);
+
+    /**
+     * Fetches the submissions from the backend and sets the valid submissions
+     * @returns 
+     */
     async function fetchSubmissions() {
         console.log("Fetching Submissions");
         
@@ -47,10 +64,12 @@ export function ViewSubmission() {
             setSubmissions(validSubmissions);
             setFetchingSubmissions(false);
         });
-        //fetch submissions from backend
-        //setSubmissions to the submissions
-        // setFetchingSubmissions(false);
+       
     }
+
+    /**
+     * Fetches the daily quest from the backend and sets it
+     */
     async function fetchDailyQuest() {
         console.log("Fetching daily quest");
         ApiClient.api.fetchQuests(user).then((res) => {
@@ -70,10 +89,31 @@ export function ViewSubmission() {
         });
     }
 
+    /**
+     * Approves the submission in the backend
+     * @param {*} e - the event 
+     */
+    async function approveSubmission(e) {
+        e.preventDefault();
+        console.log("Approving submission");
+        let data = {
+            id: submissions[submission].questsubID,
+        }
+        console.log(data);
+        ApiClient.api.verifySubmission(user,data).then((res) => {
+            console.log(res);
+            fetchSubmissions();
+        });
+    }
 
 
+
+    /**
+     * When the submission is changed in the select field
+     * @param {*} e 
+     */
     const onSubmissionChange = (e) => {
-        console.log("CALLED: ",e.target.value);
+        //console.log("CALLED: ",e.target.value);
         setSubmission(e.target.value);
     }
   return (
@@ -101,7 +141,7 @@ export function ViewSubmission() {
                 </div> 
                 <div className={classes.btnContainer}>
                     <button className={classes.Button} style={{backgroundColor:"red"}}>Reject</button>
-                    <button className={classes.Button} style={{backgroundColor:"green"}}>Approve</button>
+                    <button className={classes.Button} onClick={approveSubmission} style={{backgroundColor:"green"}}>Approve</button>
                 </div>
             </>
         )}

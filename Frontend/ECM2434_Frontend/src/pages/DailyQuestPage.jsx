@@ -7,6 +7,7 @@ import { SubmitQuestForm } from "../components/forms/submitQuest/submitQuestForm
 import classes from "./DailyQuestPage.module.css";
 import { useCookies } from "react-cookie";
 import { Popup } from "../components/popup";
+import { useNavigate } from "react-router-dom";
 import ApiClient from "../api/index";
 
 //Created by Cufe12345(Callum Young)
@@ -38,6 +39,8 @@ export default function DailyQuestPage() {
 
   //The quest to be displayed
   const [quest, setQuest] = useState(null);
+
+  const navigate = useNavigate();
 
   //Handles the closing of the popup
   const handleClose = () => {
@@ -72,6 +75,14 @@ export default function DailyQuestPage() {
     }
     //maybe redirect to login page if no user
   }, [cookies.user]);
+
+  //This useEffect is used to check if the user is logged in, if they arent then brings them back to home page
+  useEffect(() => {
+    if(user == null){
+      navigate("/");
+    }
+  }, [user]);
+
 
    /**
      * This function fetches the quests of the user
