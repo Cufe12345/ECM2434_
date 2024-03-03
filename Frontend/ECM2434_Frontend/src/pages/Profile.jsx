@@ -19,7 +19,7 @@ const Profile = () => {
     const [userData, setUserData] = useState({});
     const [userDataLoading, setUserDataLoading] = useState(true);
 
-    const username = "test0";
+    const username = "test";
     console.log(userData)
 
     useEffect(() => {

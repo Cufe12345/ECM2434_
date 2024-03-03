@@ -81,18 +81,7 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
       </div>
       <h1>Submit Quest</h1>
       <p>Attach an image of completed quest below</p>
-      {file ? (
-        <div className={classes.imgContainer}>
-
-          <img src={URL.createObjectURL(file)} alt="Quest" className={classes.imgPreview} />
-        </div>
-      ) : (
-        <div {...getRootProps()} className={classes.dropzone}>
-          <input {...getInputProps()} />
-          <p className={classes.dropzoneText1}>Drag & drop images here or Browse</p>
-          <p className={classes.dropzoneText2}>Accepted file types: .png, .jpg, .jpeg</p>
-        </div>
-      )}
+  
       <ImageSubmit setImage={setFile} img={file} />
       <button onClick={submitQuest} className={classes.submitButton}>
         Submit

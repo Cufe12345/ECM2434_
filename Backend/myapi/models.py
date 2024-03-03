@@ -33,7 +33,7 @@ class UserProfile(AbstractUser):
     rank = models.PositiveIntegerField(default=1)  # Rank field with default value.
     XP = models.PositiveIntegerField(default=0)  # Experience points field with default value.
     streak = models.PositiveIntegerField(default=0)  # Streak field with default value.
-    is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
+    #is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
 
 # Defines the Friend relationship model.
 class Friend(models.Model):
@@ -98,13 +98,13 @@ class Quest(models.Model):
     imgURL = models.CharField(max_length=200)
     
     def __str__(self):
-        return self.name
+        return f"{self.user} | {self.name}"
 
 # Defines the QuestSubmission model to store user submissions for quests.
 class QuestSubmission(models.Model):
     questsubID = models.BigAutoField(primary_key=True)
     questID = models.ForeignKey(Quest, on_delete=models.CASCADE)
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    #user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     imgURL = models.CharField(max_length=200)
     info = models.CharField(max_length=150, default="The task has been completed")
     verified = models.BooleanField(default=False)
@@ -118,7 +118,7 @@ class Society(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=150, default="")
     numberOfMembers = models.PositiveBigIntegerField(default=0)
-    societyXP = models.PositiveBigIntegerField
+    societyXP = models.PositiveBigIntegerField(default=0)
 
     
     def __str__(self):
