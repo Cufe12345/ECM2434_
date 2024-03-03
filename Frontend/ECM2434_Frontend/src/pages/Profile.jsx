@@ -83,9 +83,9 @@ const Profile = () => {
                     <div className="stats">
                         <div className="icon">
                             <CiStar style={{ color: '#A00120' }} />
-                            <p>Rank</p>
+                            <p>Level</p>
                         </div>
-                        <p>{userData.rank}</p>
+                        <p>{Math.floor(userData.XP / 100)}</p>
                     </div>
 
                     {/* XP Bar */}
