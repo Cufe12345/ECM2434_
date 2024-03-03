@@ -162,5 +162,19 @@ export default class ApiClient {
     const response = await this.postImage("media/images/upload",data,token,image);
     return response;
   }
+
+  async questSubmission(token,data){
+    const response = await this.post("quest/submissions/add/",data,token);
+    return response;
+  }
+
+  async fetchSubmissions(token){
+    const response = await this.get("quest/submissions/",token);
+    return response;
+  }
+  async verifySubmission(token,data){
+    const response = await this.post("quest/submissions/validate/",data,token);
+    return response;
+  }
 }
 

@@ -170,3 +170,11 @@ Endpoint : api/media/images/
 Endpoint : api/society/membership/
 
 ------------------------------------------------------------------------------------
+
+## To validate a quest submission, the JSON should be formatted as follows:
+
+Endpoint: api/quest/submissions/validate
+
+{
+  "id": 1
+}

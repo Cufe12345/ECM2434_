@@ -3,8 +3,9 @@ import classes from "./submitQuestForm.module.css";
 import { useUser } from "../../../contexts/userContext";
 import { useDropzone } from 'react-dropzone'
 import { ImageSubmit } from "../../imageSubmit";
-
-export function SubmitQuestForm({ onBackClick, setOpen }) {
+import ApiClient from "../../../api/index";
+//Created by Cufe12345(Callum Young)
+export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
   const { user, userData } = useUser();
 
   //Stores the file
@@ -27,6 +28,7 @@ export function SubmitQuestForm({ onBackClick, setOpen }) {
       description: "n/a for now",
     };
     let imgURL = null;
+    let errorOccured = false;
     await ApiClient.api
       .uploadImage(user, dataImg, file)
       .then((res) => {
@@ -36,8 +38,37 @@ export function SubmitQuestForm({ onBackClick, setOpen }) {
       .catch((error) => {
         console.warn(error);
       });
+      if(imgURL === null){
+        console.log("Failed to submit quest, no image");
+        setPopupText("Failed to submit quest");
+        setOpen(true);
+        errorOccured = true;
+      }
     //submit on backend and pass imgURL and if successful
-    setOpen(true);
+    let data = {
+      questID: quest.questID,
+      user:userData.id,
+      imgURL: imgURL,
+      info: "n/a for now",
+      verified: false,
+    };
+    await ApiClient.api
+      .questSubmission(user, data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.warn(error);
+        console.log("Failed to submit quest");
+        setPopupText("Failed to submit quest, please try again");
+        setOpen(true);
+        errorOccured = true;
+      });
+    if(!errorOccured){
+      console.log("Quest Submitted");
+      setPopupText("Quest Submitted, when verified you will receive points");
+      setOpen(true);
+    }
     //Redirect to Feed
   }
 

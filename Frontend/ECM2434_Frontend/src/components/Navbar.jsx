@@ -9,7 +9,7 @@ import classes from "./Navbar.module.css";
 const Navbar = ({ }) => {
     const [cookies, setCookie] = useCookies(["user"]);
 
-    const { user, setUser} = useUser();
+    const { user, setUser,userData} = useUser();
 
     //Loads the user from the cookies if set
     useEffect(() => {
@@ -35,8 +35,11 @@ const Navbar = ({ }) => {
                     {user ? (
                         <>
                             <NavLink to="/Profile">Profile</NavLink>
+                            {userData?.role ==="GameKeeper" &&(<NavLink to="/Submissions">Submissions</NavLink>)}
                             <button className={classes.button} onClick={logout}>Logout</button>
+                            
                         </>
+                        
                     ) : (
                         <>
                             <NavLink to="/Login">Login</NavLink>
