@@ -41,6 +41,8 @@ export function UserContextProvider({ children }) {
                   }
                 }
                 setUserData(res);
+                console.log("User data fetched")
+                console.log(userData)
                 setUserDataLoading(false);
             }).catch((error) => {
                 console.log(error);
