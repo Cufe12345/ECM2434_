@@ -98,7 +98,7 @@ class Quest(models.Model):
     imgURL = models.CharField(max_length=200)
     
     def __str__(self):
-        return self.name
+        return f"{self.user} | {self.name}"
 
 # Defines the QuestSubmission model to store user submissions for quests.
 class QuestSubmission(models.Model):
