@@ -25,6 +25,7 @@ var/
 *.egg
 
 # Django stuff:
+#db.sqlite3
 *.log
 local_settings.py
 media/

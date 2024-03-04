@@ -69,10 +69,10 @@ const Leaderboard = () => {
                 <StyledTable sx={{ width: 650, color: "ActiveBorder" }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell padding="checkbox">Rank</StyledTableCell>
+                            <StyledTableCell padding="checkbox">Level</StyledTableCell>
                             <StyledTableCell>Name</StyledTableCell>
                             <StyledTableCell>Username</StyledTableCell>
-                            <StyledTableCell>Level</StyledTableCell>
+                            <StyledTableCell>XP</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
