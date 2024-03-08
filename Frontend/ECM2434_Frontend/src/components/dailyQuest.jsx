@@ -34,6 +34,9 @@ export function DailyQuest({onDailyQuestComplete,onCreateQuestClick,quest,fetchQ
             fetchLocations(quest.locationID);
         }
     }, [quest]);
+    useEffect(()=>{
+        console.log("DATA: ",userData);
+    },[userDataLoading])
 
 
 
