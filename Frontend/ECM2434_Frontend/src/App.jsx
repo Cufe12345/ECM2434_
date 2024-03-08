@@ -26,20 +26,20 @@ function App() {
       <ToastContainer />
       <UserContextProvider>
         <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/dailyQuest" element={<DailyQuestPage />} />
-            <Route path="/submissions" element={<Submissions />} />
-            <Route path="/code_conduct" element={<Code_Conduct />} />
-            <Route path="/security" element={<Security />} />
-             <Route path="/profile/edit" element={<EditProfile />} />
-            {/* <Route path="/about" element={<About />} /> */}
-          </Routes>
-          <Footer/>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/dailyQuest" element={<DailyQuestPage />} />
+          <Route path="/submissions" element={<Submissions />} />
+          <Route path="/code_conduct" element={<Code_Conduct />} />
+          <Route path="/security" element={<Security />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
+          {/* <Route path="/about" element={<About />} /> */}
+        </Routes>
+        <Footer />
       </UserContextProvider>
     </CookiesProvider>
   );

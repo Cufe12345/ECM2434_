@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./viewSubmission.module.css";
 import { useUser } from "../contexts/userContext";
 import ApiClient from "../api/index";
@@ -28,7 +28,7 @@ export function ViewSubmission() {
 
     //Fetches the submissions once the daily quest is set
     useEffect(() => {
-        if(dailyQuest){
+        if (dailyQuest) {
             setFetchingSubmissions(true);
             fetchSubmissions();
         }
@@ -40,8 +40,8 @@ export function ViewSubmission() {
      */
     async function fetchSubmissions() {
         console.log("Fetching Submissions");
-        
-        if(dailyQuest == null){
+
+        if (dailyQuest == null) {
             setFetchingSubmissions(false);
             //maybe display a message saying no daily quest ie popup or something
             console.log("No daily quest");
@@ -50,21 +50,21 @@ export function ViewSubmission() {
         console.log(dailyQuest);
         ApiClient.api.fetchSubmissions(user).then((res) => {
             console.log(res);
-            if(res.length == 0){
+            if (res.length == 0) {
                 return;
             }
             let validSubmissions = [];
-            for(let i = 0; i < res.length; i++){
-                if(res[i].questID === dailyQuest.questID && res[i].verified === false){
+            for (let i = 0; i < res.length; i++) {
+                if (res[i].questID === dailyQuest.questID && res[i].verified === false) {
                     validSubmissions.push(res[i]);
                 }
             }
-            console.log("VALID: ",validSubmissions);
+            console.log("VALID: ", validSubmissions);
             setSubmission(0);
             setSubmissions(validSubmissions);
             setFetchingSubmissions(false);
         });
-       
+
     }
 
     /**
@@ -77,9 +77,9 @@ export function ViewSubmission() {
             if (res.length == 0 || res == null) {
                 return;
             }
-            for (let i = res.length-1; i > 0; i--) {
+            for (let i = res.length - 1; i > 0; i--) {
                 if (res[i].state === true) {
-                    
+
                     setDailyQuest(res[i]);
                     break;
                 }
@@ -100,7 +100,7 @@ export function ViewSubmission() {
             id: submissions[submission].questsubID,
         }
         console.log(data);
-        ApiClient.api.verifySubmission(user,data).then((res) => {
+        ApiClient.api.verifySubmission(user, data).then((res) => {
             console.log(res);
             fetchSubmissions();
         });
@@ -116,36 +116,37 @@ export function ViewSubmission() {
         //console.log("CALLED: ",e.target.value);
         setSubmission(e.target.value);
     }
-  return (
-    <div className={classes.card}>
+    return (
+        <div className={classes.card}>
 
-        <h1>Submissions</h1>
-        <p>Choose a submission to view</p>
-        <div className={classes.submissionSelecterContainer}>
-            <select value={submission} className={classes.selectField} name="type" id="type" onChange={onSubmissionChange}>
-                                
-                {submissions.length === 0 && !fetchingSubmissions && (<option value="null">No Submissions</option>)}
-                {fetchingSubmissions && (<option value="null">Fetching Submissions...</option>)}
-                {submissions?.map((sub,index) => {
-                    return <option value={index}>Submission: {index+1}</option>
-                })}
-                                
-            </select>
+            <h1>Submissions</h1>
+            <p>Choose a submission to view</p>
+            <div className={classes.submissionSelecterContainer}>
+                <select value={submission} className={classes.selectField} name="type" id="type" onChange={onSubmissionChange}>
+
+                    {submissions.length === 0 && !fetchingSubmissions && (<option value="null">No Submissions</option>)}
+                    {fetchingSubmissions && (<option value="null">Fetching Submissions...</option>)}
+                    {submissions?.map((sub, index) => {
+                        return <option value={index}>Submission: {index + 1}</option>
+                    })}
+
+                </select>
+            </div>
+            {submissions[submission] !== null && (
+
+                <>
+                    <div className={classes.imgContainer}>
+
+
+                        <img src={"http://localhost:8000" + submissions[submission]?.imgURL} alt="Quest" className={classes.imgPreview} />
+                    </div>
+                    <div className={classes.btnContainer}>
+                        <button className={classes.Button} style={{ backgroundColor: "red" }}>Reject</button>
+                        <button className={classes.Button} onClick={approveSubmission} style={{ backgroundColor: "green" }}>Approve</button>
+                    </div>
+                </>
+            )}
+
         </div>
-        {submissions[submission] !== null && (
-
-            <>
-                <div className={classes.imgContainer}>
-
-                    <img src={"http://localhost:8000"+submissions[submission]?.imgURL} alt="Quest" className={classes.imgPreview}/>
-                </div> 
-                <div className={classes.btnContainer}>
-                    <button className={classes.Button} style={{backgroundColor:"red"}}>Reject</button>
-                    <button className={classes.Button} onClick={approveSubmission} style={{backgroundColor:"green"}}>Approve</button>
-                </div>
-            </>
-        )}
-
-    </div>
-  );
+    );
 }

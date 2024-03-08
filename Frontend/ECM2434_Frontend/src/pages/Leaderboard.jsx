@@ -54,6 +54,7 @@ const Leaderboard = () => {
         const fetchData = async () => {
             try {
                 const res = await ApiClient.api.getTopTen(user);
+                console.log(res)
                 setData(res); // Update the state with the fetched data
             } catch (error) {
                 console.error("Failed to fetch leaderboard data:", error);
@@ -64,7 +65,7 @@ const Leaderboard = () => {
     }, [user]); // Dependency array: the effect runs when the `user` object changes
 
     return (
-        <>
+        <div className="formater">
             <TableContainer component={Paper} className='tableContainer'>
                 <StyledTable sx={{ width: 650, color: "ActiveBorder" }} aria-label="simple table">
                     <TableHead>
@@ -87,7 +88,7 @@ const Leaderboard = () => {
                     </TableBody>
                 </StyledTable>
             </TableContainer>
-        </>
+        </div>
     );
 }
 

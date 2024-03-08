@@ -42,8 +42,8 @@ export default class ApiClient {
   }
 
 
-  async post(url, data, token,image) {
-  
+  async post(url, data, token, image) {
+
     // const response = await this.axios.post(url, data).then((response) => {
     //   response.headers["Access-Control-Allow-Origin"] = "*";
     //   return response.data;
@@ -65,12 +65,12 @@ export default class ApiClient {
     const response_data = await response.json();
     return response_data;
   }
-  async postImage(url, data, token,image) {
-    
+  async postImage(url, data, token, image) {
+
     let formData = new FormData();
-      formData.append('image', image);
-      formData.append('name', data.name);
-      formData.append('description', data.description);
+    formData.append('image', image);
+    formData.append('name', data.name);
+    formData.append('description', data.description);
     const requestOptions = {
       method: "POST",
       headers: {
@@ -78,7 +78,7 @@ export default class ApiClient {
         Authorization: token ? "Token " + token : "",
         // "X-CSRFToken": "Zq"
       },
-      
+
       body: formData,
     };
     const response = await fetch(baseURL + url, requestOptions);
@@ -158,22 +158,23 @@ export default class ApiClient {
     return response;
   }
 
-  async uploadImage(token,data,image){
-    const response = await this.postImage("media/images/upload",data,token,image);
+  async uploadImage(token, data, image) {
+    const response = await this.postImage("media/images/upload", data, token, image);
     return response;
   }
 
-  async questSubmission(token,data){
-    const response = await this.post("quest/submissions/add/",data,token);
+  async questSubmission(token, data) {
+    console.log("DATA:", data);
+    const response = await this.post("quest/submissions/add/", data, token);
     return response;
   }
 
-  async fetchSubmissions(token){
-    const response = await this.get("quest/submissions/",token);
+  async fetchSubmissions(token) {
+    const response = await this.get("quest/submissions/", token);
     return response;
   }
-  async verifySubmission(token,data){
-    const response = await this.post("quest/submissions/validate/",data,token);
+  async verifySubmission(token, data) {
+    const response = await this.post("quest/submissions/validate/", data, token);
     return response;
   }
 }
