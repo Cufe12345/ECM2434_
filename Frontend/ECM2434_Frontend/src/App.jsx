@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DailyQuestPage from "./pages/DailyQuestPage";
 import Submissions from "./pages/Submissions";
+import Feed from "./pages/Feed";
 import { UserContextProvider } from "./contexts/userContext";
 import EditProfile from "./pages/Edit";
 import { useUser } from "./contexts/userContext";
@@ -37,6 +38,7 @@ function App() {
           <Route path="/code_conduct" element={<Code_Conduct />} />
           <Route path="/security" element={<Security />} />
           <Route path="/profile/edit" element={<EditProfile />} />
+          <Route path="/feed" element={<Feed />} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
         <Footer />
