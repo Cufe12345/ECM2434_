@@ -104,7 +104,7 @@ class Quest(models.Model):
 class QuestSubmission(models.Model):
     questsubID = models.BigAutoField(primary_key=True)
     questID = models.ForeignKey(Quest, on_delete=models.CASCADE)
-    #user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     imgURL = models.CharField(max_length=200)
     info = models.CharField(max_length=150, default="The task has been completed")
     verified = models.BooleanField(default=False)

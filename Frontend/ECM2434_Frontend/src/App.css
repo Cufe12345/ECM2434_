@@ -1,12 +1,12 @@
 .banner {
   background-color: #EDF0EC;
-  top: 0;
   position: relative;
-  left: 0;
   width: 100vw;
   height: 70px;
   color: black;
   border-bottom: 1px solid #000000;
+  display: flex;
+  justify-content: center;
 }
 
 .banner h1 {
@@ -23,6 +23,8 @@
   justify-content: space-between;
   padding: 0 40px 0 22px;
   height: 100%;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .navbarLogo {
@@ -46,8 +48,3 @@
 .navLinks a:hover {
   color: rgb(50, 101, 29);
 }
-
-
-
-
-
