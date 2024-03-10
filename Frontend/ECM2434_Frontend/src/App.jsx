@@ -38,6 +38,7 @@ function App() {
           <Route path="/code_conduct" element={<Code_Conduct />} />
           <Route path="/security" element={<Security />} />
           <Route path="/profile/edit" element={<EditProfile />} />
+          <Route path="/emailVerify/:username/:token" element={<EmailValidationPage />} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
         <Footer />

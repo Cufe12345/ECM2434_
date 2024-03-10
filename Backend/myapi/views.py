@@ -288,7 +288,7 @@ class EmailVerification(APIView):
         # Sends token to their email, so they can verify that they own their email
         success = send_mail(
             'Activate your account',
-            f'Click the link to activate your account: http://localhost:8000/api/activate/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
+            f'Click the link to activate your account: http://localhost:5173/emailVerify/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
         return Response({"message": f"Activation email sent.{success}"}, status=status.HTTP_200_OK)
         
         

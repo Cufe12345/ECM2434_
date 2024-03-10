@@ -9,8 +9,8 @@ import { CiWarning } from "react-icons/ci";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-
 const Register = () => {
+    
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
@@ -69,9 +69,11 @@ const Register = () => {
         e.preventDefault();
         // console.log(data)
         console.log(username)
-        ApiClient.api.register(email, username, password, firstName, lastName).then((res) => {
+        ApiClient.api.register(email, username, password, firstName, lastName).then(async(res) => {
             console.log(res)
             console.log("Registered")
+            let temp = await res;
+            setTemp(temp)
             toast.success("Registration successful! Please verify your email.");
             navigate('/login');
         }).catch((error) => {

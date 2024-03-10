@@ -179,14 +179,13 @@ export default class ApiClient {
   }
 
 
-  async fetchEmail(token) {
-    const response = await this.post("activate/", token);
+  async fetchEmail(token, data) {
+    const response = await this.post(`activate/`, data, token);
     return response;
   }
 
   async verifyEmail(token, data) {
-    const response = await this.post("activate/<username1>/<token>/", data, token);
+    const response = await this.get(`activate/${data.username}/${data.token}/`, token);
     return response;
   }
 }
-
