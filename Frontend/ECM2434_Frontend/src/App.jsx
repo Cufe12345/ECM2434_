@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Code_Conduct from "./pages/Code_Conduct";
 import Security from "./pages/Security";
+import EmailValidationPage from "./pages/emailValidation";
 import { Footer } from "./components/footer";
 function App() {
 
