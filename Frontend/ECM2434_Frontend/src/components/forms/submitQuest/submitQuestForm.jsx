@@ -11,6 +11,8 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
   //Stores the file
   const [file, setFile] = React.useState(null);
 
+  const [text, setText] = React.useState("");
+
   //Handles the file drop
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop: acceptedFiles => {
@@ -49,7 +51,7 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
       questID: quest.questID,
       user:userData.id,
       imgURL: imgURL,
-      info: "n/a for now",
+      info: text,
       verified: false,
     };
     await ApiClient.api
@@ -72,6 +74,9 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
     //Redirect to Feed
   }
 
+  function onTextChange(e) {
+    setText(e.target.value);
+  }
   return (
     <div className={classes.card}>
       <div className={classes.backContainer}>
@@ -83,6 +88,9 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
       <p>Attach an image of completed quest below</p>
   
       <ImageSubmit setImage={setFile} img={file} />
+      <div className={classes.textContainer}>
+        <input className={classes.inputText} type="text" onChange={onTextChange} value={text}placeholder="Enter a message to be displayed on the feed with your image" />
+      </div>
       <button onClick={submitQuest} className={classes.submitButton}>
         Submit
       </button>

@@ -177,5 +177,13 @@ export default class ApiClient {
     const response = await this.post("quest/submissions/validate/", data, token);
     return response;
   }
+  async fetchFeed(token,data) {
+    const response = await this.post("quest/submissions/valid/ByQuestID", data, token);
+    return response;
+  }
+  async fetchAllUsers(token) {
+    const response = await this.get("users/", token);
+    return response;
+  }
 }
 
