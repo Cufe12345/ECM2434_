@@ -9,7 +9,7 @@ from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,VerifiedQuestSubListView,QuestSubListView,NonVerifiedQuestSubListView ,SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification
+from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, GetVerifiedSubFromQuestID,TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,VerifiedQuestSubListView,QuestSubListView,NonVerifiedQuestSubListView ,SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification
 
 urlpatterns = [
     #account/users/ and account/users/me/ for short user info
@@ -70,6 +70,8 @@ urlpatterns = [
     path('quest/submissions/add/',views.addQuestSub, name='add a submissions'),
     # get all valid submissions for quests
     path('quest/submissions/valid',VerifiedQuestSubListView.as_view(), name='get all valid submissions'),
+    # get all valid quest from a quest ID
+    path('quest/submissions/valid/ByQuestID',GetVerifiedSubFromQuestID.as_view(), name='get all valid submissions'),
     # get all non valid submission to a quest 
     path('quest/submissions/non-valid',NonVerifiedQuestSubListView.as_view(), name='get all non-valid submissions'),
     # validates quest submission if they're a game keeper

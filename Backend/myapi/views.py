@@ -291,49 +291,6 @@ class EmailVerification(APIView):
             f'Click the link to activate your account: http://localhost:8000/api/activate/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
         return Response({"message": f"Activation email sent.{success}"}, status=status.HTTP_200_OK)
         
-# class ForgotPassword(APIView):
-#     def get(self, request, *args, **kwargs):
-#         user = UserProfile.objects.get(username=request.data['username'])
-#         token = default_token_generator.make_token(user)
-#         success = send_mail(
-#             'Reset your password',
-#             f'Click the link to reset your password: http://localhost:8000/api/reset_password/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
-#         return Response({"message": f"Password reset email sent.{success}"}, status=status.HTTP_200_OK)
-#     def post(self, request, username1, token, *args, **kwargs):
-#         user = UserProfile.objects.get(username=username1)
-#         tokenValid = default_token_generator.check_token(user, token)
-#         if tokenValid:
-#             user.set_password(request.data['password'])
-#             user.save()
-#             return Response({"message": "Password reset."}, status=status.HTTP_200_OK)
-    
-    
-# Author: @charlesmentuni        
-# send email verification
-class EmailVerification(APIView):
-    def get(self, request, username1, token, *args, **kwargs):
-        # Gets the user from the username passed through the url
-        user = UserProfile.objects.get(username=username1)
-        # Checks if the token is valid
-        tokenValid = default_token_generator.check_token(user, token)
-        if tokenValid:
-            # Sets the user in the database as active
-            user.is_active = True
-            user.save()
-            return Response({"message": "User activated."}, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
-    
-    def post(self, request, *args, **kwargs):
-        # Gets the user from the username passed through the header
-        userActivated = UserProfile.objects.get(username=request.data['username'])
-        # Generates a token associated with the user
-        token = default_token_generator.make_token(userActivated)
-        # Sends token to their email, so they can verify that they own their email
-        success = send_mail(
-            'Activate your account',
-            f'Click the link to activate your account: http://localhost:8000/api/activate/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
-        return Response({"message": f"Activation email sent.{success}"}, status=status.HTTP_200_OK)
         
 # class ForgotPassword(APIView):
 #     def get(self, request, *args, **kwargs):
@@ -391,7 +348,24 @@ class GetUserByUsernameView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserProfile.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        
+class GetVerifiedSubFromQuestID(APIView):
+    def post(self, request, *args, **kwargs):
+        questID = request.data.get('questID')
+        if not questID:
+            return Response({"error": "Quest ID not provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        verified_subs = QuestSubmission.objects.filter(questID=questID, verified=True)
+        if verified_subs.exists():
+            # If there are verified submissions, serialize them
+            serializer = QuestSubGetSerializer(verified_subs, many=True)  # Notice the many=True here
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif QuestSubmission.objects.filter(questID=questID, verified=False):
+            return Response({"message": "No verified submissions found for this Quest ID"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            # If there are no verified submissions, return an empty array or an appropriate message
+            return Response({"message": "No submissions found for this Quest ID"}, status=status.HTTP_404_NOT_FOUND)
+        
 # Author: @Stickman230
 # get 10 best users 
 class Top10UsersView(APIView):

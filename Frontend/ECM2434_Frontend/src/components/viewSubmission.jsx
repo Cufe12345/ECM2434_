@@ -140,6 +140,7 @@ export function ViewSubmission() {
 
                         <img src={"http://localhost:8000" + submissions[submission]?.imgURL} alt="Quest" className={classes.imgPreview} />
                     </div>
+                    <p>{submissions[submission]?.info}</p>
                     <div className={classes.btnContainer}>
                         <button className={classes.Button} style={{ backgroundColor: "red" }}>Reject</button>
                         <button className={classes.Button} onClick={approveSubmission} style={{ backgroundColor: "green" }}>Approve</button>
