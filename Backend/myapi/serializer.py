@@ -63,7 +63,7 @@ class QuestAddSerializer(serializers.ModelSerializer):
 class QuestSubGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestSubmission
-        fields = ('questsubID','questID','user','imgURL','info','verified')
+        fields = ('questsubID','questID','user','imgURL','info','date_created','verified')
 
 # Author: @Stickman230
 # Serializer for adding quest submission information
