@@ -18,6 +18,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Code_Conduct from "./pages/Code_Conduct";
 import Security from "./pages/Security";
+import LoadingScreen from './pages/loadingScreen';
 import { Footer } from "./components/footer";
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
     <CookiesProvider>
       <ToastContainer />
       <UserContextProvider>
+      <LoadingScreen />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
