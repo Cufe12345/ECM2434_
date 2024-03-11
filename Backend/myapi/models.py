@@ -107,6 +107,7 @@ class QuestSubmission(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     imgURL = models.CharField(max_length=200)
     info = models.CharField(max_length=150, default="The task has been completed")
+    date_created = models.DateTimeField(auto_now_add=True)
     verified = models.BooleanField(default=False)
     
     def __str__(self):
