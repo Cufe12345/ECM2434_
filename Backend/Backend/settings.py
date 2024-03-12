@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'django.core.mail',
 ]
 
-#configure DRF
+# configure DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -67,6 +67,8 @@ AUTH_USER_MODEL = 'myapi.UserProfile'
 
 # configure Djoser
 DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'reset-password/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS' : {
         #'token_create': 'apps.accounts.serializers.CustomTokenCreateSerializer',
         'user_create' : 'myapi.serializer.UserProfileAddSerializer'
