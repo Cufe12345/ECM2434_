@@ -20,6 +20,9 @@ import Code_Conduct from "./pages/Code_Conduct";
 import Security from "./pages/Security";
 import LoadingScreen from './pages/loadingScreen';
 import { Footer } from "./components/footer";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+
 function App() {
 
 
@@ -41,6 +44,8 @@ function App() {
           <Route path="/security" element={<Security />} />
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
         <Footer />
