@@ -45,20 +45,21 @@
     
 }*/
 
-.createQuestButton {
+.GetStartedButton {
     background-color: #34a264;
-    border: 1px solid black !important;
+    /* border: 1px solid black !important; */
 }
 
-.createQuestButton:hover {
+.GetStartedButton:hover {
     background-color: #34a264f3;
 }
 
-.dailyQuestButton {
+.AboutUsButton {
     background-color: #96EF89;
+    /* border: 1px solid black !important; */
 }
 
-.dailyQuestButton:hover {
+.AboutUsButton:hover {
     background-color: #ffffff;
 }
 
