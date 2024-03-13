@@ -17,6 +17,7 @@ import Profile from "./pages/Profile";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Code_Conduct from "./pages/Code_Conduct";
+import AboutUs from "./pages/aboutUs";
 import Security from "./pages/Security";
 import LoadingScreen from './pages/loadingScreen';
 import { Footer } from "./components/footer";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/dailyQuest" element={<DailyQuestPage />} />
           <Route path="/submissions" element={<Submissions />} />
           <Route path="/code_conduct" element={<Code_Conduct />} />
+          <Route path="/about_us" element={<AboutUs />} />
           <Route path="/security" element={<Security />} />
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/feed" element={<Feed />} />

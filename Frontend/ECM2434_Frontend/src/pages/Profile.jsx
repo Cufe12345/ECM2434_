@@ -12,6 +12,17 @@ import { LinearProgress } from "@mui/material";
 import Button from '@mui/material/Button';
 import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import level1 from '../assets/images/Level1.png'; 
+import level2 from '../assets/images/Level2.png';
+import level3 from '../assets/images/Level3.png';
+import level4 from '../assets/images/Level4.png'; 
+import level5 from '../assets/images/Level5.png';
+import level6 from '../assets/images/Level6.png';
+import level7 from '../assets/images/Level7.png'; 
+import level8 from '../assets/images/Level8.png';
+import level9 from '../assets/images/Level9.png';
+import level10 from '../assets/images/Level10.png';
+
 
 
 const Profile = () => {
@@ -38,6 +49,19 @@ const Profile = () => {
             setuserDataLoading(false); // Consider what you want to do if there's no user data. Maybe handle this differently.
         }
     }, [userData, user]);
+
+    const levelImages = {
+        1: level1,
+        2: level2,
+        3: level3,
+        4: level4,
+        5: level5,
+        6: level6,
+        7: level7,
+        8: level8,
+        9: level9,
+        10: level10,
+      };
 
     return (
         <>
@@ -89,10 +113,11 @@ const Profile = () => {
 
                             <div className="stats">
                                 <div className="icon">
-                                    <CiStar style={{ color: '#A00120' }} />
+                                    {/* <CiStar style={{ color: '#A00120' }} /> */}
+                                    <img src={levelImages[apiUserData.rank] || levelImages[1]} alt="Level Icon" className="level-icon" />
                                     <p>Level</p>
                                 </div>
-                                <p>{Math.floor(apiUserData.XP / 100)}</p>
+                                <p>{apiUserData.rank}</p>
                             </div>
 
                             {/* XP Bar */}
