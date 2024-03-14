@@ -1,7 +1,7 @@
 .container {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 70px);
     align-items: center;
     justify-content: center;
 }
@@ -99,3 +99,8 @@ h2 {
     margin-right: 10%;
     margin-top: 4%;
 }
+
+.level-icon {
+    width: 50px; /* Set the width as needed */
+    height: auto; /* This will maintain the aspect ratio */
+  }
