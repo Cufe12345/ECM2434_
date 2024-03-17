@@ -2,7 +2,8 @@
     padding: 4rem;
     width: 100%;
     max-width: 1400px;
-    height: calc(100vh - 70px);
+    /* 70px for navbar, 60px for footer */
+    height: calc((100vh - 70px) - 60px);
     display: flex;
     justify-content: center;
     align-items: center;

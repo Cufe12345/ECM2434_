@@ -22,7 +22,7 @@ import level7 from '../assets/images/Level7.png';
 import level8 from '../assets/images/Level8.png';
 import level9 from '../assets/images/Level9.png';
 import level10 from '../assets/images/Level10.png';
-
+import { PlayerIcon } from "../components/playerIcon";
 
 
 const Profile = () => {
@@ -68,7 +68,7 @@ const Profile = () => {
             {userDataLoading ? (
                 <p>Loading...</p>
             ) : (
-                <div className="container">
+                <div className="container2">
                     <div className="profile">
                         <div className="header">
                             <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />

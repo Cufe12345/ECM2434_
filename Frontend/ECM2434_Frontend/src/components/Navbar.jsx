@@ -5,12 +5,14 @@ import { useUser } from "../contexts/userContext";
 import { useEffect } from "react";
 import ApiClient from "../api/index";
 import classes from "./Navbar.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ }) => {
     const [cookies, setCookie] = useCookies(["user"]);
 
     const { user, setUser, userData } = useUser();
 
+    const navigate = useNavigate();
     //Loads the user from the cookies if set
     useEffect(() => {
         if (cookies.user) {
@@ -23,6 +25,7 @@ const Navbar = ({ }) => {
     function logout() {
         setCookie("user", "", { path: "/" });
         setUser(null);
+        navigate("/");
     }
 
     return (

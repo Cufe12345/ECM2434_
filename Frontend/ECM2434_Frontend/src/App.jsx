@@ -23,6 +23,7 @@ import LoadingScreen from './pages/loadingScreen';
 import { Footer } from "./components/footer";
 function App() {
 
+  document.body.style = 'height: auto;';
 
   return (
     <CookiesProvider>

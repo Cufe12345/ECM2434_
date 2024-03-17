@@ -1,10 +1,12 @@
-.container {
+.container2 {
     display: flex;
     width: 100vw;
-    height: calc(100vh - 70px);
+    /* 70px for navbar, 60px for footer */
+    height: calc((100vh - 70px) - 60px);
     align-items: center;
     justify-content: center;
 }
+
 
 .profile {
     margin: 10vw;
