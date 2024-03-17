@@ -7,27 +7,34 @@ import { toast } from 'react-toastify';
 
 const EditProfile = () => {
     const navigate = useNavigate();
-    const { userData } = useUser(); // Use the userData from context if needed
-    const [cookies] = useCookies(['authToken']); // Replace 'authToken' with the name of your cookie that holds the token
+    const { userData , user} = useUser(); // Use the userData from context if needed
+    //const [cookies] = useCookies(['authToken']); // Replace 'authToken' with the name of your cookie that holds the token
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [birthday, setBirthday] = useState('');
-    const [bio, setBio] = useState('');
+    const [birthday, setbirthday] = useState('');
+    const [bio, setbio] = useState('');
+    const [placeholders, setPlaceholders] = useState({
+        firstName: '',
+        lastName: '',
+        birthday: '',
+        bio: '',
+    });
 
     useEffect(() => {
-        // Prefill the form with existing user data if necessary
+        // Set placeholders to the current user data
         if (userData) {
-            setFirstName(userData.first_name);
-            setLastName(userData.last_name);
-            setBirthday(userData.birthday); // Make sure the format matches that of the date input
-            setBio(userData.bio);
+            setPlaceholders({
+                firstName: userData.first_name,
+                lastName: userData.last_name,
+                birthday: userData.birthday, // Make sure the format matches that of the date input
+                bio: userData.bio,
+            });
         }
     }, [userData]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const authToken = cookies.authToken; // Replace with your actual token key
         const data = {
             first_name: firstName,
             last_name: lastName,
@@ -35,7 +42,7 @@ const EditProfile = () => {
             bio: bio
         };
         // Ensure modifyUser function uses the token for authorization
-        ApiClient.modifyUser(authToken, data).then((res) => {
+        ApiClient.api.modifyUser(user, data).then((res) => {
             toast.success("Profile updated successfully!");
             navigate('/profile');
         }).catch((error) => {
@@ -52,8 +59,8 @@ const EditProfile = () => {
                             <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                             <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                         </div>
-                        <input type="text" placeholder="Bio" value={bio} onChange={(e) => setbio(e.target.value)} />
                         <input type="date" placeholder="Birthday" value={birthday} onChange={(e) => setbirthday(e.target.value)} />
+                        <input type="text" placeholder="Bio" value={bio} onChange={(e) => setbio(e.target.value)} />
                     </div>
                     <button type="submit">Update Profile</button>
                 </form>
