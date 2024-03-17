@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, generics, permissions
 from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image, QuestSubmission
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,QuestSubAddSerializer,QuestSubGetSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserProfileModifySerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,QuestSubAddSerializer,QuestSubGetSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
 from .permissions import CanSetRole, CanVerify
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
@@ -37,6 +37,19 @@ def getUser(request):
 @permission_classes([AllowAny])
 def addUser(request):
     serializer = UserProfileAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def modifyUser(request):
+    user_profile = request.user
+    data = request.data.copy()
+    data.pop('password', None)  # Remove password from the data if it exists
+    data.pop('username', None)  # Remove username from the data if it exists
+    serializer = UserProfileModifySerializer(user_profile,data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
