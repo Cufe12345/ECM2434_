@@ -6,6 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import Chip  from "@mui/material/Chip";
 import { CiStar } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { PlayerIcon } from "./playerIcon";
 export function FeedCards() {
 
     //Stores all the valid submissions for the daily quest
@@ -157,7 +158,8 @@ export function FeedCards() {
                 role:user.role,
                 img:submission.imgURL,
                 info:submission.info,
-                colour:colour
+                colour:colour,
+                date:new Date(submission.date_created),
             }
             feed.push(feedObject);
         }
@@ -166,16 +168,20 @@ export function FeedCards() {
     
     }
 
+    function handleProfileClick(username){
+        navigate("/profile/"+username);
+    }
     return (
         <div className={classes.container}>
             {feed.map((feedObject,index) => {
-
+                // console.log(feedObject.date.getHours());
                 return(
                 <div className={classes.card} key={index}>
                     <div className={classes.topContainer}>
                         <div className={classes.userContainer}>
-                            <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 50, height: 50 }} >{feedObject.firstName != undefined ? (feedObject?.firstName[0]) : 'U'} {feedObject.lastName != undefined ? (feedObject?.lastName[0]) : 'K'}</Avatar>
-                            
+                            <div className={classes.avatarContainer} onClick={()=>handleProfileClick(feedObject.username)}>
+                                <PlayerIcon userData={feedObject} style="gold"/>
+                            </div>
                             <div className={classes.nameRoleContainer}>
                                 <h2>{feedObject.username}</h2>
                                 <div className={classes.chipContaier}>
@@ -188,7 +194,11 @@ export function FeedCards() {
                                 </div>
                             
                         </div>
-                        <p>14:22 10/03/24</p>
+                        {/* {console.log(feedObject)} */}
+                        {feedObject.date !== undefined &&(
+                    
+                        <p className={classes.date}>{feedObject.date?.getHours()}:{feedObject.date?.getMinutes()}</p>
+                        )}
                     </div>
                     <hr className={classes.line}/>
                     <div className={classes.imgContainer}>
