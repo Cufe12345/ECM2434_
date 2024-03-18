@@ -1,10 +1,12 @@
-.container {
+.container2 {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    /* 70px for navbar, 60px for footer */
+    height: calc((100vh - 70px) - 60px);
     align-items: center;
     justify-content: center;
 }
+
 
 .profile {
     margin: 10vw;
@@ -99,3 +101,8 @@ h2 {
     margin-right: 10%;
     margin-top: 4%;
 }
+
+.level-icon {
+    width: 50px; /* Set the width as needed */
+    height: auto; /* This will maintain the aspect ratio */
+  }

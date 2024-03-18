@@ -13,6 +13,20 @@ Endpoint : api/account/users/
   "password" : "adsa"
 }
 
+
+---------------------------------------------------------------------------
+
+## To modify a UserProfile, your JSON payload should look like this:
+
+Endpoint : api/account/users/
+
+{ 
+"first_name": "Kyky",
+"last_name": "Mbape",
+"birthday": "2004-10-20",
+"bio" : "i just changed my bio"
+}
+
 ---------------------------------------------------------------------------
 
 ## To add a new Quest, use the following JSON structure:
