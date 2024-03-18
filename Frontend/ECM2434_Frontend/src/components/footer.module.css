@@ -16,11 +16,12 @@
 .footerContainer {
     border-top: 1px solid transparent;
     height: 60px;
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     width: 100vw;
     display: flex;
     justify-content: center;
+    background-color: #f8faf7;
 }
 
 .footer a {
