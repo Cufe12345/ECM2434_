@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone'
 import { ImageSubmit } from "../../imageSubmit";
 import ApiClient from "../../../api/index";
 //Created by Cufe12345(Callum Young)
-export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
+export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest,rejected }) {
   const { user, userData } = useUser();
 
   //Stores the file
@@ -66,11 +66,25 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
         setOpen(true);
         errorOccured = true;
       });
-    if(!errorOccured){
+    if(!errorOccured && rejected === -1){
       console.log("Quest Submitted");
       setPopupText("Quest Submitted, when verified you will receive points");
       setOpen(true);
       onBackClick();
+    }
+    let data2 = {
+      id: rejected,
+    };
+    console.log("id: ",rejected);
+    if(rejected !== -1){
+      await ApiClient.api.deleteSubmission(user,data2).then((res) => {
+        console.log(res);
+        setPopupText("Quest Submitted, when verified you will receive points");
+        setOpen(true);
+        onBackClick();
+      }).catch((error) => {
+        console.warn(error);
+      });
     }
     //Redirect to Feed
   }

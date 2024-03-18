@@ -243,6 +243,13 @@ def reject_quest_submission(request):
         return Response({'status': 'Submission rejected'}, status=status.HTTP_200_OK)
     return Response({'status': 'Submission already rejected'}, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated, CanVerify])
+def delete_quest_submission(request):
+    quest_sub = get_object_or_404(QuestSubmission, questsubID=request.data['id'])
+    quest_sub.delete()
+    return Response({'status': 'Submission deleted'}, status=status.HTTP_200_OK)
+
 # Author: @Stickman230
 # Creates a new Society instance from the request data.
 @api_view(['POST'])

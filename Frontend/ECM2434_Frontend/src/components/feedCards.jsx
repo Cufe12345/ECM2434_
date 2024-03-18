@@ -180,7 +180,7 @@ export function FeedCards() {
                     <div className={classes.topContainer}>
                         <div className={classes.userContainer}>
                             <div className={classes.avatarContainer} onClick={()=>handleProfileClick(feedObject.username)}>
-                                <PlayerIcon userData={feedObject} style="gold"/>
+                                <PlayerIcon userData={feedObject}/>
                             </div>
                             <div className={classes.nameRoleContainer}>
                                 <h2>{feedObject.username}</h2>
