@@ -28,7 +28,7 @@ class UserProfileGetSerializer(serializers.ModelSerializer):
 class UserProfileModifySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['first_name','last_name','birthday','bio']
+        fields = ['imgURL','first_name','last_name','birthday','bio']
         
 # Author: @Stickman230
 # Serializer for retrieving role related to username      
