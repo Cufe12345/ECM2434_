@@ -185,5 +185,13 @@ export default class ApiClient {
     const response = await this.get("users/", token);
     return response;
   }
+  async addFriend(token, data) {
+    const response = await this.post("friends/add/", data, token);
+    return response;
+  }
+  async fetchFriends(token, data) {
+    const response = await this.post("friends/all/", data, token);
+    return response;
+  }
 }
 
