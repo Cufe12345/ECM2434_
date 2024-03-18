@@ -8,23 +8,29 @@ import rust from '../assets/images/RustBorder.png';
 import classes from "./playerIcon.module.css";
 import { useState } from "react";
 
-export function PlayerIcon({ style,userData }) {
+export function PlayerIcon({ userData }) {
     const [border, setBorder] = useState(null);
-
+    const [none, setNone] = useState(false);
     useEffect(() => {
         setBorder(getBorder());
     }, []);
     
     function getBorder() {
-        console.log(style);
-        if (style === "rust") {
+        
+        if(userData?.border === undefined){
+            return bronze;
+        }
+        if(userData?.border === "none"){
+            setNone(true);
+        }
+        if (userData?.border === "rust") {
             return rust;
-        } else if (style === "bronze") {
+        } else if (userData?.border === "bronze") {
             console.log("HERE");
             return bronze;
-        } else if (style === "silver") {
+        } else if (userData?.border === "silver") {
             return silver;
-        } else if (style === "gold") {
+        } else if (userData?.border === "gold") {
             return gold;
         } else {
             return diamond;
@@ -33,7 +39,11 @@ export function PlayerIcon({ style,userData }) {
 
     return (
         <div className={classes.container}>
+            {!none ?(
             <img className={classes.border} src={border} alt="Bronze Border" />
+            ):(
+                <></>
+            )}
             <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 50, height: 50 }} className={classes.icon} >{userData?.firstName != undefined ? (userData?.firstName[0]) : 'N/'}{userData?.lastName != undefined ? (userData?.lastName[0]) : 'A'}</Avatar>
         </div>
     );

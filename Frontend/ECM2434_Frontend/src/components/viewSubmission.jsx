@@ -55,7 +55,7 @@ export function ViewSubmission() {
             }
             let validSubmissions = [];
             for (let i = 0; i < res.length; i++) {
-                if (res[i].questID === dailyQuest.questID && res[i].verified === false) {
+                if (res[i].questID === dailyQuest.questID && res[i].verified === false && res[i].rejected === false) {
                     validSubmissions.push(res[i]);
                 }
             }
@@ -106,6 +106,23 @@ export function ViewSubmission() {
         });
     }
 
+    /**
+     * Reject the submission in the backend
+     * @param {*} e - the event 
+     */
+    async function rejectSubmission(e) {
+        e.preventDefault();
+        console.log("Rejecting submission");
+        let data = {
+            id: submissions[submission].questsubID,
+        }
+        console.log(data);
+        ApiClient.api.rejectSubmission(user, data).then((res) => {
+            console.log(res);
+            fetchSubmissions();
+        });
+    }
+
 
 
     /**
@@ -142,7 +159,7 @@ export function ViewSubmission() {
                     </div>
                     <p>{submissions[submission]?.info}</p>
                     <div className={classes.btnContainer}>
-                        <button className={classes.Button} style={{ backgroundColor: "red" }}>Reject</button>
+                        <button className={classes.Button} onClick={rejectSubmission} style={{ backgroundColor: "red" }}>Reject</button>
                         <button className={classes.Button} onClick={approveSubmission} style={{ backgroundColor: "green" }}>Approve</button>
                     </div>
                 </>

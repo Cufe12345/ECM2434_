@@ -199,5 +199,13 @@ export default class ApiClient {
     const response = await this.post("friends/all/", data, token);
     return response;
   }
+  async rejectSubmission(token, data) {
+    const response = await this.post("quest/submissions/reject/", data, token);
+    return response;
+  }
+  async deleteSubmission(token, data) {
+    const response = await this.post("quest/submissions/delete/", data, token);
+    return response;
+  }
 }
 
