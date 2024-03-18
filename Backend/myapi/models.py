@@ -109,7 +109,8 @@ class QuestSubmission(models.Model):
     info = models.CharField(max_length=150, default="The task has been completed")
     date_created = models.DateTimeField(auto_now_add=True)
     verified = models.BooleanField(default=False)
-    
+    rejected = models.BooleanField(default=False)
+
     def __str__(self):
         return f"Quest submission for quest {self.questID.questID}"
 

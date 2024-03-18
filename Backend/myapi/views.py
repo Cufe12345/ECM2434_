@@ -216,6 +216,20 @@ def validate_quest_submission(request):
         return Response({'status': 'Submission verified'}, status=status.HTTP_200_OK)
     return Response({'status': 'Submission already verified'}, status=status.HTTP_200_OK)
 
+
+# Author: @charlesmentuni
+# Rejects a quest submission if the user is a developer or gamekeeper
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated, CanVerify])
+def reject_quest_submission(request):
+    quest_sub = get_object_or_404(QuestSubmission, questsubID=request.data['id'])
+    # Checks that it hasn't been verified yet, so they don't receive the reward twice
+    if (quest_sub.rejected == False):
+        quest_sub.rejected = True
+        quest_sub.save()
+        return Response({'status': 'Submission rejected'}, status=status.HTTP_200_OK)
+    return Response({'status': 'Submission already rejected'}, status=status.HTTP_200_OK)
+
 # Author: @Stickman230
 # Creates a new Society instance from the request data.
 @api_view(['POST'])
@@ -310,17 +324,25 @@ class EmailVerification(APIView):
     
 # Authors: @charlesmentuni, @Stickman230
 # Fetches and returns all Friend instances.
-@api_view(['GET'])
+@api_view(['POST'])
 def getAllFriends(request):
-    app = Friend.objects.all()
-    serializer = FriendSerializer(app, many=True)
-    return Response(serializer.data)
+    user_id = UserProfile.objects.get(username=request.data.get('user1'))
+    app = Friend.objects.all().filter(Q(user1=user_id.pk )| Q(user2=user_id.pk))
+    if app.exists():
+        serializer = FriendSerializer(app, many=True)
+        return Response(serializer.data)
+    
+    
 
 # Authors: @charlesmentuni, @Stickman230
 # Creates a new Friend instance from the request data.
 @api_view(['POST'])
 def addFriend(request):
     serializer = FriendSerializer(data=request.data)
+    # check if the friend already exists
+    friendExists = Friend.objects.filter(Q(user1=request.data.get('user1')) & Q(user2=request.data.get('user2'))).exists()
+    if friendExists:
+        return Response({"error": "Friend already exists"}, status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
