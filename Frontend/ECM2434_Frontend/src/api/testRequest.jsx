@@ -112,6 +112,12 @@ export default class ApiClient {
     return response1;
   }
 
+  async modifyUser(token, data) {
+    console.log(data);
+    const response = await this.post("user/modify", data, token);
+    return response;
+  }
+
   async createQuest(token, data) {
     const response = await this.post("quest/add/", data, token);
     return response;
@@ -183,6 +189,14 @@ export default class ApiClient {
   }
   async fetchAllUsers(token) {
     const response = await this.get("users/", token);
+    return response;
+  }
+  async addFriend(token, data) {
+    const response = await this.post("friends/add/", data, token);
+    return response;
+  }
+  async fetchFriends(token, data) {
+    const response = await this.post("friends/all/", data, token);
     return response;
   }
 }

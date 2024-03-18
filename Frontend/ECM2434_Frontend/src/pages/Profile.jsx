@@ -24,33 +24,122 @@ import level9 from '../assets/images/Level9.png';
 import level10 from '../assets/images/Level10.png';
 import { PlayerIcon } from "../components/playerIcon";
 
+import {useParams} from "react-router-dom";
+import { FriendList } from "../components/friendList";
 
 const Profile = () => {
-    const { user, userData } = useUser();
-    const [apiUserData, setapiUserData] = useState({});
-    const [userDataLoading, setuserDataLoading] = useState(true);
+    const { id } = useParams();
+    const { user, userData,userDataLoading } = useUser();
+    const [apiUserData, setapiUserData] = useState(null);
+    const [apiUserDataLoading, setapiUserDataLoading] = useState(true);
+    console.log("hello 1");
+    console.log();
+    // console.log(ApiClient.api.fetchFriends(user));
 
-    console.log(userData)
+    const [username, setUsername] = useState(0);
+    const [friendAdded, setFriendAdded] = useState(false);
+    const [friends, setFriends] = useState([]);
+    const [friendUsernames, setFriendUsernames] = useState([]);
+    console.log(id);
 
     useEffect(() => {
-        if (userData && userData.username) {
-            setuserDataLoading(true); // Move this inside the if statement to only set it when loading starts
-            ApiClient.api.fetchUsernameData({ "username": userData.username }, user)
-                .then((res) => {
-                    console.log(res);
-                    setapiUserData(res);
-                    setuserDataLoading(false);
-                })
-                .catch((error) => {
-                    console.error(error);
-                    setuserDataLoading(false);
-                });
-        } else {
-            setuserDataLoading(false); // Consider what you want to do if there's no user data. Maybe handle this differently.
+        if (userData){
+        if (id=="me"){
+            setUsername(userData.username);
+            console.log("its me",userData.username);
         }
-    }, [userData, user]);
+        else {
+            
+            setUsername(id);}
+        }   
+    }, [userData]);
 
-    const levelImages = {
+    useEffect(() => {
+        console.log("HELLO");
+        if (userData && username){
+        console.log("HELLO2");
+        console.log("abcded", username);
+        // Set loading to true when the component mounts
+        ApiClient.api.fetchUsernameData({ "username": username}, user)
+            .then((res) => {
+                console.log("REACHED@@@",res);
+                if(res.error){
+                    setUsername(null);
+                }
+                setapiUserData(res);
+                setapiUserDataLoading(false);
+            })
+            .catch((error) => {
+                console.log("REACHED!!!!: ",error);
+                // if users not found, set  username to null
+                setUsername(null);
+                setapiUserDataLoading(false);
+            });
+        }
+    }, [userData, username]);
+
+    useEffect(() => {
+        if(username && userData){
+            ApiClient.api.fetchFriends(user, {user1 : username}).then((res) => {
+                setFriends(res);
+                console.log("pk: ",res);
+                if (res.some((friend) => friend.user2 === userData.id || friend.user1 === userData.id)){
+                    setFriendAdded(true);
+                    console.log("FRIEND ADDED");
+                }
+                
+            }).catch((error) => {
+                console.log(error);
+            });
+
+        }
+    }, [user,userData,username]);
+
+    useEffect(() => {
+        console.log("VAL",apiUserData);
+    }, [apiUserData]);
+    //const { id } = useParams();
+
+    useEffect(() => {
+        if (user && username){
+        console.log("kjdal;k", friends)
+        ApiClient.api.fetchAllUsers(user)
+            .then((res) => {
+                console.log("User data",res);
+                
+                res = res.filter((user1) => {
+                    if (friends.some((friend) => friend.user1 === user1.id || friend.user2 === user1.id)){
+                        return true;
+                    }
+                    return false;
+                });
+                setFriendUsernames([]);
+                res.forEach((user1) => {
+                    if (username != user1.username)
+                    {
+                    setFriendUsernames((friendUsernames) => [...friendUsernames, user1.username]);
+                    }
+                });
+              })
+            .catch((error) => {
+                console.log("REACHED!!!!: ",error);
+                // if users not found, set  username to null
+                
+            });
+        
+        }}, [friends, user, username]);
+    function addFriend(){
+        console.log("ADD FRIEND");
+        if(user && userData){
+            ApiClient.api.addFriend(user, {user1 : userData.id, user2 : apiUserData.id}).then((res) => {
+                setFriendAdded(true);
+            }).catch((error) => {
+                console.log(error);
+            });
+
+        }
+    }
+  const levelImages = {
         1: level1,
         2: level2,
         3: level3,
@@ -65,53 +154,70 @@ const Profile = () => {
 
     return (
         <>
-            {userDataLoading ? (
-                <p>Loading...</p>
-            ) : (
-                <div className="container2">
-                    <div className="profile">
-                        <div className="header">
-                            <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />
-                            <h1>{apiUserData.first_name + ' ' + apiUserData.last_name}</h1>
-                            <h2> {apiUserData.username} </h2>
-                        </div>
-                        <div className="buttonContainer">
-                            <NavLink to="/profile/edit">
-                                <Button variant="contained" sx={
-                                    {
-                                        height: '40px',
-                                        color: '#000000',
-                                        border: '1px solid #000000',
-                                        fontSize: '16px',
-                                        fontWeight: 'bold',
-                                        backgroundColor: '#EDF0EC',
-                                        '&:hover': {
-                                            backgroundColor: '#EAFCE8',
-                                            opacity: '0.8'
-                                        }
-                                    }
-                                }> <FaUserEdit style={{ marginRight: '5px' }} />
-                                    Edit Profile</Button>
-                            </NavLink>
-                        </div>
-                        <div className="icons">
-                            <div className="stats">
-                                <div className="icon">
-                                    <IoFlameSharp style={{ color: '#A00120' }} />
-                                    <p>Streak</p>
-                                </div>
-                                <p>{apiUserData.streak}</p>
-                            </div>
-                            <div className="stats">
-                                <div className="icon">
-                                    <IoMdCheckboxOutline style={{ color: '#A00120' }} />
-                                    <p>Role</p>
-                                    {/* Should change this to completed tasks in future */}
-                                </div>
-                                <p>{apiUserData.role}</p>
-                            </div>
+            {!(apiUserDataLoading == false && apiUserData != null) ? (<h1>Loading...</h1>) : username===null ? (<h1>Error username not found</h1>) : (
 
-                            <div className="stats">
+            <div className="container">
+                <FriendList friends={friendUsernames} user={user} />
+
+                <div className="profile">
+                    <div className="header">
+                        <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />
+                        <h1>{apiUserData?.first_name + ' ' + apiUserData?.last_name}</h1>
+                        <h2> {apiUserData?.username} </h2>
+                    </div>
+                    { id == "me" && <div className="buttonContainer">
+                        <NavLink to="/profile/edit">
+                            <Button variant="contained" sx={
+                                {
+                                    height: '40px',
+                                    color: '#000000',
+                                    border: '1px solid #000000',
+                                    fontSize: '16px',
+                                    fontWeight: 'bold',
+                                    backgroundColor: '#EDF0EC',
+                                    '&:hover': {
+                                        backgroundColor: '#EAFCE8',
+                                        opacity: '0.8'
+                                    }
+                                }
+                            }> <FaUserEdit style={{ marginRight: '5px' }} />
+                                Edit Profile</Button>
+                        </NavLink>
+                    </div>}
+                    { id != "me" && <div className="buttonContainer">
+                        <Button onClick={addFriend} variant="contained" sx={
+                            {
+                                height: '40px',
+                                color: '#000000',
+                                border: '1px solid #000000',
+                                fontSize: '16px',
+                                fontWeight: 'bold',
+                                backgroundColor: '#EDF0EC',
+                                '&:hover': {
+                                    backgroundColor: '#EAFCE8',
+                                    opacity: '0.8'
+                                }
+                            }
+                        } disabled={friendAdded} > Add Friend</Button>
+                    </div>}
+                    <div className="icons">
+                        <div className="stats">
+                            <div className="icon">
+                                <IoFlameSharp style={{ color: '#A00120' }} />
+                                <p>Streak</p>
+                            </div>
+                            <p>{apiUserData.streak}</p>
+                        </div>
+                        <div className="stats">
+                            <div className="icon">
+                                <IoMdCheckboxOutline style={{ color: '#A00120' }} />
+                                <p>Role</p>
+                                {/* Should change this to completed tasks in future */}
+                            </div>
+                            <p>{apiUserData.role}</p>
+                        </div>
+
+                       <div className="stats">
                                 <div className="icon">
                                     {/* <CiStar style={{ color: '#A00120' }} /> */}
                                     <img src={levelImages[apiUserData.rank] || levelImages[1]} alt="Level Icon" className="level-icon" />
@@ -131,9 +237,9 @@ const Profile = () => {
                                 }} />
                                 <p>xp to next rank: {100 - (apiUserData.XP % 100)}</p>
                             </div>
-                        </div>
                     </div>
                 </div>
+            </div>
             )}
         </>
     );
