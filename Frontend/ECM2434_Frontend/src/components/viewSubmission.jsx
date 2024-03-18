@@ -132,7 +132,7 @@ export function ViewSubmission() {
 
                 </select>
             </div>
-            {submissions[submission] !== null && (
+            {(submissions[submission] !== null && submissions?.length != 0) && (
 
                 <>
                     <div className={classes.imgContainer}>

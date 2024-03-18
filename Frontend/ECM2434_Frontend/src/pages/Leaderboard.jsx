@@ -1,4 +1,3 @@
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -10,7 +9,6 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { useUser } from '../contexts/userContext';
 import React, { useState, useEffect } from 'react';
-
 
 import './leaderboard.css';
 
@@ -49,46 +47,63 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Leaderboard = () => {
     const { user } = useUser(); // Assuming useUser() returns the current user context
     const [data, setData] = useState([]); // Initialize the data state to an empty array
+    const [loadingUserData, setLoadingUserData] = useState(true); // Initialize the loading state to true
 
     useEffect(() => {
+        // Define the function to fetch data inside useEffect
         const fetchData = async () => {
             try {
-                const res = await ApiClient.api.getTopTen(user);
-                console.log(res)
-                setData(res); // Update the state with the fetched data
+                if (user) { // Check if user data and token are loaded
+                    const res = await ApiClient.api.getTopTen(user);
+                    console.log(res);
+                    setData(res); // Update the state with the fetched data
+                }
             } catch (error) {
+                console.log(error)
                 console.error("Failed to fetch leaderboard data:", error);
+            } finally {
+                setLoadingUserData(false); // Ensure loading is set to false after the fetch attempt
             }
         };
 
-        fetchData();
+        if (user) { // Only attempt to fetch data if the user object is truthy
+            fetchData();
+        }
+
     }, [user]); // Dependency array: the effect runs when the `user` object changes
 
+
     return (
-        <div className="formater">
-            <TableContainer component={Paper} className='tableContainer'>
-                <StyledTable sx={{ width: 650, color: "ActiveBorder" }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell padding="checkbox">Level</StyledTableCell>
-                            <StyledTableCell>Name</StyledTableCell>
-                            <StyledTableCell>Username</StyledTableCell>
-                            <StyledTableCell>XP</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.map((item, index) => (
-                            <StyledTableRow key={item.id || index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <StyledTableCell className="rank" padding="checkbox">{item.rank || index + 1}</StyledTableCell>
-                                <StyledTableCell>{item.first_name + " " + item.last_name}</StyledTableCell>
-                                <StyledTableCell>{item.username}</StyledTableCell>
-                                <StyledTableCell>{item.XP}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </StyledTable>
-            </TableContainer>
-        </div>
+        <>
+            {loadingUserData ? (
+                <p>Loading...</p>
+            ) : (
+                <div className="formater">
+                    <TableContainer component={Paper} className='tableContainer'>
+                        <StyledTable sx={{ width: 650, color: "ActiveBorder" }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell padding="checkbox">Level</StyledTableCell>
+                                    <StyledTableCell>Name</StyledTableCell>
+                                    <StyledTableCell>Username</StyledTableCell>
+                                    <StyledTableCell>XP</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data.map((item, index) => (
+                                    <StyledTableRow key={item.id || index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <StyledTableCell className="rank" padding="checkbox">{item.rank || index + 1}</StyledTableCell>
+                                        <StyledTableCell>{item.first_name + " " + item.last_name}</StyledTableCell>
+                                        <StyledTableCell>{item.username}</StyledTableCell>
+                                        <StyledTableCell>{item.XP}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </StyledTable>
+                    </TableContainer>
+                </div>
+            )}
+        </>
     );
 }
 

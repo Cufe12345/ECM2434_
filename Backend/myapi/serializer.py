@@ -18,11 +18,18 @@ class UserProfileAddSerializer(BaseUserCreateSerializer):
 
 # Author: @Stickman230
 # Serializer for retrieving user profile information
-class UserProfileGetSerializer(BaseUserCreateSerializer):
+class UserProfileGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP','streak']
 
+# Author: @Stickman230
+# Serializer for modifying user profile information
+class UserProfileModifySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['first_name','last_name','birthday','bio']
+        
 # Author: @Stickman230
 # Serializer for retrieving role related to username      
 class UserRoleSerializer(serializers.ModelSerializer):

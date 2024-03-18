@@ -33,6 +33,7 @@ class UserProfile(AbstractUser):
     rank = models.PositiveIntegerField(default=1)  # Rank field with default value.
     XP = models.PositiveIntegerField(default=0)  # Experience points field with default value.
     streak = models.PositiveIntegerField(default=0)  # Streak field with default value.
+    border = models.CharField(max_length=100,default="none")
     #is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
 
 # Defines the Friend relationship model.

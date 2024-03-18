@@ -70,6 +70,7 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
       console.log("Quest Submitted");
       setPopupText("Quest Submitted, when verified you will receive points");
       setOpen(true);
+      onBackClick();
     }
     //Redirect to Feed
   }
