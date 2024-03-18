@@ -107,17 +107,23 @@ const Profile = () => {
             .then((res) => {
                 console.log("User data",res);
                 
+                // Filters out the users that are not friends
                 res = res.filter((user1) => {
                     if (friends.some((friend) => friend.user1 === user1.id || friend.user2 === user1.id)){
                         return true;
                     }
                     return false;
                 });
+
+                // Assumes that the user is not friends with anyone
                 setFriendUsernames([]);
+                
+                // Adds the usernames of the friends to the list
                 res.forEach((user1) => {
+                    // If the user is user1, then don't add to the list
                     if (username != user1.username)
                     {
-                    setFriendUsernames((friendUsernames) => [...friendUsernames, user1.username]);
+                    setFriendUsernames((friendUsernames) => [...friendUsernames, user1]);
                     }
                 });
               })

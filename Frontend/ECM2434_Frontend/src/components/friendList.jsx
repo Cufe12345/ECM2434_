@@ -18,8 +18,8 @@ export function FriendList({friends}) {
         </thead>
         <tbody>
           {friends.map((friend) => (
-            <tr key={friend}>
-              <td>{friend}</td>
+            <tr key={friend.username}>
+              <td>{friend.username}</td>
             </tr>
           ))}
         </tbody>
