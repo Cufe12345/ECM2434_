@@ -160,6 +160,7 @@ export function FeedCards() {
                 info:submission.info,
                 colour:colour,
                 date:new Date(submission.date_created),
+                border: user.border,
             }
             feed.push(feedObject);
         }
