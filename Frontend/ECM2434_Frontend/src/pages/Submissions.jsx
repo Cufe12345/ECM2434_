@@ -3,6 +3,8 @@ import { useUser } from "../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 import { ViewSubmission } from "../components/viewSubmission";
 import classes from "./Submissions.module.css";
+
+// Author: Callum Young(Cufe12345)
 export default function Submissions() {
   return (
     <div className={classes.container}>

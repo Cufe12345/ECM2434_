@@ -9,13 +9,24 @@ import _5 from "../assets/images/5.png";
 import classes from "./playerIcon.module.css";
 import { useState } from "react";
 
+// Author: Callum Young(Cufe12345)
 export function PlayerIcon({ userData }) {
+
+    //Stores the border image to be displayed
     const [border, setBorder] = useState(null);
+
+    //Stores if the user has no border
     const [none, setNone] = useState(false);
+
+    //Sets the border image to be displayed once the component is loaded
     useEffect(() => {
         setBorder(getBorder());
     }, []);
     
+    /**
+     * Used to set the border image to be displayed based on the user data
+     * @returns The border image to be displayed
+     */
     function getBorder() {
         
         if(userData?.border === undefined){

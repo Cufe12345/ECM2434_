@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import classes from "./viewSubmission.module.css";
 import { useUser } from "../contexts/userContext";
 import ApiClient from "../api/index";
+
+// Author: Callum Young(Cufe12345)
 export function ViewSubmission() {
 
     //Stores all the valid submissions
