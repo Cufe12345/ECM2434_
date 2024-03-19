@@ -1,0 +1,93 @@
+
+.profilePicSection {
+    max-width: 25vw;
+    position: absolute;
+    margin-top: 20vh;
+    text-align: center;
+    margin-left: 10%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-basis: 30%;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: row; /* Set to row to align items side by side */
+    align-items: flex-start; /* Align items to the start of the cross axis */
+    gap: 20px; /* This adds spacing between the profile section and the names */
+    margin: 20px; /* Add some margin to the form */
+    flex-wrap: wrap;
+}
+.uploadLink {
+    color: #1f57d8;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.names {
+    max-width: 50vw;
+    margin-top: 10vh;
+    margin-left: 40%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-basis: 70%; 
+}
+
+input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(134, 194, 50, 0.2);
+}
+
+h5 {
+    margin: 5px 0;
+    color: #000000;
+}
+
+.update-profile-button {
+    background-color: #34a264f3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.update-profile-button:hover {
+    background-color: #000000c1;
+}
+
+@media (max-width: 768px) {
+    .edit-profile-container {
+        padding: 10px;
+    }
+
+    .names {
+        flex-direction: column;
+    }
+}
