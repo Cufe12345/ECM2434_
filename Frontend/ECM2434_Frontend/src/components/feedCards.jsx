@@ -154,8 +154,8 @@ export function FeedCards() {
             }
             let feedObject = {
                 username: user.username,
-                firstName: user.first_name,
-                lastName: user.last_name,
+                first_name: user.first_name,
+                last_name: user.last_name,
                 rank: user.rank,
                 role:user.role,
                 img:submission.imgURL,

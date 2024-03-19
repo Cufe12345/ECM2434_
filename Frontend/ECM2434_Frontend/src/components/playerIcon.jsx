@@ -31,7 +31,7 @@ export function PlayerIcon({ userData }) {
         
         if(userData?.border === undefined){
             // setNone(true);
-            return _5;
+            return _1;
         }
         if(userData?.border === "none"){
             setNone(true);
@@ -57,7 +57,7 @@ export function PlayerIcon({ userData }) {
             ):(
                 <></>
             )}
-            <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 50, height: 50 }} className={classes.icon} >{userData?.firstName != undefined ? (userData?.firstName[0]) : 'N/'}{userData?.lastName != undefined ? (userData?.lastName[0]) : 'A'}</Avatar>
+            <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 50, height: 50 }} className={classes.icon} >{userData?.first_name != undefined ? (userData?.first_name[0]) : 'N/'}{userData?.last_name != undefined ? (userData?.last_name[0]) : 'A'}</Avatar>
         </div>
     );
 }
