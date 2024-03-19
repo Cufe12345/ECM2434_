@@ -1,9 +1,12 @@
+import { ImageSubmit } from "../components/imageSubmit";
+import classes from './UploadProfilePic.module.css'
+
 const UploadProfilePic = () => {
 
     return (
-        <>
-        <h1>Placeholder</h1>
-        </>
+        <div className={classes.card}>
+          <ImageSubmit></ImageSubmit>
+        </div>
       );
     };
     
