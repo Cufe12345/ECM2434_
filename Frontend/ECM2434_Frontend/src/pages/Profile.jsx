@@ -12,6 +12,7 @@ import { LinearProgress } from "@mui/material";
 import Button from '@mui/material/Button';
 import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import LogoImage from '../assets/images/logo.png'; 
 import level1 from '../assets/images/Level1.png'; 
 import level2 from '../assets/images/Level2.png';
 import level3 from '../assets/images/Level3.png';
@@ -35,6 +36,7 @@ const Profile = () => {
     console.log("hello 1");
     console.log();
     // console.log(ApiClient.api.fetchFriends(user));
+    const [imgURL, setimgURL] = useState('');
 
     const [username, setUsername] = useState(0);
     const [friendAdded, setFriendAdded] = useState(false);
@@ -139,6 +141,22 @@ const Profile = () => {
 
         }
     }
+
+    useEffect(() => {
+        ApiClient.api.fetchModifiedUser(user)
+            .then((res) => {
+                console.log(res);
+                // Assuming 'res' is the updated user object and has a field 'ImgURL'
+                // Update your state based on the actual structure of your response
+                setimgURL(res.imgURL);
+                console.log(res);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [user]); // Re-run this effect if 'user' changes, adjust dependencies as needed
+    
+
   const levelImages = {
         1: level1,
         2: level2,
@@ -161,7 +179,7 @@ const Profile = () => {
 
                 <div className="profile">
                     <div className="header">
-                        <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />
+                    <img className="ProfilePicImg" alt="User Profile Picture" src={imgURL ? `http://localhost:8000${imgURL}` : LogoImage} sx={{ width: 150, height: 150 }} />
                         <h1>{apiUserData?.first_name + ' ' + apiUserData?.last_name}</h1>
                         <h2> {apiUserData?.username} </h2>
                     </div>

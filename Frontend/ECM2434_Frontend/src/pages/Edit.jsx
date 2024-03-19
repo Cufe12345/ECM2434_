@@ -10,7 +10,7 @@ const EditProfile = () => {
     const navigate = useNavigate();
     const { userData , user} = useUser();
 
-    const [profileImg, setProfileImg] = useState('');
+    const [imgURL, setimgURL] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthday, setBirthday] = useState('');
@@ -19,7 +19,7 @@ const EditProfile = () => {
     useEffect(() => {
         // Set the initial state of inputs if userData is available
         if (userData) {
-            setProfileImg(userData.profileImg || '');
+            setimgURL(userData.imgURL|| '');
             setFirstName(userData.first_name || '');
             setLastName(userData.last_name || '');
             setBirthday(userData.birthday || '');
@@ -27,10 +27,22 @@ const EditProfile = () => {
         }
     }, [userData]);
 
+    useEffect(() => {
+        if (userData && userData.profileImg) {
+            setimgURL(userData.profileImg);
+        }
+        // Retrieve the uploaded image path from local storage
+        const uploadedProfilePicPath = localStorage.getItem('uploadedProfilePicPath');
+        if (uploadedProfilePicPath) {
+            setimgURL(uploadedProfilePicPath);
+            //localStorage.removeItem('uploadedProfilePicPath'); // Clean up after using
+        }
+    }, [userData]);
+
     const onSubmit = async (e) => {
         e.preventDefault();
         const data = {
-            profileImg: profileImg,
+            imgURL: imgURL,
             first_name: firstName,
             last_name: lastName,
             birthday: birthday,
@@ -38,8 +50,10 @@ const EditProfile = () => {
         };
         // Ensure modifyUser function uses the token for authorization
         ApiClient.api.modifyUser(user, data).then((res) => {
+            console.log(data);
+            localStorage.removeItem('uploadedProfilePicPath');
             toast.success("Profile updated successfully!");
-            navigate('/profile');
+            navigate('/profile/me');
         }).catch((error) => {
             console.error(error);
             toast.error("Profile update failed: " + error.response.data.message);
@@ -48,10 +62,11 @@ const EditProfile = () => {
 
     return (
     <>
+    <div className={classes.container}>
         <form onSubmit={onSubmit} className={classes['edit-form']}>
             <div className={classes.profilePicSection}>
                 <h5>Profile Picture</h5>
-                <img src={LogoImage} alt="image" className={classes.profilePic}/>
+                <img src={'http://localhost:8000' + imgURL|| LogoImage} alt="profile" className={classes.profilePic}/>
                 <u><h5 onClick={() => navigate('/profile/edit/upload')}  className={classes.uploadLink}>Upload</h5></u>
                 
             </div>
@@ -67,6 +82,7 @@ const EditProfile = () => {
                 <button type="submit" className={classes['update-profile-button']}>Update Profile</button>
             </div>
         </form>
+    </div>
     </>
     );
 }

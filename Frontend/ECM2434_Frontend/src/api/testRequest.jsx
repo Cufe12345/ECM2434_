@@ -117,7 +117,10 @@ export default class ApiClient {
     const response = await this.post("user/modify", data, token);
     return response;
   }
-
+  async fetchModifiedUser(token) {
+    const response = await this.get("user/modify", token);
+    return response;
+  }
   async createQuest(token, data) {
     const response = await this.post("quest/add/", data, token);
     return response;
