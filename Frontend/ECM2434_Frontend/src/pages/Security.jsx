@@ -1,9 +1,9 @@
 import React from "react";
-
+import classes from "../components/dailyQuest.module.css";
 export default function Security() {
 
     return(
-        <>
+        <div className={classes.card}>
             <h1>Project Security Policy for EcoQuest</h1>
             <p>This document outlines the security policy for the ECM2434 project, a web application utilizing a Django backend and a React.js frontend. Our commitment is to protect our users' data and maintain the integrity and confidentiality of our application through rigorous security measures.</p>
             <h2>Secure Coding Practices</h2>
@@ -26,5 +26,5 @@ export default function Security() {
             <p>This security policy will be reviewed and updated on a bi-annual basis or in response to significant changes in the threat landscape or project architecture, to ensure it remains effective and relevant.</p>
         
         
-        </>
+        </div>
     )};

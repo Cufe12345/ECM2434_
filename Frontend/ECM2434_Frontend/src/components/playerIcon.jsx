@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import Avatar from '@mui/material/Avatar';
-import bronze from '../assets/images/BronzeBorder.png';
-import silver from '../assets/images/SilverBorder.png';
-import gold from '../assets/images/GoldBorder.png';
-import diamond from '../assets/images/DiamondBorder.png';
-import rust from '../assets/images/RustBorder.png';
+import _1 from "../assets/images/1.png";
+import _2 from "../assets/images/2.png";
+import _3 from "../assets/images/3.png";
+import _4 from "../assets/images/4.png";
+import _5 from "../assets/images/5.png";
+
 import classes from "./playerIcon.module.css";
 import { useState } from "react";
 
@@ -18,22 +19,23 @@ export function PlayerIcon({ userData }) {
     function getBorder() {
         
         if(userData?.border === undefined){
-            return bronze;
+            // setNone(true);
+            return _5;
         }
         if(userData?.border === "none"){
             setNone(true);
         }
-        if (userData?.border === "rust") {
-            return rust;
-        } else if (userData?.border === "bronze") {
+        if (userData?.border === "1") {
+            return _1;
+        } else if (userData?.border === "2") {
             console.log("HERE");
-            return bronze;
-        } else if (userData?.border === "silver") {
-            return silver;
-        } else if (userData?.border === "gold") {
-            return gold;
+            return _2;
+        } else if (userData?.border === "3") {
+            return _3;
+        } else if (userData?.border === "4") {
+            return _4;
         } else {
-            return diamond;
+            return _5;
         }
     }
 
