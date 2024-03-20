@@ -9,7 +9,7 @@ from . import views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, GetVerifiedSubFromQuestID,TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,VerifiedQuestSubListView,QuestSubListView,NonVerifiedQuestSubListView ,SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification
+from .views import CurrentUserProfileView, GetUserByUsernameView,ImageView, GetVerifiedSubFromQuestID,TopNUsersView, Top10UsersView, Top10FriendsView,ImageUploadView, FriendView, TopNFriendsView,VerifiedQuestSubListView,QuestSubListView,NonVerifiedQuestSubListView ,SetDeveloperView,SetGameKeeperView, SetPlayerView, EmailVerification, getActiveQuest
 
 urlpatterns = [
     #account/users/ and account/users/me/ for short user info
@@ -54,6 +54,8 @@ urlpatterns = [
     path('friends/leaderboard_n/', TopNFriendsView.as_view(), name='Friends Leaderboard N'),
     # see all quests
     path('quest/',views.getQuest, name='Quest'),
+    # get active quest
+    path('quest/active/',getActiveQuest.as_view(), name='Active Quest'),
     # add a quest
     path('quest/add/',views.addQuest, name='Add quest'),
     # see all questTypes
