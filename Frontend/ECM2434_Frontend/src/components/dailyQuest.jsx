@@ -17,6 +17,8 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
     //Stores the location of the quest
     const [location, setLocation] = useState(null);
 
+    const [height, setHeight] = useState(100);
+
     //Reference to the map container element
     const mapRef = useRef();
 
@@ -49,6 +51,7 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
             // if(node.clientHeight === undefined || node === undefined) return;
             element.style.minHeight = `${node?.clientHeight}px`;
             element.style.maxHeight = `${node?.clientHeight}px`;
+            setHeight(node?.clientHeight);
         });
         resizeObserver.observe(node);
     }, []);
@@ -88,7 +91,7 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
         <div className={classes.container}>
             <div className={classes.card}>
                 {/* Need to have backend rules that only allow gamekeeper to create a quest */}
-                {userData?.role === "GameKeeper" && (
+                {(userData?.role === "GameKeeper" || userData?.role === "Developer") && (
                     <div className={classes.createContainer}>
                         <button className={classes.createButton} onClick={onCreateQuestClick}>Create a Quest</button>
                     </div>
@@ -115,7 +118,7 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
                                     {/*this will be a map in the future*/}
                                     {/* <img className={classes.img} src={image} alt="Example Image" /> */}
                                     <div className={classes.mapContainer} ref={mapRef} id={classes.map}>
-                                        {location?.longitude && location?.latitude ? <Map center={[location?.latitude, location?.longitude]} zoom={10} scrollWheelZoom={false} /> : null}
+                                        {location?.longitude && location?.latitude ? <Map center={[location?.latitude, location?.longitude]} zoom={20} scrollWheelZoom={false} height={height}/> : null}
                                         {/* <Map center={[location?.longitude,location?.latitude]} zoom={10} scrollWheelZoom={false}/> */}
                                     </div>
                                 </div>

@@ -112,6 +112,12 @@ export default class ApiClient {
     return response1;
   }
 
+  async modifyUser(token, data) {
+    console.log(data);
+    const response = await this.post("user/modify", data, token);
+    return response;
+  }
+
   async createQuest(token, data) {
     const response = await this.post("quest/add/", data, token);
     return response;
@@ -177,15 +183,37 @@ export default class ApiClient {
     const response = await this.post("quest/submissions/validate/", data, token);
     return response;
   }
-
-
-  async fetchEmail(token, data) {
-    const response = await this.post(`activate/`, data, token);
+  async sendEmail(data) {
+    const response = await this.post(`activate/`,data);
+    return response;
+  }x
+  async verifyEmail(token, data) {
+    const response = await this.get(`activate/${data.username}/${data.token}/`);
     return response;
   }
-
-  async verifyEmail(token, data) {
-    const response = await this.get(`activate/${data.username}/${data.token}/`, token);
+  async fetchFeed(token,data) {
+    const response = await this.post("quest/submissions/valid/ByQuestID", data, token);
+    return response;
+  }
+  async fetchAllUsers(token) {
+    const response = await this.get("users/", token);
+    return response;
+  }
+  async addFriend(token, data) {
+    const response = await this.post("friends/add/", data, token);
+    return response;
+  }
+  async fetchFriends(token, data) {
+    const response = await this.post("friends/all/", data, token);
+    return response;
+  }
+  async rejectSubmission(token, data) {
+    const response = await this.post("quest/submissions/reject/", data, token);
+    return response;
+  }
+  async deleteSubmission(token, data) {
+    const response = await this.post("quest/submissions/delete/", data, token);
     return response;
   }
 }
+

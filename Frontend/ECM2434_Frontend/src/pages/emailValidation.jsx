@@ -14,12 +14,6 @@ export default function EmailValidationPage() {
     // calls useParams() method to define a username and token from the URL
     let {username} = useParams();
     let {token} = useParams();
-
-    //This is how you use the user context, you can access all these variables and functions from the context
-    const { user, setUser, userData, userDataError, userDataLoading } = useUser();
-  
-    //Cookie for user
-    const [cookies, setCookie] = useCookies(["user"]);
   
     //Controls the visibility of the popup
     const [showPopup, setShowPopup] = useState(false);
@@ -45,13 +39,17 @@ export default function EmailValidationPage() {
      function checkValidation() {
       let data = {
         username: username, 
-        token: token
+        token: token,
       }
+      console.log(username);
+      console.log(token);
+      console.log(data)
       // Calls verifyEmail() method from testRequest.jsx
-      ApiClient.api.verifyEmail(token, data).then((res) => {
+      ApiClient.api.verifyEmail(data).then((res) => {
           console.log(res)
           setShowPopup(true);
-      }).catch((error) => {
+
+        }).catch((error) => {
           console.log(error);
       });
   }

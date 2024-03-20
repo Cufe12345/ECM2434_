@@ -1,3 +1,5 @@
+/* Author: Callum Young(Cufe12345)*/
+
 .card{
     margin: 0 auto;
     width: 80%;
@@ -50,4 +52,22 @@
     border: none;
     cursor: pointer;
     transition: 0.3s;
+}
+.textContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    width: 100%;
+    padding-top: 30px;
+    /* padding-bottom: 10px; */
+}
+.inputText{
+    width: 100%;
+    padding: 4px 20px;
+    margin: 8px 19px 8px 3px;
+    /* display: inline-block; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }

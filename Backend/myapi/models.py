@@ -33,7 +33,9 @@ class UserProfile(AbstractUser):
     rank = models.PositiveIntegerField(default=1)  # Rank field with default value.
     XP = models.PositiveIntegerField(default=0)  # Experience points field with default value.
     streak = models.PositiveIntegerField(default=0)  # Streak field with default value.
-    #is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
+    border = models.CharField(max_length=100,default="none")
+    imgURL = models.CharField(max_length=200, default="none")
+    is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
 
 # Defines the Friend relationship model.
 class Friend(models.Model):
@@ -107,8 +109,10 @@ class QuestSubmission(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     imgURL = models.CharField(max_length=200)
     info = models.CharField(max_length=150, default="The task has been completed")
+    date_created = models.DateTimeField(auto_now_add=True)
     verified = models.BooleanField(default=False)
-    
+    rejected = models.BooleanField(default=False)
+
     def __str__(self):
         return f"Quest submission for quest {self.questID.questID}"
 

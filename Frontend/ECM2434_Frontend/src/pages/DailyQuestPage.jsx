@@ -40,6 +40,12 @@ export default function DailyQuestPage() {
   //The quest to be displayed
   const [quest, setQuest] = useState(null);
 
+  //Stores if the user has already submitted a quest for today and is waiting for approval
+  const [waitingApproval, setWaitingApproval] = useState(false);
+
+  //stores if the users submission was rejected
+  const [rejected, setRejected] = useState(-1);
+
   const navigate = useNavigate();
 
   //Handles the closing of the popup
@@ -49,6 +55,13 @@ export default function DailyQuestPage() {
 
   //Handles the opening of the submit quest form when the daily quest component button is clicked
   const handleCompleteQuest = () => {
+
+    //true if the user has already submitted a quest for today and is waiting for approval
+    if(waitingApproval){
+      setPopupText("You have already submitted a quest for today and are waiting for approval");
+      setShowPopup(true);
+      return;
+    }
     setShowSubmitQuest(true);
   };
 
@@ -83,15 +96,46 @@ export default function DailyQuestPage() {
     }
   }, [user]);
 
+  useEffect(() => {
+    if(quest){
+      fetchSubmissions();
+    }
+  },[quest])
+
+  function fetchSubmissions(){
+    ApiClient.api.fetchSubmissions(user).then((res) => {
+      console.log(res);
+      if (res.length == 0) {
+          return;
+      }
+      
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].questID === quest.questID && res[i].user === userData.id) {
+            if(res[i].verified === false){
+              setWaitingApproval(true);
+              if(res[i].rejected === true){
+                setRejected(res[i].questsubID);
+                setWaitingApproval(false);
+                setPopupText("Your submission was rejected, please try again");
+                setShowPopup(true);
+              }
+            }
+            else{
+            navigate("/feed");
+            }
+              
+        }
+      }
+    });
+  }
 
    /**
-     * This function fetches the quests of the user
+     * This function fetches the daily quest
      */
    function fetchQuests() {
     ApiClient.api.fetchQuests(user).then((res) => {
         console.log(res)
         for (let i = res.length-1; i > 0; i--) {
-            //should be equal to true but for testing purposes we will keep it as false
             if (res[i].state === true) {
                 setQuest(res[i]);
                 break;
@@ -100,7 +144,8 @@ export default function DailyQuestPage() {
     }).catch((error) => {
         console.log(error);
     });
-}
+  }
+
   return (
 
     <div className={classes.container}>
@@ -110,6 +155,7 @@ export default function DailyQuestPage() {
               setOpen={setShowPopup}
               setPopupText={setPopupText}
               quest={quest}
+              rejected={rejected}
             />
           ) : (
             showCreateQuest ?( <CreateQuestForm handleClose={handleCloseCreateQuest} setPopupMessage={setPopupText} setShowPopup={setShowPopup}/>):

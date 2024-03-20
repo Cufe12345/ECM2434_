@@ -5,11 +5,13 @@ import { useDropzone } from 'react-dropzone'
 import { ImageSubmit } from "../../imageSubmit";
 import ApiClient from "../../../api/index";
 //Created by Cufe12345(Callum Young)
-export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
+export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest,rejected }) {
   const { user, userData } = useUser();
 
   //Stores the file
   const [file, setFile] = React.useState(null);
+
+  const [text, setText] = React.useState("");
 
   //Handles the file drop
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
@@ -49,7 +51,7 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
       questID: quest.questID,
       user:userData.id,
       imgURL: imgURL,
-      info: "n/a for now",
+      info: text,
       verified: false,
     };
     await ApiClient.api
@@ -64,14 +66,32 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
         setOpen(true);
         errorOccured = true;
       });
-    if(!errorOccured){
+    if(!errorOccured && rejected === -1){
       console.log("Quest Submitted");
       setPopupText("Quest Submitted, when verified you will receive points");
       setOpen(true);
+      onBackClick();
+    }
+    let data2 = {
+      id: rejected,
+    };
+    console.log("id: ",rejected);
+    if(rejected !== -1){
+      await ApiClient.api.deleteSubmission(user,data2).then((res) => {
+        console.log(res);
+        setPopupText("Quest Submitted, when verified you will receive points");
+        setOpen(true);
+        onBackClick();
+      }).catch((error) => {
+        console.warn(error);
+      });
     }
     //Redirect to Feed
   }
 
+  function onTextChange(e) {
+    setText(e.target.value);
+  }
   return (
     <div className={classes.card}>
       <div className={classes.backContainer}>
@@ -83,6 +103,9 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest }) {
       <p>Attach an image of completed quest below</p>
   
       <ImageSubmit setImage={setFile} img={file} />
+      <div className={classes.textContainer}>
+        <input className={classes.inputText} type="text" onChange={onTextChange} value={text}placeholder="Enter a message to be displayed on the feed with your image" />
+      </div>
       <button onClick={submitQuest} className={classes.submitButton}>
         Submit
       </button>

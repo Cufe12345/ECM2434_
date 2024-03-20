@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, generics, permissions
 from .models import Quest, Society, Membership, UserProfile, QuestType, Location, Friend, Image, QuestSubmission
-from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,QuestSubAddSerializer,QuestSubGetSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
+from .serializer import UserProfileGetSerializer,UserProfileAddSerializer,UserProfileModifySerializer,UserRoleSerializer, ImageUploadSerializer,QuestTypeGetSerializer,QuestTypeAddSerializer,QuestGetSerializer,QuestAddSerializer,QuestSubAddSerializer,QuestSubGetSerializer,LocationGetSerializer,LocationAddSerializer,SocietyAddSerializer,SocietyGetSerializer, MembershipAddSerializer,  MembershipGetSerializer, FriendSerializer, ImageGetSerializer, AllImageGetSerializer
 from .permissions import CanSetRole, CanVerify
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
@@ -37,6 +37,19 @@ def getUser(request):
 @permission_classes([AllowAny])
 def addUser(request):
     serializer = UserProfileAddSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def modifyUser(request):
+    user_profile = request.user
+    data = request.data.copy()
+    data.pop('password', None)  # Remove password from the data if it exists
+    data.pop('username', None)  # Remove username from the data if it exists
+    serializer = UserProfileModifySerializer(user_profile,data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -216,6 +229,27 @@ def validate_quest_submission(request):
         return Response({'status': 'Submission verified'}, status=status.HTTP_200_OK)
     return Response({'status': 'Submission already verified'}, status=status.HTTP_200_OK)
 
+
+# Author: @charlesmentuni
+# Rejects a quest submission if the user is a developer or gamekeeper
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated, CanVerify])
+def reject_quest_submission(request):
+    quest_sub = get_object_or_404(QuestSubmission, questsubID=request.data['id'])
+    # Checks that it hasn't been verified yet, so they don't receive the reward twice
+    if (quest_sub.rejected == False):
+        quest_sub.rejected = True
+        quest_sub.save()
+        return Response({'status': 'Submission rejected'}, status=status.HTTP_200_OK)
+    return Response({'status': 'Submission already rejected'}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated, CanVerify])
+def delete_quest_submission(request):
+    quest_sub = get_object_or_404(QuestSubmission, questsubID=request.data['id'])
+    quest_sub.delete()
+    return Response({'status': 'Submission deleted'}, status=status.HTTP_200_OK)
+
 # Author: @Stickman230
 # Creates a new Society instance from the request data.
 @api_view(['POST'])
@@ -266,6 +300,7 @@ class ImageView(APIView):
         
 # Author: @charlesmentuni        
 # send email verification
+@permission_classes([AllowAny])
 class EmailVerification(APIView):
     def get(self, request, username1, token, *args, **kwargs):
         # Gets the user from the username passed through the url
@@ -310,17 +345,25 @@ class EmailVerification(APIView):
     
 # Authors: @charlesmentuni, @Stickman230
 # Fetches and returns all Friend instances.
-@api_view(['GET'])
+@api_view(['POST'])
 def getAllFriends(request):
-    app = Friend.objects.all()
-    serializer = FriendSerializer(app, many=True)
-    return Response(serializer.data)
+    user_id = UserProfile.objects.get(username=request.data.get('user1'))
+    app = Friend.objects.all().filter(Q(user1=user_id.pk )| Q(user2=user_id.pk))
+    if app.exists():
+        serializer = FriendSerializer(app, many=True)
+        return Response(serializer.data)
+    
+    
 
 # Authors: @charlesmentuni, @Stickman230
 # Creates a new Friend instance from the request data.
 @api_view(['POST'])
 def addFriend(request):
     serializer = FriendSerializer(data=request.data)
+    # check if the friend already exists
+    friendExists = Friend.objects.filter(Q(user1=request.data.get('user1')) & Q(user2=request.data.get('user2'))).exists()
+    if friendExists:
+        return Response({"error": "Friend already exists"}, status=status.HTTP_400_BAD_REQUEST)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
