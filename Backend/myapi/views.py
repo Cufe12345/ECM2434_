@@ -302,6 +302,7 @@ class ImageView(APIView):
 # send email verification
 @permission_classes([AllowAny])
 class EmailVerification(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, username1, token, *args, **kwargs):
         # Gets the user from the username passed through the url
         user = UserProfile.objects.get(username=username1)
@@ -313,8 +314,7 @@ class EmailVerification(APIView):
             user.save()
             return Response({"message": "User activated."}, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
-    
+            return Response({"error": "Invalid URL."}, status=status.HTTP_400_BAD_REQUEST)
     def post(self, request, *args, **kwargs):
         # Gets the user from the username passed through the header
         userActivated = UserProfile.objects.get(username=request.data['username'])
