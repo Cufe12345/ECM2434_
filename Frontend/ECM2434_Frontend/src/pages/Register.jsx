@@ -1,6 +1,5 @@
 
 import { NavLink } from "react-router-dom";
-import "./authPages.css";
 import { useEffect } from "react";
 import { useState } from "react";
 import ApiClient from "../api/index";
@@ -8,6 +7,10 @@ import { useUser } from "../contexts/userContext";
 import { CiWarning } from "react-icons/ci";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import "./authPages.css";
+
 
 
 const Register = () => {
@@ -108,32 +111,130 @@ const Register = () => {
         });
     }
 
-    return (<>
-        <div className="page">
-            <div className="containerBox">
-                <h1>Register</h1>
-                <form onSubmit={onSubmit}>
-                    <div className="fields">
-                        <div className="names">
-                            <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                            <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+    return (
+        <>
+            <div className="page">
+                <div className="containerBox">
+                    <h1>Register</h1>
+                    <form onSubmit={onSubmit}>
+                        <div className="fields">
+                            <div className="names">
+                             <TextField 
+                                label="First Name" 
+                                variant="outlined" 
+                                value={firstName} 
+                                onChange={(e) => setFirstName(e.target.value)} 
+                                margin="normal" 
+                                sx={{ 
+                                    width: 'calc(50% - 5px)', 
+                                    '& .MuiOutlinedInput-input': { 
+                                        padding: '14px 10px', 
+                                    }, 
+                                    marginRight: '10px', 
+                                }} 
+                            />
+                             <TextField 
+                                label="Last Name" 
+                                variant="outlined" 
+                                value={lastName} 
+                                onChange={(e) => setLastName(e.target.value)} 
+                                margin="normal" 
+                                sx={{ 
+                                    width: 'calc(50% - 5px)', 
+                                    '& .MuiOutlinedInput-input': { 
+                                        padding: '14px 10px', 
+                                    }, 
+                                }} 
+                            />
                         </div>
-                        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                        <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <input type="password" placeholder="Repeat Password" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} />
-                        <button disabled={!(emailValid && passwordValid && repeatPasswordValid)}>Register</button>
-                        <p className="switchPage">Already have an account? <span><NavLink to="/login">Login</NavLink></span></p>
-                    </div>
-                    <div className="errors">
-                        {email && emailError && <div className="error"><CiWarning /><p >{emailError}</p> </div>}
-                        {password && passwordError && <div className="error"><CiWarning /><p >{passwordError}</p> </div>}
-                        {repeatPassword && repeatPasswordError && <div className="error"><CiWarning /><p >{repeatPasswordError}</p> </div>}
-                    </div>
-                </form>
+                            <TextField 
+                                label="Username" 
+                                variant="outlined" 
+                                value={username} 
+                                onChange={(e) => setUsername(e.target.value)} 
+                                fullWidth 
+                                margin="normal" 
+                                sx={{ 
+                                    '& .MuiOutlinedInput-input': { 
+                                        padding: '14px 10px', 
+                                    }
+                                }} 
+                            />
+                            <TextField 
+                                label="Email" 
+                                type="email" 
+                                variant="outlined" 
+                                value={email} 
+                                onChange={(e) => setEmail(e.target.value)} 
+                                fullWidth 
+                                margin="normal" 
+                                sx={{ 
+                                    '& .MuiOutlinedInput-input': { 
+                                        padding: '14px 10px', 
+                                    }
+                                }} 
+                            />
+                            <TextField 
+                                label="Password" 
+                                type="password" 
+                                variant="outlined" 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                fullWidth 
+                                margin="normal" 
+                                sx={{ 
+                                    '& .MuiOutlinedInput-input': { 
+                                        padding: '14px 10px', 
+                                    }
+                                }} 
+                            />
+                            <TextField 
+                                label="Repeat Password" 
+                                type="password" 
+                                variant="outlined" 
+                                value={repeatPassword} 
+                                onChange={(e) => setRepeatPassword(e.target.value)} 
+                                fullWidth 
+                                margin="normal" 
+                                sx={{ 
+                                    '& .MuiOutlinedInput-input': { 
+                                        padding: '14px 10px', 
+                                    }, 
+                                }} 
+                            />
+                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    disabled={!(emailValid && passwordValid && repeatPasswordValid)}
+                                    sx={{
+                                        borderRadius: '8px',
+                                        fontSize: '1rem',
+                                        padding: '10px 90px',
+                                        minWidth: '150px',
+                                        'margin-bottom': '20px',
+                                        backgroundColor: 'green',
+                                        '&:hover': {
+                                          backgroundColor: '#045d04',
+                                        },
+                                      }}
+                                >
+                                    Register
+                                </Button>
+                            </div>
+                            <p className="switchPage">Already have an account? <span><NavLink to="/login">Login</NavLink></span></p>
+                        </div>
+                        <div className="errors">
+                            {email && emailError && <div className="error"><CiWarning /><p >{emailError}</p> </div>}
+                            {password && passwordError && <div className="error"><CiWarning /><p>{passwordError}</p></div>}
+                            {repeatPassword && repeatPasswordError && <div className="error"><CiWarning /><p>{repeatPasswordError}</p></div>}
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </>);
-}
+        </>
+    );
+};
+
 
 export default Register;

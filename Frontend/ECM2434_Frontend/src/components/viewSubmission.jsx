@@ -79,7 +79,7 @@ export function ViewSubmission() {
             if (res.length == 0 || res == null) {
                 return;
             }
-            for (let i = res.length - 1; i > 0; i--) {
+            for (let i = res.length - 1; i >= 0; i--) {
                 if (res[i].state === true) {
 
                     setDailyQuest(res[i]);

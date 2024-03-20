@@ -56,6 +56,21 @@ def modifyUser(request):
     return Response(serializer.errors, status=400)
 
 # Author: @Stickman230
+# modify user profile
+@api_view(['POST','GET'])
+@permission_classes([permissions.IsAuthenticated])
+def modifyUser(request):
+    user_profile = request.user
+    data = request.data.copy()
+    data.pop('password', None)  # Remove password from the data if it exists
+    data.pop('username', None)  # Remove username from the data if it exists
+    serializer = UserProfileModifySerializer(user_profile,data=data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
+# Author: @Stickman230
 # get user role coresponding to username
 @api_view(['GET'])
 def getUserRole(request):

@@ -1,9 +1,38 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
 .page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 70px);
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #f5f5f5;
+    background-image: radial-gradient(circle at center right, #56E990 0%, #f5f5f5 60%);
+    position: relative;
+    overflow: hidden;
+}
+
+
+.page::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20%; /* Adjust based on your design */
+    height: 100%;
+    background: linear-gradient(
+        to bottom left,
+        #245D3D 30%, transparent 30% 35%, 
+        #56E990 35% 65%, transparent 65% 70%,
+        #96EF89 70% 100%
+    );
+    z-index: 0;
 }
 
 .containerBox {
@@ -11,35 +40,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
     max-width: 400px;
-    padding: 20px;
+    padding: 7px;
     border: 1px solid #000000;
     border-radius: 10px;
     background-color: #EDF0EC;
-}
-
-.fields a {
-    text-decoration: underline;
-    color: #000000;
-}
-
-.fields {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.fields input {
-    width: 100%;
-    padding: 7px;
-    padding-left: 10px;
-    border: 1px solid #000000;
-    border-radius: 8px;
-}
-
-.fields p {
-    padding-top: 20px;
+    z-index: 1;
+    margin-bottom: 130px;
 }
 
 .names {

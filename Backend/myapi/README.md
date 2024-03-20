@@ -21,6 +21,8 @@ Endpoint : api/account/users/
 Endpoint : api/account/users/
 
 { 
+
+"imgURL" : "api/media/images/dasda.jpg",
 "first_name": "Kyky",
 "last_name": "Mbape",
 "birthday": "2004-10-20",

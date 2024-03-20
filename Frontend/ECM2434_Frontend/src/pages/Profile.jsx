@@ -12,6 +12,7 @@ import { LinearProgress } from "@mui/material";
 import Button from '@mui/material/Button';
 import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import LogoImage from '../assets/images/logo.png'; 
 import level1 from '../assets/images/Level1.png'; 
 import level2 from '../assets/images/Level2.png';
 import level3 from '../assets/images/Level3.png';
@@ -28,41 +29,121 @@ import {useParams} from "react-router-dom";
 import { FriendList } from "../components/friendList";
 
 const Profile = () => {
+
+    // Gets the username specified in the URL
     const { id } = useParams();
+    // Retrieves the user data
     const { user, userData,userDataLoading } = useUser();
     const [apiUserData, setapiUserData] = useState(null);
     const [apiUserDataLoading, setapiUserDataLoading] = useState(true);
-    console.log("hello 1");
-    console.log();
-    // console.log(ApiClient.api.fetchFriends(user));
-
-    const [username, setUsername] = useState(0);
+    
+    // Username of the profile being viewed
+    const [username, setUsername] = useState(null);
+  
+    const [imgURL, setimgURL] = useState('');
+  
+    // Whether the user is already a friend
     const [friendAdded, setFriendAdded] = useState(false);
+    // Gets the list of friends' ids
     const [friends, setFriends] = useState([]);
-    const [friendUsernames, setFriendUsernames] = useState([]);
-    console.log(id);
+    // Gets the list of friends' data
+    const [friendUserData, setFriendUserData] = useState([]);
+
 
     useEffect(() => {
         if (userData){
-        if (id=="me"){
-            setUsername(userData.username);
-            console.log("its me",userData.username);
-        }
-        else {
-            
-            setUsername(id);}
-        }   
+            // If the id is me, then set the username to the current user 
+            if (id=="me"){
+                setUsername(userData.username);
+            }
+            else {
+                setUsername(id);
+            }
+            }   
     }, [userData]);
 
     useEffect(() => {
-        console.log("HELLO");
-        if (userData && username){
-        console.log("HELLO2");
-        console.log("abcded", username);
-        // Set loading to true when the component mounts
+        if (userData && username){ 
+            getUserDataFromUsername();
+        }
+    }, [userData, username]);
+
+    useEffect(() => {
+        if(username && userData){
+            setAllFriends();
+        }
+    }, [user,userData,username]);
+
+    useEffect(() => {
+        if (user && username){
+            getAllFriendsData();
+       
+        
+        }}, [friends, user, username]);
+
+    function setAllFriends(){
+        // Gets all the friends of the current user and checks if the user is already a friend
+        ApiClient.api.fetchFriends(user, {user1 : username}).then((res) => {
+                
+            // Sets the friends to the response
+            setFriends(res);
+
+            // Checks if the friend is already added so that the button can be disabled
+            if (res.some((friend) => friend.user2 === userData.id || friend.user1 === userData.id)){
+                setFriendAdded(true);
+            }
+            
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    function getAllFriendsData(){
+        ApiClient.api.fetchAllUsers(user)
+        .then((res) => {
+            // Filters the users to only show the friends of the user which profile is viewed                
+            res = res.filter((user1) => {
+                if (friends.some((friend) => friend.user1 === user1.id || friend.user2 === user1.id)){
+                    return true;
+                }
+                return false;
+            });
+
+            // Sets the friendUserData variables to the user data of each friend
+            setFriendUserData([]);
+            res.forEach((user1) => {
+                // Do not include the current user in the list of friends
+                if (username != user1.username)
+                {
+                setFriendUserData((friendUserData) => [...friendUserData, user1]);
+                }
+            });
+          })
+        .catch((error) => {
+            console.log(error);
+            
+        });
+    }
+
+    function addFriend(){
+        if(user && userData){
+            
+            ApiClient.api.addFriend(user, {user1 : userData.id, user2 : apiUserData.id}).then((res) => {
+                // Once clicked, the button will be disabled, as they will have a new friend
+                setFriendAdded(true);
+                // Adds the new friend to the list of friends
+                setFriends((friends) => [...friends, res]);
+            }).catch((error) => {
+                console.log(error);
+            });
+
+        }
+    }
+
+    function getUserDataFromUsername(){
+        // fetches username data from either the current user or the user being viewed
         ApiClient.api.fetchUsernameData({ "username": username}, user)
             .then((res) => {
-                console.log("REACHED@@@",res);
                 if(res.error){
                     setUsername(null);
                 }
@@ -70,75 +151,28 @@ const Profile = () => {
                 setapiUserDataLoading(false);
             })
             .catch((error) => {
-                console.log("REACHED!!!!: ",error);
                 // if users not found, set  username to null
                 setUsername(null);
                 setapiUserDataLoading(false);
             });
-        }
-    }, [userData, username]);
 
-    useEffect(() => {
-        if(username && userData){
-            ApiClient.api.fetchFriends(user, {user1 : username}).then((res) => {
-                setFriends(res);
-                console.log("pk: ",res);
-                if (res.some((friend) => friend.user2 === userData.id || friend.user1 === userData.id)){
-                    setFriendAdded(true);
-                    console.log("FRIEND ADDED");
-                }
-                
-            }).catch((error) => {
-                console.log(error);
-            });
-
-        }
-    }, [user,userData,username]);
-
-    useEffect(() => {
-        console.log("VAL",apiUserData);
-    }, [apiUserData]);
-    //const { id } = useParams();
-
-    useEffect(() => {
-        if (user && username){
-        console.log("kjdal;k", friends)
-        ApiClient.api.fetchAllUsers(user)
-            .then((res) => {
-                console.log("User data",res);
-                
-                res = res.filter((user1) => {
-                    if (friends.some((friend) => friend.user1 === user1.id || friend.user2 === user1.id)){
-                        return true;
-                    }
-                    return false;
-                });
-                setFriendUsernames([]);
-                res.forEach((user1) => {
-                    if (username != user1.username)
-                    {
-                    setFriendUsernames((friendUsernames) => [...friendUsernames, user1.username]);
-                    }
-                });
-              })
-            .catch((error) => {
-                console.log("REACHED!!!!: ",error);
-                // if users not found, set  username to null
-                
-            });
-        
-        }}, [friends, user, username]);
-    function addFriend(){
-        console.log("ADD FRIEND");
-        if(user && userData){
-            ApiClient.api.addFriend(user, {user1 : userData.id, user2 : apiUserData.id}).then((res) => {
-                setFriendAdded(true);
-            }).catch((error) => {
-                console.log(error);
-            });
-
-        }
     }
+
+
+    useEffect(() => {
+        ApiClient.api.fetchModifiedUser(user)
+            .then((res) => {
+                console.log(res);
+                // Assuming 'res' is the updated user object and has a field 'ImgURL'
+                // Update your state based on the actual structure of your response
+                setimgURL(res.imgURL);
+                console.log(res);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [user]); // Re-run this effect if 'user' changes, adjust dependencies as needed
+    
   const levelImages = {
         1: level1,
         2: level2,
@@ -156,12 +190,14 @@ const Profile = () => {
         <>
             {!(apiUserDataLoading == false && apiUserData != null) ? (<h1>Loading...</h1>) : username===null ? (<h1>Error username not found</h1>) : (
 
-            <div className="container">
-                <FriendList friends={friendUsernames} user={user} />
+            <div className="container3">
+                <FriendList friends={friendUserData} user={user} />
 
                 <div className="profile">
+
                     <div className="header">
-                        <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />
+                    {/* <img className="ProfilePicImg" alt="User Profile Picture" src={imgURL ? `http://localhost:8000${imgURL}` : LogoImage} sx={{ width: 150, height: 150 }} /> */}
+                        <PlayerIcon userData={apiUserData} width={150} height={150}/>
                         <h1>{apiUserData?.first_name + ' ' + apiUserData?.last_name}</h1>
                         <h2> {apiUserData?.username} </h2>
                     </div>
@@ -200,6 +236,8 @@ const Profile = () => {
                             }
                         } disabled={friendAdded} > Add Friend</Button>
                     </div>}
+                   
+                    </div>
                     <div className="icons">
                         <div className="stats">
                             <div className="icon">

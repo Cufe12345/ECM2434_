@@ -135,8 +135,9 @@ export default function DailyQuestPage() {
    function fetchQuests() {
     ApiClient.api.fetchQuests(user).then((res) => {
         console.log(res)
-        for (let i = res.length-1; i > 0; i--) {
+        for (let i = res.length-1; i >= 0; i--) {
             if (res[i].state === true) {
+                console.log("SETTING QUEST",res[i])
                 setQuest(res[i]);
                 break;
             }

@@ -131,6 +131,10 @@ export default class ApiClient {
     return response;
   }
 
+  async fetchModifiedUser(token) {
+    const response = await this.get("user/modify", token);
+    return response;
+  }
   async createQuest(token, data) {
     const response = await this.post("quest/add/", data, token);
     return response;
@@ -165,6 +169,11 @@ export default class ApiClient {
     return response;
   }
 
+  async getFriendTopTen(token){
+    const response = await this.get("friends/leaderboard_10/", token);
+    return response;
+  }
+  
   async logout(token) {
     const response = await this.post("account/token/logout", null, token);
     return response;
@@ -199,7 +208,7 @@ export default class ApiClient {
   async sendEmail(data) {
     const response = await this.post(`activate/`,data);
     return response;
-  }x
+  }
   async verifyEmail(data) {
     
     const response = await this.get2(`activate/${data.username}/${data.token}/`);
