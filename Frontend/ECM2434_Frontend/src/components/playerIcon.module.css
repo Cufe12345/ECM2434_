@@ -11,7 +11,7 @@
 }
 .border{
     position: absolute;
-    top:-0.4em;
+    /* top:-6.5px; */
     /* left:-0.45em; */
     width:65px;
     height:65px;

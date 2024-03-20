@@ -10,7 +10,7 @@ import classes from "./playerIcon.module.css";
 import { useState } from "react";
 
 // Author: Callum Young(Cufe12345)
-export function PlayerIcon({ userData }) {
+export function PlayerIcon({ userData,width,height }) {
 
     //Stores the border image to be displayed
     const [border, setBorder] = useState(null);
@@ -22,42 +22,51 @@ export function PlayerIcon({ userData }) {
     useEffect(() => {
         setBorder(getBorder());
     }, []);
+
+    useEffect(() => {
+        setBorder(getBorder());
+    }, [userData]);
     
     /**
      * Used to set the border image to be displayed based on the user data
      * @returns The border image to be displayed
      */
     function getBorder() {
-        
         if(userData?.border === undefined){
-            // setNone(true);
-            return _1;
+            setNone(true);
         }
         if(userData?.border === "none"){
             setNone(true);
         }
         if (userData?.border === "1") {
+            setNone(false);
             return _1;
         } else if (userData?.border === "2") {
-            console.log("HERE");
+            setNone(false);
             return _2;
         } else if (userData?.border === "3") {
+            setNone(false);
             return _3;
         } else if (userData?.border === "4") {
+            setNone(false);
             return _4;
-        } else {
+        } else if (userData?.border === "5") {
+            setNone(false);
             return _5;
+        }
+        else{
+            setNone(true);
         }
     }
 
     return (
         <div className={classes.container}>
             {!none ?(
-            <img className={classes.border} src={border} alt="Bronze Border" />
+            <img className={classes.border} src={border} style={{width: width*1.3, height:height*1.3 ,top: -(height*0.13)}} alt="Bronze Border" />
             ):(
                 <></>
             )}
-            <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 50, height: 50 }} className={classes.icon} >{userData?.first_name != undefined ? (userData?.first_name[0]) : 'N/'}{userData?.last_name != undefined ? (userData?.last_name[0]) : 'A'}</Avatar>
+            <Avatar alt="User Profile Picture" src={"http://localhost:8000"+userData?.imgURL} sx={{ width: width, height: height }} className={classes.icon} >{userData?.first_name != undefined ? (userData?.first_name[0]) : 'N/'}{userData?.last_name != undefined ? (userData?.last_name[0]) : 'A'}</Avatar>
         </div>
     );
 }

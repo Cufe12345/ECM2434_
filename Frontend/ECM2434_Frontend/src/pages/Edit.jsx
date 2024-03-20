@@ -5,16 +5,22 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import classes from './Edit.module.css';
 import LogoImage from '../assets/images/logo.png'; 
+import { PlayerIcon } from '../components/playerIcon';
+import { BorderSelector } from '../components/borderSelector';
 
 const EditProfile = () => {
     const navigate = useNavigate();
-    const { userData , user} = useUser();
+    const { userData , user,fetchUserData} = useUser();
 
     const [imgURL, setimgURL] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthday, setBirthday] = useState('');
     const [bio, setBio] = useState('');
+
+    const [borders, setBorders] = useState([]);
+    const [selectedBorder, setSelectedBorder] = useState(0);
+    const [imgUser, setImgUser] = useState(null);
 
     useEffect(() => {
         // Set the initial state of inputs if userData is available
@@ -39,6 +45,10 @@ const EditProfile = () => {
         }
     }, [userData]);
 
+    // useEffect(() => {
+    //     let data = [...userData, imgURL:imgURL];
+    //     setImgUser(userData);
+
     const onSubmit = async (e) => {
         e.preventDefault();
         const data = {
@@ -46,13 +56,15 @@ const EditProfile = () => {
             first_name: firstName,
             last_name: lastName,
             birthday: birthday,
-            bio: bio
+            bio: bio,
+            border: borders[selectedBorder]
         };
         // Ensure modifyUser function uses the token for authorization
         ApiClient.api.modifyUser(user, data).then((res) => {
             console.log(data);
             localStorage.removeItem('uploadedProfilePicPath');
             toast.success("Profile updated successfully!");
+            fetchUserData();
             navigate('/profile/me');
         }).catch((error) => {
             console.error(error);
@@ -66,7 +78,10 @@ const EditProfile = () => {
         <form onSubmit={onSubmit} className={classes['edit-form']}>
             <div className={classes.profilePicSection}>
                 <h5>Profile Picture</h5>
-                <img src={'http://localhost:8000' + imgURL|| LogoImage} alt="profile" className={classes.profilePic}/>
+                {/* <img src={'http://localhost:8000' + imgURL|| LogoImage} alt="profile" className={classes.profilePic}/> */}
+                <div className={classes.profilePicContainer}>
+                <PlayerIcon userData={{...userData,imgURL:imgURL}} width={250} height={250} />
+                </div>
                 <u><h5 onClick={() => navigate('/profile/edit/upload')}  className={classes.uploadLink}>Upload</h5></u>
                 
             </div>
@@ -79,6 +94,8 @@ const EditProfile = () => {
                 <input type="text" placeholder={birthday} onChange={(e) => setBirthday(e.target.value)} />
                 <h5>Bio</h5>
                 <textarea placeholder={bio} onChange={(e) => setBio(e.target.value)} />
+                <h5>Border</h5>
+                <BorderSelector userData={{...userData,imgURL:imgURL}} borders={borders} setBorders={setBorders} selectedBorder={selectedBorder} setSelectedBorder={setSelectedBorder}/>
                 <button type="submit" className={classes['update-profile-button']}>Update Profile</button>
             </div>
         </form>

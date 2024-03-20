@@ -179,7 +179,8 @@ const Profile = () => {
 
                 <div className="profile">
                     <div className="header">
-                    <img className="ProfilePicImg" alt="User Profile Picture" src={imgURL ? `http://localhost:8000${imgURL}` : LogoImage} sx={{ width: 150, height: 150 }} />
+                    {/* <img className="ProfilePicImg" alt="User Profile Picture" src={imgURL ? `http://localhost:8000${imgURL}` : LogoImage} sx={{ width: 150, height: 150 }} /> */}
+                        <PlayerIcon userData={apiUserData} width={150} height={150}/>
                         <h1>{apiUserData?.first_name + ' ' + apiUserData?.last_name}</h1>
                         <h2> {apiUserData?.username} </h2>
                     </div>

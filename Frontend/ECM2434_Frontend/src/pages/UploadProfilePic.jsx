@@ -8,7 +8,7 @@ import ApiClient from "../api/index";
 
 const UploadProfilePic = () => {
   const navigate = useNavigate();
-  const { userData , user} = useUser();
+  const { userData , user,fetchUserData} = useUser();
 
   const [file,setFile] = useState(null)
   
@@ -35,6 +35,7 @@ const UploadProfilePic = () => {
         imgURL = res?.image;
         console.log(res);
         localStorage.setItem('uploadedProfilePicPath', res.image);
+        fetchUserData();
         navigate('/profile/edit');
       })
       .catch((error) => {
