@@ -43,6 +43,9 @@ export default function DailyQuestPage() {
   //Stores if the user has already submitted a quest for today and is waiting for approval
   const [waitingApproval, setWaitingApproval] = useState(false);
 
+  //stores if the users submission was rejected
+  const [rejected, setRejected] = useState(-1);
+
   const navigate = useNavigate();
 
   //Handles the closing of the popup
@@ -112,13 +115,23 @@ export default function DailyQuestPage() {
             setWaitingApproval(true);
           }
           else {
+            if(res[i].verified === false){
+              setWaitingApproval(true);
+              if(res[i].rejected === true){
+                setRejected(res[i].questsubID);
+                setWaitingApproval(false);
+                setPopupText("Your submission was rejected, please try again");
+                setShowPopup(true);
+              }
+            }
+            else{
             navigate("/feed");
           }
-
         }
       }
     });
   }
+
 
   /**
     * This function fetches the daily quest

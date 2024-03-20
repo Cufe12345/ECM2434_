@@ -30,7 +30,9 @@ urlpatterns = [
     path('users/',views.getUser, name='Users profiles'),
     # get this user in full profile
     path('user/',CurrentUserProfileView.as_view(), name='User profile'),
-    # get user by username
+    # modify this user profile
+    path('user/modify',views.modifyUser, name='User modify'),
+    # get user by username  
     path('users/getByUsername/',GetUserByUsernameView.as_view(), name='Get user by username'),
     # set user as gamekeeper
     path('users/set-gamekeeper/<str:username>/', SetGameKeeperView.as_view(), name='set-gamekeeper'),
@@ -78,6 +80,10 @@ urlpatterns = [
     path('quest/submissions/non-valid',NonVerifiedQuestSubListView.as_view(), name='get all non-valid submissions'),
     # validates quest submission if they're a game keeper
     path('quest/submissions/validate/',views.validate_quest_submission, name='Validate quest submission'),
+    # rejects quest submission if they're a game keeper
+    path('quest/submissions/reject/',views.reject_quest_submission, name='Reject quest submission'),
+    # Delete quest submission if they're a game keeper
+    path('quest/submissions/delete/',views.delete_quest_submission, name='Delete quest submission'),
     # see all societies
     path('society/',views.getSociety, name='Society'),
     # add a society
