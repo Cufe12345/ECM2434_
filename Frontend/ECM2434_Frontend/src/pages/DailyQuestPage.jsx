@@ -115,17 +115,18 @@ export default function DailyQuestPage() {
             setWaitingApproval(true);
           }
           else {
-            if(res[i].verified === false){
+            if (res[i].verified === false) {
               setWaitingApproval(true);
-              if(res[i].rejected === true){
+              if (res[i].rejected === true) {
                 setRejected(res[i].questsubID);
                 setWaitingApproval(false);
                 setPopupText("Your submission was rejected, please try again");
                 setShowPopup(true);
               }
             }
-            else{
-            navigate("/feed");
+            else {
+              navigate("/feed");
+            }
           }
         }
       }
