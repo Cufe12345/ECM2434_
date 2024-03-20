@@ -35,7 +35,8 @@ class UserProfile(AbstractUser):
     streak = models.PositiveIntegerField(default=0)  # Streak field with default value.
     border = models.CharField(max_length=100,default="none")
     imgURL = models.CharField(max_length=200, default="none")
-    #is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
+    is_active = models.BooleanField(default=False)  # Flag to indicate if the user is active.
+
 
 # Defines the Friend relationship model.
 class Friend(models.Model):
