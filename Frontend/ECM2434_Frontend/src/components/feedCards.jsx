@@ -69,7 +69,7 @@ export function FeedCards() {
             if (res.length == 0 || res == null) {
                 return;
             }
-            for (let i = res.length - 1; i > 0; i--) {
+            for (let i = res.length - 1; i >= 0; i--) {
                 if (res[i].state === true) {
 
                     setDailyQuest(res[i]);
@@ -156,6 +156,7 @@ export function FeedCards() {
                 username: user.username,
                 first_name: user.first_name,
                 last_name: user.last_name,
+                imgURL: user.imgURL,
                 rank: user.rank,
                 role:user.role,
                 img:submission.imgURL,
@@ -188,7 +189,7 @@ export function FeedCards() {
                     <div className={classes.topContainer}>
                         <div className={classes.userContainer}>
                             <div className={classes.avatarContainer} onClick={()=>handleProfileClick(feedObject.username)}>
-                                <PlayerIcon userData={feedObject}/>
+                                <PlayerIcon userData={feedObject} width={50} height={50}/>
                             </div>
                             <div className={classes.nameRoleContainer}>
                                 <h2>{feedObject.username}</h2>

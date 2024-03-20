@@ -30,25 +30,7 @@ export function UserContextProvider({ children }) {
             console.log("Fetching user data")
             console.log("USER: ",user)
             console.log("COOKIE: ",cookieCSRF)
-            ApiClient.api.fetchUserData(user).then((res) => {
-                console.log(res)
-                //If the token is invalid, log the user out
-                if(res.detail){
-                  if(res.detail === "Invalid token."){
-                    console.log("Invalid token, logging out")
-                    setUser(null);
-                    setCookie("user", "", { path: "/" });
-                  }
-                }
-                setUserData(res);
-                console.log("User data fetched")
-                console.log(userData)
-                setUserDataLoading(false);
-            }).catch((error) => {
-                console.log(error);
-                setUserDataError(error);
-                setUserDataLoading(false);
-            });
+            fetchUserData();
 
 
         }
@@ -60,8 +42,30 @@ export function UserContextProvider({ children }) {
         }
   }, [user]);
 
+  function fetchUserData(){
+    ApiClient.api.fetchUserData(user).then((res) => {
+      console.log(res)
+      //If the token is invalid, log the user out
+      if(res.detail){
+        if(res.detail === "Invalid token."){
+          console.log("Invalid token, logging out")
+          setUser(null);
+          setCookie("user", "", { path: "/" });
+        }
+      }
+      setUserData(res);
+      console.log("User data fetched")
+      console.log(userData)
+      setUserDataLoading(false);
+  }).catch((error) => {
+      console.log(error);
+      setUserDataError(error);
+      setUserDataLoading(false);
+  });
+  }
+
   return (
-    <UserContext.Provider value={{ user, setUser,userData,userDataError,userDataLoading }}>
+    <UserContext.Provider value={{ user, setUser,userData,userDataError,userDataLoading,fetchUserData }}>
       {children}
     </UserContext.Provider>
   );
