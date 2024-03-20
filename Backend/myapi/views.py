@@ -323,7 +323,6 @@ class EmailVerification(APIView):
         user = UserProfile.objects.get(username=username1)
         # Checks if the token is valid
         tokenValid = default_token_generator.check_token(user, token)
-        user.is_active = True
         if tokenValid:
             # Sets the user in the database as active
             user.is_active = True
