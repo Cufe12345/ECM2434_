@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import './loadingScreenAnim.css'
 
 const AnimationComponent = () => {
