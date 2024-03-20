@@ -1,10 +1,9 @@
 import classes from './friendList.module.css';
 import React, {useEffect, useState} from 'react';
 import ApiClient from "../api/index";
+import { PlayerIcon } from './playerIcon';
 
 export function FriendList({friends}) {
-  
-  console.log(friends);
   
 
   return (
@@ -17,9 +16,11 @@ export function FriendList({friends}) {
           </tr>
         </thead>
         <tbody>
+         
           {friends.map((friend) => (
-            <tr key={friend}>
-              <td>{friend}</td>
+            <tr key={friend.username}>
+              <td style={{width:'20%', padding:'10px'} }><PlayerIcon userData={friend} /></td>
+              <td>{friend.username}</td>
             </tr>
           ))}
         </tbody>
