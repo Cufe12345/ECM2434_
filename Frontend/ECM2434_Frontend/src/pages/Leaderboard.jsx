@@ -9,6 +9,8 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { useUser } from '../contexts/userContext';
 import React, { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
+
 
 import './leaderboard.css';
 
@@ -48,15 +50,24 @@ const Leaderboard = () => {
     const { user } = useUser(); // Assuming useUser() returns the current user context
     const [data, setData] = useState([]); // Initialize the data state to an empty array
     const [loadingUserData, setLoadingUserData] = useState(true); // Initialize the loading state to true
+    // This state checks if the user wants to see their friends leaderboard
+    const [leaderboardFriend, setLeaderboardFriend] = useState(false);
 
     useEffect(() => {
         // Define the function to fetch data inside useEffect
         const fetchData = async () => {
             try {
                 if (user) { // Check if user data and token are loaded
-                    const res = await ApiClient.api.getTopTen(user);
-                    console.log(res);
+                    if (leaderboardFriend) {
+                        var res = await ApiClient.api.getFriendTopTen(user);
+                        console.log(res);
+                        setData(res); // Update the state with the fetched data
+                    }
+                    else{
+                    var res = await ApiClient.api.getTopTen(user);
+                    console.log("buddy",res);
                     setData(res); // Update the state with the fetched data
+                    }
                 }
             } catch (error) {
                 console.log(error)
@@ -70,7 +81,7 @@ const Leaderboard = () => {
             fetchData();
         }
 
-    }, [user]); // Dependency array: the effect runs when the `user` object changes
+    }, [user, leaderboardFriend]); // Dependency array: the effect runs when the `user` object changes
 
 
     return (
@@ -79,7 +90,26 @@ const Leaderboard = () => {
                 <p>Loading...</p>
             ) : (
                 <div className="formater">
+                    <div className="leaderboardHeadings">
+                    <h1>{leaderboardFriend ? "Friend Leaderboard" : "Leaderboard"}</h1>
+                        <Button onClick={() => setLeaderboardFriend(!leaderboardFriend)} variant="contained" sx={
+                                {
+                                    height: '40px',
+                                    color: '#000000',
+                                    border: '1px solid #000000',
+                                    fontSize: '16px',
+                                    fontWeight: 'bold',
+                                    backgroundColor: '#EDF0EC',
+                                    '&:hover': {
+                                        backgroundColor: '#EAFCE8',
+                                        opacity: '0.8'
+                                    }
+                                }
+                            }> 
+                                Toggle Leaderboard</Button>
+                    </div>
                     <TableContainer component={Paper} className='tableContainer'>
+
                         <StyledTable sx={{ width: 650, color: "ActiveBorder" }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>

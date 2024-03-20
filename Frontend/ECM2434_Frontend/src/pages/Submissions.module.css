@@ -1,3 +1,7 @@
+/* Author: Callum Young(Cufe12345)*/
+
 .container{
-    height:100vh
+    /* 70px for navbar, 60px for footer, 20px due to margin on submission box */
+    min-height:calc(((100vh - 70px) - 60px) - 20px);
+    height: auto;
 }

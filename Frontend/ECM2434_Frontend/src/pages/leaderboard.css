@@ -1,8 +1,10 @@
 .tableContainer {
     padding: 4rem;
+    padding-top:1rem;
     width: 100%;
     max-width: 1400px;
-    height: calc(100vh - 70px);
+    /* 70px for navbar, 60px for footer */
+    height: calc((100vh - 70px) - 60px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,6 +12,7 @@
 }
 
 .formater {
+    margin:1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,4 +28,11 @@
     width: 100px;
     text-align: center !important;
     font-weight: bold !important;
+}
+
+.leaderboardHeadings{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+
 }

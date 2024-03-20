@@ -1,6 +1,8 @@
+/* Author: Callum Young(Cufe12345)*/
+
 .bg {
     width: 100vw;
-    height: 170vh;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.555);
     /* opacity: 0.5; */
     position: absolute;

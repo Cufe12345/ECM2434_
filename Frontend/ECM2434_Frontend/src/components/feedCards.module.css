@@ -1,3 +1,5 @@
+/* Author: Callum Young(Cufe12345)*/
+
 .container{
     display: flex;
     flex-direction: column;
@@ -107,4 +109,17 @@
     /* border-color: #000000;
     border-width: 2px;
     border-style: solid; */
+}
+.date{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+.avatarContainer{
+    cursor: pointer;
 }
