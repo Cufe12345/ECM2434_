@@ -42,7 +42,9 @@ def addUser(request):
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
 
-@api_view(['POST'])
+# Author: @Stickman230
+# modify user profile
+@api_view(['POST','GET'])
 @permission_classes([permissions.IsAuthenticated])
 def modifyUser(request):
     user_profile = request.user

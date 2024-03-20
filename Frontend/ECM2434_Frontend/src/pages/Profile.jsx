@@ -12,6 +12,7 @@ import { LinearProgress } from "@mui/material";
 import Button from '@mui/material/Button';
 import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import LogoImage from '../assets/images/logo.png'; 
 import level1 from '../assets/images/Level1.png'; 
 import level2 from '../assets/images/Level2.png';
 import level3 from '../assets/images/Level3.png';
@@ -37,6 +38,9 @@ const Profile = () => {
     
     // Username of the profile being viewed
     const [username, setUsername] = useState(null);
+  
+    const [imgURL, setimgURL] = useState('');
+  
     // Whether the user is already a friend
     const [friendAdded, setFriendAdded] = useState(false);
     // Gets the list of friends' ids
@@ -134,6 +138,7 @@ const Profile = () => {
 
         }
     }
+
     function getUserDataFromUsername(){
         // fetches username data from either the current user or the user being viewed
         ApiClient.api.fetchUsernameData({ "username": username}, user)
@@ -150,6 +155,24 @@ const Profile = () => {
                 setapiUserDataLoading(false);
             });
     }
+
+
+    useEffect(() => {
+        ApiClient.api.fetchModifiedUser(user)
+            .then((res) => {
+                console.log(res);
+                // Assuming 'res' is the updated user object and has a field 'ImgURL'
+                // Update your state based on the actual structure of your response
+                setimgURL(res.imgURL);
+                console.log(res);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [user]); // Re-run this effect if 'user' changes, adjust dependencies as needed
+    
+
+
   const levelImages = {
         1: level1,
         2: level2,
@@ -173,6 +196,7 @@ const Profile = () => {
                 <div className="profile">
 
                     <div className="header">
+
                         <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 150, height: 150 }} />
                         
                         

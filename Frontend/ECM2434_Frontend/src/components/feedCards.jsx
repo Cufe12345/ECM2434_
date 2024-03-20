@@ -7,6 +7,8 @@ import Chip  from "@mui/material/Chip";
 import { CiStar } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { PlayerIcon } from "./playerIcon";
+
+// Author: Callum Young(Cufe12345)
 export function FeedCards() {
 
     //Stores all the valid submissions for the daily quest
@@ -152,14 +154,15 @@ export function FeedCards() {
             }
             let feedObject = {
                 username: user.username,
-                firstName: user.first_name,
-                lastName: user.last_name,
+                first_name: user.first_name,
+                last_name: user.last_name,
                 rank: user.rank,
                 role:user.role,
                 img:submission.imgURL,
                 info:submission.info,
                 colour:colour,
                 date:new Date(submission.date_created),
+                border: user.border,
             }
             feed.push(feedObject);
         }
@@ -168,6 +171,11 @@ export function FeedCards() {
     
     }
 
+    /**
+     * Handles the profile click by navigating to the profile page of the user
+     * @param {*} username - the username of the user
+     * @returns
+     */
     function handleProfileClick(username){
         navigate("/profile/"+username);
     }
