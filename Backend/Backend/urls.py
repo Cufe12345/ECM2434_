@@ -1,7 +1,4 @@
 """
-Author: @Stickman230 - Maxime Reynaud
-Email: mpcr201@exeter.ac.uk
-
 This file defines the patern for the admin and API endpoint 
 """
 
@@ -14,4 +11,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('myapi.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
