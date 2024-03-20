@@ -7,6 +7,12 @@
     justify-content: center;
 }
 
+.ProfilePicImg {
+    width: 15vw; /* Adjust the width as needed */
+    height: 20vh; /* Adjust the height as needed */
+    border-radius: 50%; /* This creates fully rounded corners for a circular shape */
+    object-fit: cover; /*cover or contain */
+  }
 
 .profile {
     margin: 10vw;
