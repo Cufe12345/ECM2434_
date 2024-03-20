@@ -6,12 +6,12 @@ import ApiClient from '../../../api/index';
 import { ImageSubmit } from '../../imageSubmit';
 
 //Created by Cufe12345(Callum Young)
-export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
+export function CreateQuestForm({ handleClose, setShowPopup, setPopupMessage }) {
     //Fetch the user context from the user context provider
-    const { user, userDataLoading,userData} = useUser();
+    const { user, userDataLoading, userData } = useUser();
 
     //Stores the current step of the form
-    const[step, setStep] = useState(1);
+    const [step, setStep] = useState(1);
 
     //Stores the quest name
     const [name, setName] = useState("");
@@ -20,7 +20,7 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
     const [description, setDescription] = useState("");
 
     //Stores the latitude of the custom location
-    const [latitude,setLatitude] = useState("");
+    const [latitude, setLatitude] = useState("");
 
     //Stores the longitude of the custom location
     const [longitude, setLongitude] = useState("");
@@ -62,23 +62,23 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
     useEffect(() => {
         fetchLocations();
         fetchTypes();
-    },[]);
+    }, []);
 
     /**
      * Fetches the quest types from the database
      */
-    async function fetchTypes(){
+    async function fetchTypes() {
         setFetchingTypes(true);
         ApiClient.api.fetchTypes(user).then((res) => {
             //at later date add error handling for invalid token and check properly ie if 401 etc
-            if(res.detail === "Invalid token."){
+            if (res.detail === "Invalid token.") {
                 console.error("Invalid token");
                 return;
             }
             console.log(res);
             setTypes(res);
-                 //If there are quest types, set the type select value to the first type so that if the user does not change the value in the select field, the first type will be selected by default
-            if(res.length > 0){
+            //If there are quest types, set the type select value to the first type so that if the user does not change the value in the select field, the first type will be selected by default
+            if (res.length > 0) {
                 setQuestType(res[0].name);
             }
             setFetchingTypes(false);
@@ -93,19 +93,19 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
      * @param {boolean} override - If false, the location select value will be set to the first location in the list
      * If true, the location select value will not be changed
      */
-    async function fetchLocations(override = false){
+    async function fetchLocations(override = false) {
         setFetchingLocations(true);
         ApiClient.api.fetchLocations(user).then((res) => {
 
             //at later date add error handling for invalid token and check properly ie if 401 etc
-            if(res.detail === "Invalid token."){
+            if (res.detail === "Invalid token.") {
                 console.error("Invalid token");
                 return;
             }
             console.log(res);
             setListOfLocations(res);
             //If there are locations, set the location select value to the first location so that if the user does not change the value in the select field, the first location will be selected by default
-            if(res.length > 0 && !override){
+            if (res.length > 0 && !override) {
                 setLocationSelectValue(res[0].name);
             }
             setFetchingLocations(false);
@@ -118,18 +118,18 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
     /**
      * Adds a location to the database
      */
-    function addLocation(){
+    function addLocation() {
         let locationData = {
             name: locationName,
             latitude: latitude,
             longitude: longitude,
         }
-        ApiClient.api.addLocation(user,locationData).then(async(res) => {
+        ApiClient.api.addLocation(user, locationData).then(async (res) => {
             console.log(res);
 
             //Fetch the locations again to update the list of locations
             await fetchLocations(true);
-            
+
             //Set the location select value to the location that was just added
             setLocationSelectValue(locationName);
 
@@ -143,7 +143,7 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
     /**
      * Adds the quest to the database
      */
-    async function createQuest(){
+    async function createQuest() {
 
         console.log("Creating Quest");
         console.log(image)
@@ -154,23 +154,23 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
             "description": "n/a for now",
         }
         let imgURL = null;
-        await ApiClient.api.uploadImage(user,dataImg,image).then((res) => {
-            
+        await ApiClient.api.uploadImage(user, dataImg, image).then((res) => {
+
             imgURL = res?.image;
             console.log(res);
         }).catch((error) => {
             console.warn(error);
         });
-        if(imgURL === null || imgURL === undefined){
+        if (imgURL === null || imgURL === undefined) {
             console.error("Image failed to upload");
             return;
         }
         //Get the locationID from the location name that was selected
         let locationID = -1;
-        for(let i = 0; i < listOfLocations.length; i++){
-            console.log("1: "+listOfLocations[i].name+ " 2: "+locationSelectValue);
+        for (let i = 0; i < listOfLocations.length; i++) {
+            console.log("1: " + listOfLocations[i].name + " 2: " + locationSelectValue);
 
-            if(listOfLocations[i].name === locationSelectValue){
+            if (listOfLocations[i].name === locationSelectValue) {
                 locationID = listOfLocations[i].locationID;
                 break;
             }
@@ -178,8 +178,8 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
 
         //Get the questTypeID from the quest type that was selected
         let questTypeID = -1;
-        for(let i = 0; i < types.length; i++){
-            if(types[i].name === questType){
+        for (let i = 0; i < types.length; i++) {
+            if (types[i].name === questType) {
                 questTypeID = types[i].questTypeID;
                 break;
             }
@@ -188,7 +188,6 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
         let data = {
             name: name,
             task: description,
-            state:"True",
             locationID: locationID,
             questTypeID: questTypeID,
             reward: Number(reward),
@@ -196,7 +195,7 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
             imgURL: imgURL,
         }
         console.log(data);
-        ApiClient.api.createQuest(user,data).then((res) => {
+        ApiClient.api.createQuest(user, data).then((res) => {
             console.log(res);
             setPopupMessage("Quest Created!");
             setShowPopup(true);
@@ -212,10 +211,10 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
      * Handles the form submission, if the step is the last step, the quest will be created otherwise the step will be incremented*/
     const onSubmit = (e) => {
         e.preventDefault();
-        if(step === maxSteps){
+        if (step === maxSteps) {
             createQuest();
         }
-        else{
+        else {
             setStep(step + 1);
         }
     }
@@ -228,7 +227,7 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
     const onTypeSelectChange = (e) => {
         setQuestType(e.target.value);
     }
-    return(
+    return (
         <form className={classes.form} onSubmit={onSubmit}>
             <div className={classes.backContainer}>
                 <button type="button" onClick={handleClose} className={classes.backButton}>Close</button>
@@ -237,19 +236,19 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
             {step == 1 && (
                 <div className={classes.inputContainer}>
                     <h3>Enter the quest name</h3>
-                    <input className={classes.inputField} type="text" placeholder="Quest Name" value={name} onChange={(e) => setName(e.target.value)} required={true}/>
+                    <input className={classes.inputField} type="text" placeholder="Quest Name" value={name} onChange={(e) => setName(e.target.value)} required={true} />
                 </div>
             )}
             {step === 2 && (
                 <div className={classes.inputContainer}>
                     <h3>Enter the quest description</h3>
-                    <input className={classes.inputField} type="text" placeholder="Quest Description" value={description} onChange={(e) => setDescription(e.target.value)} required={true}/>
+                    <input className={classes.inputField} type="text" placeholder="Quest Description" value={description} onChange={(e) => setDescription(e.target.value)} required={true} />
                 </div>
             )}
             {step === 3 && (
                 <div className={classes.inputContainer}>
                     <h3>Enter the reward for completing the quest</h3>
-                    <input className={classes.inputField} type="number" placeholder="Quest Reward" value={reward} onChange={(e) => setReward(e.target.value)} required={true}/>
+                    <input className={classes.inputField} type="number" placeholder="Quest Reward" value={reward} onChange={(e) => setReward(e.target.value)} required={true} />
                 </div>
             )}
             {step === 4 && (
@@ -257,13 +256,13 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
                     <h3>Select the quest type</h3>
                     <div className={classes.locationContainer}>
                         <select value={questType} className={classes.selectField} name="type" id="type" onChange={onTypeSelectChange}>
-                            
+
                             {types.length === 0 && !fetchingTypes && (<option value="null">No Types</option>)}
                             {fetchingTypes && (<option value="null">Fetching Types</option>)}
-                            {types?.map((type,index) => {
+                            {types?.map((type, index) => {
                                 return <option value={type.name}>{type.name}</option>
                             })}
-                            
+
                         </select>
                     </div>
                 </div>
@@ -276,25 +275,25 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
                         <select value={locationSelectValue} className={classes.selectField} name="location" id="location" onChange={onSelectChange}>
                             {listOfLocations.length === 0 && !fetchingLocations && (<option value="null">No Locations</option>)}
                             {fetchingLocations && (<option value="null">Fetching Locations</option>)}
-                            {listOfLocations?.map((location,index) => {
+                            {listOfLocations?.map((location, index) => {
                                 return <option value={location.name}>{location.name}</option>
                             })}
-                            
+
                         </select>
                     </div>
                     <div className={classes.locationContainer}>
-                    <button type="button" className={classes.showButton}onClick={(e) => {
-                        setShowCustomLocation(!showCustomLocation);
-                    }}> {!showCustomLocation ? <p>Add Custom Location</p>: <p>Hide Custom Location</p>}</button>
+                        <button type="button" className={classes.showButton} onClick={(e) => {
+                            setShowCustomLocation(!showCustomLocation);
+                        }}> {!showCustomLocation ? <p>Add Custom Location</p> : <p>Hide Custom Location</p>}</button>
                     </div>
                     {showCustomLocation && (
-                    <div className={classes.locationContainer}>
-                        
-                        <input className={classes.inputField} type="text" placeholder="Location Name" value={locationName} onChange={(e) => setLocationName(e.target.value)}/>
-                        <input className={classes.inputField} type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)}/>
-                        <input className={classes.inputField} type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)}/>
-                        <button type="button" onClick={addLocation}className={classes.locationButton}>Add Location</button>
-                    </div>
+                        <div className={classes.locationContainer}>
+
+                            <input className={classes.inputField} type="text" placeholder="Location Name" value={locationName} onChange={(e) => setLocationName(e.target.value)} />
+                            <input className={classes.inputField} type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
+                            <input className={classes.inputField} type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+                            <button type="button" onClick={addLocation} className={classes.locationButton}>Add Location</button>
+                        </div>
                     )}
 
                 </div>
@@ -302,21 +301,21 @@ export function CreateQuestForm({handleClose,setShowPopup,setPopupMessage}) {
             {step === 6 && (
                 <div className={classes.inputContainer}>
 
-                <h3>Upload an example image of the completed quest</h3>   
-                {/* <input className={classes.inputField} type="file" accept="image/*" placeholder="Add Image" value={image} onChange={(e) => setImage(e.target.value)}/> */}
-                <ImageSubmit setImage={setImage} img={image}/>
-                    
-            </div>
+                    <h3>Upload an example image of the completed quest</h3>
+                    {/* <input className={classes.inputField} type="file" accept="image/*" placeholder="Add Image" value={image} onChange={(e) => setImage(e.target.value)}/> */}
+                    <ImageSubmit setImage={setImage} img={image} />
+
+                </div>
             )}
             {step === maxSteps ? (
                 <div className={classes.buttonContainer}>
-                    <button type="button" onClick={()=>setStep(step-1)} className={classes.locationButton}>Back</button>
+                    <button type="button" onClick={() => setStep(step - 1)} className={classes.locationButton}>Back</button>
                     <button className={classes.locationButton}>Create</button>
                 </div>
             ) : (
                 <div className={classes.buttonContainer}>
                     {step > 1 && (
-                        <button type="button" onClick={()=>setStep(step-1)} className={classes.locationButton}>Back</button>
+                        <button type="button" onClick={() => setStep(step - 1)} className={classes.locationButton}>Back</button>
                     )}
                     <button className={classes.locationButton}>Next</button>
                 </div>

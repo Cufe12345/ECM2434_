@@ -132,6 +132,12 @@ export default class ApiClient {
     const response = await this.get("quest/", token);
     return response;
   }
+
+  async fetchActiveQuest(token) {
+    const response = await this.get("quest/active/", token);
+    return response;
+  }
+
   async fetchImage(imgPath, token) {
     const response = await this.get("media/iamges/" + imgPath, token);
     return response;
@@ -177,7 +183,7 @@ export default class ApiClient {
     const response = await this.post("quest/submissions/validate/", data, token);
     return response;
   }
-  async fetchFeed(token,data) {
+  async fetchFeed(token, data) {
     const response = await this.post("quest/submissions/valid/ByQuestID", data, token);
     return response;
   }

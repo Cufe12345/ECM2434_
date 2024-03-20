@@ -54,7 +54,7 @@ export default function DailyQuestPage() {
   const handleCompleteQuest = () => {
 
     //true if the user has already submitted a quest for today and is waiting for approval
-    if(waitingApproval){
+    if (waitingApproval) {
       setPopupText("You have already submitted a quest for today and are waiting for approval");
       setShowPopup(true);
       return;
@@ -88,73 +88,68 @@ export default function DailyQuestPage() {
 
   //This useEffect is used to check if the user is logged in, if they arent then brings them back to home page
   useEffect(() => {
-    if(user == null){
+    if (user == null) {
       navigate("/");
     }
   }, [user]);
 
   useEffect(() => {
-    if(quest){
+    if (quest) {
       fetchSubmissions();
     }
-  },[quest])
+  }, [quest])
 
-  function fetchSubmissions(){
+  function fetchSubmissions() {
     ApiClient.api.fetchSubmissions(user).then((res) => {
       console.log(res);
       if (res.length == 0) {
-          return;
+        return;
       }
-      
+
       for (let i = 0; i < res.length; i++) {
         if (res[i].questID === quest.questID && res[i].user === userData.id) {
-            if(res[i].verified === false){
-              setWaitingApproval(true);
-            }
-            else{
+          if (res[i].verified === false) {
+            setWaitingApproval(true);
+          }
+          else {
             navigate("/feed");
-            }
-              
+          }
+
         }
       }
     });
   }
 
-   /**
-     * This function fetches the daily quest
-     */
-   function fetchQuests() {
-    ApiClient.api.fetchQuests(user).then((res) => {
-        console.log(res)
-        for (let i = res.length-1; i > 0; i--) {
-            if (res[i].state === true) {
-                setQuest(res[i]);
-                break;
-            }
-        }
+  /**
+    * This function fetches the daily quest
+    */
+  function fetchQuests() {
+    ApiClient.api.fetchActiveQuest(user).then((res) => {
+      console.log(res)
+      setQuest(res);
     }).catch((error) => {
-        console.log(error);
+      console.log(error);
     });
   }
 
   return (
 
     <div className={classes.container}>
-          {showSubmitQuest ? (
-            <SubmitQuestForm
-              onBackClick={handleCloseSubmitQuest}
-              setOpen={setShowPopup}
-              setPopupText={setPopupText}
-              quest={quest}
-            />
-          ) : (
-            showCreateQuest ?( <CreateQuestForm handleClose={handleCloseCreateQuest} setPopupMessage={setPopupText} setShowPopup={setShowPopup}/>):
-           ( <DailyQuest onDailyQuestComplete={handleCompleteQuest} onCreateQuestClick={handleCreateQuest} quest={quest}fetchQuests={fetchQuests}/>)
-          
-          )}
-          <Popup handleClose={handleClose} open={showPopup}>
-            <h5 className={classes.popupText}>{popupText}</h5>
-          </Popup>
+      {showSubmitQuest ? (
+        <SubmitQuestForm
+          onBackClick={handleCloseSubmitQuest}
+          setOpen={setShowPopup}
+          setPopupText={setPopupText}
+          quest={quest}
+        />
+      ) : (
+        showCreateQuest ? (<CreateQuestForm handleClose={handleCloseCreateQuest} setPopupMessage={setPopupText} setShowPopup={setShowPopup} />) :
+          (<DailyQuest onDailyQuestComplete={handleCompleteQuest} onCreateQuestClick={handleCreateQuest} quest={quest} fetchQuests={fetchQuests} />)
+
+      )}
+      <Popup handleClose={handleClose} open={showPopup}>
+        <h5 className={classes.popupText}>{popupText}</h5>
+      </Popup>
     </div>
   );
 }
