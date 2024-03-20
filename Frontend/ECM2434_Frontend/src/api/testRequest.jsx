@@ -155,6 +155,11 @@ export default class ApiClient {
     return response;
   }
 
+  async getFriendTopTen(token){
+    const response = await this.get("friends/leaderboard_10/", token);
+    return response;
+  }
+  
   async logout(token) {
     const response = await this.post("account/token/logout", null, token);
     return response;

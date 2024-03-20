@@ -37,7 +37,7 @@ const Navbar = ({ }) => {
                     {user ? (
                         <>
                             <NavLink to="/Leaderboard">Leaderboard</NavLink>
-                            <NavLink to="/Profile">Profile</NavLink>
+                            <NavLink to="/Profile/me">Profile</NavLink>
                             {(userData?.role === "GameKeeper" || userData?.role === "Developer") && (<NavLink to="/Submissions">Submissions</NavLink>)}
                             <button className={classes.button} onClick={logout}>Logout</button>
 
