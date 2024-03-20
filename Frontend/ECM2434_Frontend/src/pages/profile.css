@@ -1,13 +1,35 @@
-.container {
+.container2 {
     display: flex;
     width: 100vw;
-    height: calc(100vh - 70px);
+    /* 70px for navbar, 60px for footer */
+    height: calc((100vh - 70px) - 60px);
     align-items: center;
     justify-content: center;
 }
 
+
+.container3 {
+    margin-top: 3vw;
+    display: flex;
+    width: 100%;
+    max-width: 1280px;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    align-items: flex-start;
+    height: 100%;
+    padding: 2em;
+}
+
+.ProfilePicImg {
+    width: 15vw; /* Adjust the width as needed */
+    height: 20vh; /* Adjust the height as needed */
+    border-radius: 50%; /* This creates fully rounded corners for a circular shape */
+    object-fit: cover; /*cover or contain */
+  }
+
+
 .profile {
-    margin: 10vw;
+    margin-left: 10%;
     max-width: 800px;
     width: 80vw;
     height: fit-content;
@@ -93,9 +115,14 @@ h2 {
 .buttonContainer {
     display: flex;
     justify-content: end;
-    position: absolute;
-    width: 80vw;
+    
+    width: 20vw;
     max-width: 800px;
-    margin-right: 10%;
+    
     margin-top: 4%;
 }
+
+.level-icon {
+    width: 50px; /* Set the width as needed */
+    height: auto; /* This will maintain the aspect ratio */
+  }

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import classes from "./viewSubmission.module.css";
 import { useUser } from "../contexts/userContext";
 import ApiClient from "../api/index";
+
+// Author: Callum Young(Cufe12345)
 export function ViewSubmission() {
 
     //Stores all the valid submissions
@@ -55,7 +57,7 @@ export function ViewSubmission() {
             }
             let validSubmissions = [];
             for (let i = 0; i < res.length; i++) {
-                if (res[i].questID === dailyQuest.questID && res[i].verified === false) {
+                if (res[i].questID === dailyQuest.questID && res[i].verified === false && res[i].rejected === false) {
                     validSubmissions.push(res[i]);
                 }
             }
@@ -77,7 +79,7 @@ export function ViewSubmission() {
             if (res.length == 0 || res == null) {
                 return;
             }
-            for (let i = res.length - 1; i > 0; i--) {
+            for (let i = res.length - 1; i >= 0; i--) {
                 if (res[i].state === true) {
 
                     setDailyQuest(res[i]);
@@ -101,6 +103,23 @@ export function ViewSubmission() {
         }
         console.log(data);
         ApiClient.api.verifySubmission(user, data).then((res) => {
+            console.log(res);
+            fetchSubmissions();
+        });
+    }
+
+    /**
+     * Reject the submission in the backend
+     * @param {*} e - the event 
+     */
+    async function rejectSubmission(e) {
+        e.preventDefault();
+        console.log("Rejecting submission");
+        let data = {
+            id: submissions[submission].questsubID,
+        }
+        console.log(data);
+        ApiClient.api.rejectSubmission(user, data).then((res) => {
             console.log(res);
             fetchSubmissions();
         });
@@ -132,7 +151,7 @@ export function ViewSubmission() {
 
                 </select>
             </div>
-            {submissions[submission] !== null && (
+            {(submissions[submission] !== null && submissions?.length != 0) && (
 
                 <>
                     <div className={classes.imgContainer}>
@@ -142,7 +161,7 @@ export function ViewSubmission() {
                     </div>
                     <p>{submissions[submission]?.info}</p>
                     <div className={classes.btnContainer}>
-                        <button className={classes.Button} style={{ backgroundColor: "red" }}>Reject</button>
+                        <button className={classes.Button} onClick={rejectSubmission} style={{ backgroundColor: "red" }}>Reject</button>
                         <button className={classes.Button} onClick={approveSubmission} style={{ backgroundColor: "green" }}>Approve</button>
                     </div>
                 </>

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/userContext";
 import { CreateQuestForm } from "../components/forms/createQuest/createQuestForm";
-import { DailyQuest } from "../components/dailyQuest";
+
 import classes from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
 // import { DailyQuestPage } from "./DailyQuestPage";
 import Button from "@mui/material/Button"
+import AboutUs from "./aboutUs";
 
 const Home = () => {
   const { user } = useUser();
   const [showForm, setShowForm] = useState(false);
-  const [showDailyQuest, setShowDailyQuest] = useState(false);
+  const [showAboutUs, setAboutUs] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,6 +23,13 @@ const Home = () => {
     }
   }, [user]);
   //This return is conditionally rendered based on whether the user is logged in or not
+
+  const handleAboutUsClick = () => {
+    navigate('/about_us'); };
+
+  const handleGetStarted= () => {
+    navigate('/Register'); };
+
   return (
     <>
 
@@ -36,21 +44,19 @@ const Home = () => {
           </div>
           <div className={classes.buttonGroup}>
             <button
-              className={classes.createQuestButton}
-              onClick={() => setShowForm(!showForm)}
+              className={classes.GetStartedButton}
+              onClick={handleGetStarted}
             >
-              Create Quest
+              Get Started 
             </button>
             <button
-              className={classes.dailyQuestButton}
-              onClick={() => setShowDailyQuest(!showDailyQuest)}
+              className={classes.AboutUsButton}
+              onClick={handleAboutUsClick}
             >
-              Daily Quest
+              About Us
             </button>
           </div>
         </div>
-        {showForm && <CreateQuestForm />}
-        {showDailyQuest && <DailyQuest />}
       </div>
 
     </>

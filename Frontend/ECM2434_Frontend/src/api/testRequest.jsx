@@ -41,6 +41,19 @@ export default class ApiClient {
     return response_data;
   }
 
+  async get2(url, config) {
+    // const response = await this.axios.get(url, config);
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(baseURL + url, requestOptions);
+    const response_data = await response.json();
+    return response_data;
+  }
+
 
   async post(url, data, token, image) {
 
@@ -112,6 +125,16 @@ export default class ApiClient {
     return response1;
   }
 
+  async modifyUser(token, data) {
+    console.log(data);
+    const response = await this.post("user/modify", data, token);
+    return response;
+  }
+
+  async fetchModifiedUser(token) {
+    const response = await this.get("user/modify", token);
+    return response;
+  }
   async createQuest(token, data) {
     const response = await this.post("quest/add/", data, token);
     return response;
@@ -152,6 +175,11 @@ export default class ApiClient {
     return response;
   }
 
+  async getFriendTopTen(token){
+    const response = await this.get("friends/leaderboard_10/", token);
+    return response;
+  }
+  
   async logout(token) {
     const response = await this.post("account/token/logout", null, token);
     return response;
@@ -183,12 +211,37 @@ export default class ApiClient {
     const response = await this.post("quest/submissions/validate/", data, token);
     return response;
   }
-  async fetchFeed(token, data) {
+  async sendEmail(data) {
+    const response = await this.post(`activate/`,data);
+    return response;
+  }
+  async verifyEmail(data) {
+    
+    const response = await this.get2(`activate/${data.username}/${data.token}/`);
+    return response;
+  }
+  async fetchFeed(token,data) {
     const response = await this.post("quest/submissions/valid/ByQuestID", data, token);
     return response;
   }
   async fetchAllUsers(token) {
     const response = await this.get("users/", token);
+    return response;
+  }
+  async addFriend(token, data) {
+    const response = await this.post("friends/add/", data, token);
+    return response;
+  }
+  async fetchFriends(token, data) {
+    const response = await this.post("friends/all/", data, token);
+    return response;
+  }
+  async rejectSubmission(token, data) {
+    const response = await this.post("quest/submissions/reject/", data, token);
+    return response;
+  }
+  async deleteSubmission(token, data) {
+    const response = await this.post("quest/submissions/delete/", data, token);
     return response;
   }
 }

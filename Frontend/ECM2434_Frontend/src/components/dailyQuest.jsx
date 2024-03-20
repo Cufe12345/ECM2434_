@@ -91,7 +91,7 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
         <div className={classes.container}>
             <div className={classes.card}>
                 {/* Need to have backend rules that only allow gamekeeper to create a quest */}
-                {userData?.role === "GameKeeper" && (
+                {(userData?.role === "GameKeeper" || userData?.role === "Developer") && (
                     <div className={classes.createContainer}>
                         <button className={classes.createButton} onClick={onCreateQuestClick}>Create a Quest</button>
                     </div>

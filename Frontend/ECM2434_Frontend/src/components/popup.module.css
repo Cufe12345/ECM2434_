@@ -1,6 +1,9 @@
+/* Author: Callum Young(Cufe12345)*/
+
 .bg {
     width: 100vw;
-    height: 170vh;
+    /* 60px for footer*/
+    height: calc(100vh + 60px);
     background-color: rgba(0, 0, 0, 0.555);
     /* opacity: 0.5; */
     position: absolute;

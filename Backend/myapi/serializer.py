@@ -18,11 +18,18 @@ class UserProfileAddSerializer(BaseUserCreateSerializer):
 
 # Author: @Stickman230
 # Serializer for retrieving user profile information
-class UserProfileGetSerializer(BaseUserCreateSerializer):
+class UserProfileGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP','streak']
+        fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP','streak','imgURL','border']
 
+# Author: @Stickman230
+# Serializer for modifying user profile information
+class UserProfileModifySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['imgURL','first_name','last_name','birthday','bio','border']
+        
 # Author: @Stickman230
 # Serializer for retrieving role related to username      
 class UserRoleSerializer(serializers.ModelSerializer):
@@ -63,7 +70,7 @@ class QuestAddSerializer(serializers.ModelSerializer):
 class QuestSubGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestSubmission
-        fields = ('questsubID','questID','user','imgURL','info','date_created','verified')
+        fields = ('questsubID','questID','user','imgURL','info','date_created','verified','rejected')
 
 # Author: @Stickman230
 # Serializer for adding quest submission information

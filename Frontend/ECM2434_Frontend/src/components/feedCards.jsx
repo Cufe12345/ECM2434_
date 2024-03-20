@@ -6,6 +6,9 @@ import Avatar from '@mui/material/Avatar';
 import Chip  from "@mui/material/Chip";
 import { CiStar } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { PlayerIcon } from "./playerIcon";
+
+// Author: Callum Young(Cufe12345)
 export function FeedCards() {
 
     //Stores all the valid submissions for the daily quest
@@ -66,7 +69,7 @@ export function FeedCards() {
             if (res.length == 0 || res == null) {
                 return;
             }
-            for (let i = res.length - 1; i > 0; i--) {
+            for (let i = res.length - 1; i >= 0; i--) {
                 if (res[i].state === true) {
 
                     setDailyQuest(res[i]);
@@ -151,13 +154,16 @@ export function FeedCards() {
             }
             let feedObject = {
                 username: user.username,
-                firstName: user.first_name,
-                lastName: user.last_name,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                imgURL: user.imgURL,
                 rank: user.rank,
                 role:user.role,
                 img:submission.imgURL,
                 info:submission.info,
-                colour:colour
+                colour:colour,
+                date:new Date(submission.date_created),
+                border: user.border,
             }
             feed.push(feedObject);
         }
@@ -166,16 +172,25 @@ export function FeedCards() {
     
     }
 
+    /**
+     * Handles the profile click by navigating to the profile page of the user
+     * @param {*} username - the username of the user
+     * @returns
+     */
+    function handleProfileClick(username){
+        navigate("/profile/"+username);
+    }
     return (
         <div className={classes.container}>
             {feed.map((feedObject,index) => {
-
+                // console.log(feedObject.date.getHours());
                 return(
                 <div className={classes.card} key={index}>
                     <div className={classes.topContainer}>
                         <div className={classes.userContainer}>
-                            <Avatar alt="User Profile Picture" src="/path/to/profile-picture.jpg" sx={{ width: 50, height: 50 }} >{feedObject.firstName != undefined ? (feedObject?.firstName[0]) : 'U'} {feedObject.lastName != undefined ? (feedObject?.lastName[0]) : 'K'}</Avatar>
-                            
+                            <div className={classes.avatarContainer} onClick={()=>handleProfileClick(feedObject.username)}>
+                                <PlayerIcon userData={feedObject} width={50} height={50}/>
+                            </div>
                             <div className={classes.nameRoleContainer}>
                                 <h2>{feedObject.username}</h2>
                                 <div className={classes.chipContaier}>
@@ -188,7 +203,11 @@ export function FeedCards() {
                                 </div>
                             
                         </div>
-                        <p>14:22 10/03/24</p>
+                        {/* {console.log(feedObject)} */}
+                        {feedObject.date !== undefined &&(
+                    
+                        <p className={classes.date}>{feedObject.date?.getHours()}:{feedObject.date?.getMinutes()}</p>
+                        )}
                     </div>
                     <hr className={classes.line}/>
                     <div className={classes.imgContainer}>
