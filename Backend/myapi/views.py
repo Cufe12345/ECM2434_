@@ -42,6 +42,19 @@ def addUser(request):
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
 
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def modifyUser(request):
+    user_profile = request.user
+    data = request.data.copy()
+    data.pop('password', None)  # Remove password from the data if it exists
+    data.pop('username', None)  # Remove username from the data if it exists
+    serializer = UserProfileModifySerializer(user_profile,data=data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
+
 # Author: @Stickman230
 # modify user profile
 @api_view(['POST','GET'])
@@ -302,7 +315,9 @@ class ImageView(APIView):
         
 # Author: @charlesmentuni        
 # send email verification
+@permission_classes([AllowAny])
 class EmailVerification(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, username1, token, *args, **kwargs):
         # Gets the user from the username passed through the url
         user = UserProfile.objects.get(username=username1)
@@ -314,8 +329,7 @@ class EmailVerification(APIView):
             user.save()
             return Response({"message": "User activated."}, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
-    
+            return Response({"error": "Invalid URL."}, status=status.HTTP_400_BAD_REQUEST)
     def post(self, request, *args, **kwargs):
         # Gets the user from the username passed through the header
         userActivated = UserProfile.objects.get(username=request.data['username'])
@@ -324,7 +338,7 @@ class EmailVerification(APIView):
         # Sends token to their email, so they can verify that they own their email
         success = send_mail(
             'Activate your account',
-            f'Click the link to activate your account: http://localhost:8000/api/activate/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
+            f'Click the link to activate your account: http://localhost:5173/emailVerify/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
         return Response({"message": f"Activation email sent.{success}"}, status=status.HTTP_200_OK)
         
         

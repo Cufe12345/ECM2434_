@@ -41,6 +41,19 @@ export default class ApiClient {
     return response_data;
   }
 
+  async get2(url, config) {
+    // const response = await this.axios.get(url, config);
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(baseURL + url, requestOptions);
+    const response_data = await response.json();
+    return response_data;
+  }
+
 
   async post(url, data, token, image) {
 
@@ -117,6 +130,7 @@ export default class ApiClient {
     const response = await this.post("user/modify", data, token);
     return response;
   }
+
   async fetchModifiedUser(token) {
     const response = await this.get("user/modify", token);
     return response;
@@ -189,6 +203,15 @@ export default class ApiClient {
   }
   async verifySubmission(token, data) {
     const response = await this.post("quest/submissions/validate/", data, token);
+    return response;
+  }
+  async sendEmail(data) {
+    const response = await this.post(`activate/`,data);
+    return response;
+  }
+  async verifyEmail(data) {
+    
+    const response = await this.get2(`activate/${data.username}/${data.token}/`);
     return response;
   }
   async fetchFeed(token,data) {

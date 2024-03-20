@@ -4,7 +4,6 @@ import ApiClient from "../api/index";
 import { PlayerIcon } from './playerIcon';
 
 export function FriendList({friends}) {
-  
 
   return (
       <>
@@ -16,6 +15,7 @@ export function FriendList({friends}) {
           </tr>
         </thead>
         <tbody>
+
          
           {friends.map((friend) => (
             <tr key={friend.username}>

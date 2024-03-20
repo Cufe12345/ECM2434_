@@ -11,7 +11,6 @@ import { useUser } from '../contexts/userContext';
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 
-
 import './leaderboard.css';
 
 const StyledTable = styled(Table)(() => ({
@@ -57,7 +56,7 @@ const Leaderboard = () => {
         // Define the function to fetch data inside useEffect
         const fetchData = async () => {
             try {
-                if (user) { // Check if user data and token are loaded
+                if (user) { // Check if user data and token are loaded=
                     if (leaderboardFriend) {
                         var res = await ApiClient.api.getFriendTopTen(user);
                         console.log(res);
@@ -81,7 +80,9 @@ const Leaderboard = () => {
             fetchData();
         }
 
+
     }, [user, leaderboardFriend]); // Dependency array: the effect runs when the `user` object changes
+
 
 
     return (
@@ -109,7 +110,6 @@ const Leaderboard = () => {
                                 Toggle Leaderboard</Button>
                     </div>
                     <TableContainer component={Paper} className='tableContainer'>
-
                         <StyledTable sx={{ width: 650, color: "ActiveBorder" }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
