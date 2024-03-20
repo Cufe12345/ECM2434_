@@ -20,6 +20,7 @@ import Code_Conduct from "./pages/Code_Conduct";
 import UploadProfilePic from './pages/UploadProfilePic'
 import AboutUs from "./pages/aboutUs";
 import Security from "./pages/Security";
+import EmailValidationPage from "./pages/emailValidation";
 import LoadingScreen from './pages/loadingScreen';
 import { Footer } from "./components/footer";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -48,7 +49,7 @@ function App() {
           <Route path="/security" element={<Security />} />
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/profile/edit/upload" element={<UploadProfilePic />} />
-          <Route path="/feed" element={<Feed />} />
+          <Route path="/emailVerify/:username/:token" element={<EmailValidationPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
           {/* <Route path="/about" element={<About />} /> */}

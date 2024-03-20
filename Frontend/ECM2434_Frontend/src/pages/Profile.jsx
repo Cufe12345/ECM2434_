@@ -29,6 +29,7 @@ import {useParams} from "react-router-dom";
 import { FriendList } from "../components/friendList";
 
 const Profile = () => {
+
     // Gets the username specified in the URL
     const { id } = useParams();
     // Retrieves the user data
@@ -154,6 +155,7 @@ const Profile = () => {
                 setUsername(null);
                 setapiUserDataLoading(false);
             });
+
     }
 
 
@@ -171,8 +173,6 @@ const Profile = () => {
             });
     }, [user]); // Re-run this effect if 'user' changes, adjust dependencies as needed
     
-
-
   const levelImages = {
         1: level1,
         2: level2,
@@ -200,7 +200,6 @@ const Profile = () => {
                         <PlayerIcon userData={apiUserData} width={150} height={150}/>
                         <h1>{apiUserData?.first_name + ' ' + apiUserData?.last_name}</h1>
                         <h2> {apiUserData?.username} </h2>
-
                     </div>
                     { id == "me" && <div className="buttonContainer">
                         <NavLink to="/profile/edit">
