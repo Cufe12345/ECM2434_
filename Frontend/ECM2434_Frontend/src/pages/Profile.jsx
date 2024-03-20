@@ -238,7 +238,7 @@ const Profile = () => {
                         } disabled={friendAdded} > Add Friend</Button>
                     </div>}
                    
-                    </div>
+                    {/* </div> */}
                     <div className="icons">
                         <div className="stats">
                             <div className="icon">
