@@ -11,10 +11,11 @@
 
 
 .friendList {
-  margin: 10vw;
-  max-width: 800px;
+  max-width: 40%;
   width: 80vw;
   height: fit-content;
+  max-height: 40vw;
+  overflow: auto;
   border-radius: 8px;
   border: 2px solid black;
   background: linear-gradient(to top, rgb(220, 255, 220), white);

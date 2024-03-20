@@ -7,9 +7,20 @@
     justify-content: center;
 }
 
+.container3 {
+    margin-top: 3vw;
+    display: flex;
+    width: 100%;
+    max-width: 1280px;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    align-items: flex-start;
+    height: 100%;
+    padding: 2em;
+}
 
 .profile {
-    margin: 10vw;
+    margin-left: 10%;
     max-width: 800px;
     width: 80vw;
     height: fit-content;
@@ -95,10 +106,10 @@ h2 {
 .buttonContainer {
     display: flex;
     justify-content: end;
-    position: absolute;
-    width: 80vw;
+    
+    width: 20vw;
     max-width: 800px;
-    margin-right: 10%;
+    
     margin-top: 4%;
 }
 
