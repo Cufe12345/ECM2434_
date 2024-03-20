@@ -71,6 +71,28 @@ const Register = () => {
         console.log(username)
         ApiClient.api.register(email, username, password, firstName, lastName).then((res) => {
             //console.log(res)
+            if(res.id === undefined){
+                console.log(res)
+                if(res.email){
+                    toast.error('Registration failed - '+ res.email);
+                }
+                else if(res.username){
+                    toast.error('Registration failed - '+ res.username);
+                }
+                else if(res.password){
+                    toast.error('Registration failed - '+ res.password);
+                }
+                else if(res.first_name){
+                    toast.error('Registration failed - '+ res.first_name);
+                }
+                else if(res.last_name){
+                    toast.error('Registration failed - '+ res.last_name);
+                }
+                else{
+                    toast.error('Registration failed - '+ res.message);
+                }
+                return;
+            }
             console.log("Registered")
             toast.success("Registration successful! Please verify your email.");
             let data = {

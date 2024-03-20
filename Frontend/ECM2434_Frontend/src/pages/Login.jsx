@@ -28,6 +28,11 @@ const Login = () => {
       .login(username, password)
       .then((res) => {
         console.log(res);
+        if(res.auth_token === undefined){
+          toast.error('Login failed - Invalid credentials or non-verified email.');
+          return;
+        
+        }
         setUser(res.auth_token);
         toast.success('Login successful');
         navigate("/");

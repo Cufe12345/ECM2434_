@@ -16,7 +16,8 @@ export default function EmailValidationPage() {
     let {token} = useParams();
   
     //Controls the visibility of the popup
-    const [showPopup, setShowPopup] = useState(false);
+    // const [showPopup, setShowPopup] = useState(false);
+    const [success, setSuccess] = useState(false);
   
     //The text to be displayed in the popup
     const [popupText, setPopupText] = useState("Email has been Successful");
@@ -47,26 +48,37 @@ export default function EmailValidationPage() {
       // Calls verifyEmail() method from testRequest.jsx
       ApiClient.api.verifyEmail(data).then((res) => {
           console.log(res)
-          setShowPopup(true);
+          if(res.error){
+            setSuccess(false);
+            return;
+          }
+          setSuccess(true);
 
         }).catch((error) => {
+         
           console.log(error);
+          setSuccess(false);
       });
   }
     return (
       // Open to some rework for asthetics
       <div className={classes.container}>
-        <h1>
-            Email <span className={classes.ecoGradient}>Sucessfully</span> Verified
-        </h1>
-          <div className={classes.textGroup}>
-            <h5>Welcome to EcoQuest</h5>
-          </div>
-            <p>{username}</p>
-            {/*<p>{token}</p>*/}
-            <Popup handleClose={handleClose} open={showPopup}>
-              <h5 className={classes.popupText}>{popupText}</h5>
-            </Popup>
+        {success ? (
+          <>
+            <h1>
+                Email <span className={classes.ecoGradient}>Sucessfully</span> Verified
+            </h1>
+              <div className={classes.textGroup}>
+                <h5>Welcome to EcoQuest</h5>
+              </div>
+              <h5>{username}</h5>
+          </>
+        ):(
+          <h1>
+            Email <span className={classes.ecoGradient}>Failed</span> to Verify
+          </h1>
+        )}
+        
       </div>
     );
   }
