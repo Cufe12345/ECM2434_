@@ -21,14 +21,14 @@ class UserProfileAddSerializer(BaseUserCreateSerializer):
 class UserProfileGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP','streak']
+        fields = ['id','username','first_name','last_name','email','role','birthday','bio','rank','XP','streak','imgURL','border']
 
 # Author: @Stickman230
 # Serializer for modifying user profile information
 class UserProfileModifySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['imgURL','first_name','last_name','birthday','bio']
+        fields = ['imgURL','first_name','last_name','birthday','bio','border']
         
 # Author: @Stickman230
 # Serializer for retrieving role related to username      
