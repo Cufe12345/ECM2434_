@@ -4,6 +4,7 @@ Email: mpcr201@exeter.ac.uk, ui204@exeter.ac.uk, cm1099@exeter.ac.uk
 
 This file defines how we create views using our serializers
 """
+from datetime import timedelta, timezone
 from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.http import JsonResponse, HttpResponse
@@ -22,6 +23,7 @@ from .permissions import CanSetRole, CanVerify
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 import pdb  
+from .tasks import check_streak, update_quest_daily, update_streak
 
 # Author: @Stickman230
 # Fetches and returns all UserProfile instances.    
@@ -144,6 +146,17 @@ def getQuest(request):
     serializer = QuestGetSerializer(app, many=True)
     return Response(serializer.data)
 
+
+class getActiveQuest(APIView):
+    def get(self, request):
+        activeQuest = Quest.objects.filter(state=True)[0]
+        if activeQuest.date_made_active and timezone.now() - activeQuest.date_made_active > timedelta(days=1):
+            activeQuest = update_quest_daily()
+            activeQuest.date_made_active = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+        serializer = QuestGetSerializer(activeQuest)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 # Author: @Stickman230
 # Creates a new Quest instance from the request data.
 @api_view(['POST'])
@@ -152,7 +165,7 @@ def addQuest(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    
+
 # Author: @Stickman230
 # Fetches and returns all Quest submission instances.
 class QuestSubListView(generics.ListAPIView):
@@ -225,6 +238,7 @@ def validate_quest_submission(request):
         quest_sub.verified = True
         # Gets users to give them the reward
         user = get_object_or_404(UserProfile, username=quest_sub.user.username)
+        update_streak(user.id)
         user.XP += quest_sub.questID.reward
         user.save()
         quest_sub.save()
@@ -389,6 +403,7 @@ class GetUserByUsernameView(APIView):
         
         try:
             user = UserProfile.objects.get(username=username)
+            check_streak(user.id)
             serializer = UserProfileGetSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserProfile.DoesNotExist:
@@ -416,6 +431,8 @@ class GetVerifiedSubFromQuestID(APIView):
 class Top10UsersView(APIView):
     def get(self, request, format=None):
         top_users = UserProfile.objects.order_by('-rank', '-XP')[:10]
+        for user in top_users:
+            check_streak(user.id)
         serializer = UserProfileGetSerializer(top_users, many=True)
         return Response(serializer.data)
 
@@ -453,6 +470,8 @@ class Top10FriendsView(APIView):
             else:
                 all_friends.append(friendship.user1.id)
         top_friends = UserProfile.objects.filter(id__in=all_friends).order_by('-rank', '-XP')[:10]
+        for user in top_friends:
+            check_streak(user.id)
         serializer = UserProfileGetSerializer(top_friends, many=True)
         return Response(serializer.data)
 
