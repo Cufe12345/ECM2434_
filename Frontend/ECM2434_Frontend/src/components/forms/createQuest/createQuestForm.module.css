@@ -1,5 +1,32 @@
 /* Author: Callum Young(Cufe12345)*/
 
+@media screen and (max-width: 600px){
+    h1 {
+        font-size: 1.5rem !important;
+    }
+    p{
+        font-size: 0.8rem !important;
+    
+    }
+    .backButton{
+        width: auto !important;
+        padding: 3px 7.5px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #f5f5f5;
+    
+    }
+    .locationContainer2{
+        display: flex;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        padding-top: 10px;
+    }
+    
+}
+
 .inputField{
     width: 100%;
     padding: 12px 20px;
@@ -22,6 +49,12 @@
     box-sizing: border-box;
 }
 .locationContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+.locationContainer2{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
