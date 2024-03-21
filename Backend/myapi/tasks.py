@@ -1,6 +1,7 @@
 import datetime
 from .models import Quest
 from .models import QuestSubmission
+from .models import User
 import random
 
 def update_quest_daily():
@@ -28,19 +29,28 @@ def update_quest_daily():
     else:
         return "No quests found"
     
-def checkStreak(userId):
-    userSubmission = QuestSubmission.objects.filter(user=userId)
+def check_streak(userId):
     # Find the latest user submission
     latest_submission = QuestSubmission.objects.filter(user=userId).order_by('date-created').first()
     
-    # Check if the latest submission was submitted yesterday
-    if latest_submission and latest_submission.submission_date.date() == datetime.date.today() - datetime.timedelta(days=1):
-        # Do something if the latest submission was submitted yesterday
-        # ...
-        pass
+    # Check if the latest submission was submitted before yesterday
+    if latest_submission and latest_submission.submission_date.date() < datetime.date.today() - datetime.timedelta(days=1):
+        user = User.objects.get(id=userId)
+        user.streak = 0
+        user.save()
+        return 0
+    # Previous submission is valid
+    elif latest_submission and latest_submission.verified == True:
+        return 1
+    # Do nothing (no previous submission / submission not verified)
+    return 0
+
+def update_streak(userId):
+    check_outcome = check_streak(userId)
+    if check_outcome == 1:
+        user = User.objects.get(id=userId)
+        user.streak += 1
+        user.save()
     else:
-        # Do something else if the latest submission was not submitted yesterday
-        # ...
         pass
-    
-    return "Checked streak status"
+    return "Streak updated"
