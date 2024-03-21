@@ -7,19 +7,6 @@
     justify-content: center;
 }
 
-
-.container3 {
-    margin-top: 3vw;
-    display: flex;
-    width: 100%;
-    max-width: 1280px;
-    box-sizing: border-box;
-    flex: 1 1 auto;
-    align-items: flex-start;
-    height: 100%;
-    padding: 2em;
-}
-
 .ProfilePicImg {
     width: 15vw; /* Adjust the width as needed */
     height: 20vh; /* Adjust the height as needed */
@@ -27,9 +14,8 @@
     object-fit: cover; /*cover or contain */
   }
 
-
 .profile {
-    margin-left: 10%;
+    margin: 10vw;
     max-width: 800px;
     width: 80vw;
     height: fit-content;
@@ -41,6 +27,13 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+@media screen and (max-width: 600px) {
+    .container {
+        
+        flex-direction: column-reverse !important;
+    }
+    
 }
 
 .header {
@@ -115,14 +108,40 @@ h2 {
 .buttonContainer {
     display: flex;
     justify-content: end;
-    
-    width: 20vw;
+    /* position: absolute; */
+    width: 50%;
     max-width: 800px;
-    
+    /* margin-right: 10%; */
     margin-top: 4%;
 }
+@media screen and (max-width: 600px) {
+    .buttonContainer {
+        width: 35vw;
+        /* margin-top: 10%; */
+    }
+    .h1_1 {
+        font-size: 24px;
+    }
+    .h2_1 {
+        font-size: 18px;
+    }
+    
+}
+
 
 .level-icon {
     width: 50px; /* Set the width as needed */
     height: auto; /* This will maintain the aspect ratio */
   }
+  .headerContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+ .main{
+    /* 70px for navbar, 60px for footer */
+    min-height: calc((100vh - 70px) - 60px);
+    overflow-y: scroll;
+
+ }
+ 

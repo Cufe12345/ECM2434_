@@ -3,3 +3,48 @@
     border: none;
     
 }
+.navLinks{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+}
+.navLinks a{
+    text-decoration: none;
+    color: black;
+    /* font-size: 10px; */
+}
+.mobile{
+    display: none !important;
+}
+@media screen and (max-width: 600px) {
+    .button{
+        font-size: 0.7em !important;
+    }
+    .mobile{
+        display: block !important;
+    }
+    .navLinks{
+        display: none;
+    }
+    .dropdown a{
+        /* display: block; */
+        text-align: center;
+        font-size: 0.7em !important;
+        text-decoration: none;
+        color: black;
+        padding: 5px;
+    }
+    .dropbtn p{
+        font-size: 0.8em !important;
+        margin: 0;
+        /* width: auto; */
+    }
+    .dropbtn{
+        border-radius: 3px;
+        background-color: #f5f5f5;
+        border: 1px solid #000000;
+    }
+    
+}

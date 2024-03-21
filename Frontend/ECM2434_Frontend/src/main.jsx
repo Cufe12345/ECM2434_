@@ -12,4 +12,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <App />
     </Router>
   </React.StrictMode>,
+  document.getElementById('root').style = 'height: auto; overflow: auto !important;'
 )

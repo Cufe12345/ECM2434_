@@ -44,19 +44,6 @@ def addUser(request):
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
 
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def modifyUser(request):
-    user_profile = request.user
-    data = request.data.copy()
-    data.pop('password', None)  # Remove password from the data if it exists
-    data.pop('username', None)  # Remove username from the data if it exists
-    serializer = UserProfileModifySerializer(user_profile,data=data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=400)
-
 # Author: @Stickman230
 # modify user profile
 @api_view(['POST','GET'])
@@ -162,12 +149,16 @@ def getQuest(request):
 
 class getActiveQuest(APIView):
     def get(self, request):
-        activeQuest = Quest.objects.filter(state=True)[0]
-        if activeQuest.date_made_active and timezone.now() - activeQuest.date_made_active > timedelta(days=1):
+        activeQuests = Quest.objects.filter(state=True)
+        if(len(activeQuests) == 0):
             activeQuest = update_quest_daily()
-            activeQuest.date_made_active = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            if activeQuest.date_made_active and timezone.now() - activeQuest.date_made_active > timedelta(days=1) or not activeQuest.date_made_active:
+                activeQuest = update_quest_daily()
+                activeQuest.date_made_active = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
-        serializer = QuestGetSerializer(activeQuest)
+            serializer = QuestGetSerializer(activeQuest)
+        else:
+            serializer = QuestGetSerializer(activeQuests[0])
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # Author: @Stickman230
@@ -331,7 +322,6 @@ class ImageView(APIView):
 # send email verification
 @permission_classes([AllowAny])
 class EmailVerification(APIView):
-    permission_classes = [AllowAny]
     def get(self, request, username1, token, *args, **kwargs):
         # Gets the user from the username passed through the url
         user = UserProfile.objects.get(username=username1)
@@ -343,7 +333,8 @@ class EmailVerification(APIView):
             user.save()
             return Response({"message": "User activated."}, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "Invalid URL."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+    
     def post(self, request, *args, **kwargs):
         # Gets the user from the username passed through the header
         userActivated = UserProfile.objects.get(username=request.data['username'])

@@ -48,6 +48,14 @@ html, body {
     z-index: 1;
     margin-bottom: 130px;
 }
+@media screen and (max-width: 600px) {
+    .containerBox {
+        margin-bottom: 0;
+        width: 90%;
+        
+    }
+    
+}
 
 .names {
     display: flex;

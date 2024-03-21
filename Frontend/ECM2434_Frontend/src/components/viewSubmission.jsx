@@ -53,6 +53,7 @@ export function ViewSubmission() {
         ApiClient.api.fetchSubmissions(user).then((res) => {
             console.log(res);
             if (res.length == 0) {
+                setFetchingSubmissions(false);
                 return;
             }
             let validSubmissions = [];
