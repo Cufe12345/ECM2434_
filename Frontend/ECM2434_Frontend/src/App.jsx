@@ -28,7 +28,9 @@ import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 
-  document.body.style = 'height: auto;';
+  useEffect(() => {
+  document.body.style = 'overflow: auto !important;';
+  }, []);
 
   return (
     <CookiesProvider>
@@ -52,6 +54,7 @@ function App() {
           <Route path="/emailVerify/:username/:token" element={<EmailValidationPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
+          <Route path="/feed" element={<Feed />} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
         <Footer />

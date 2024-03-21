@@ -49,6 +49,13 @@
     padding-left: 10px;
 }
 
+@media screen and (max-width: 600px) {
+    .rankIcon {
+        display: none;
+    }
+    
+}
+
 .rankIcon p {
     font-size: 15px;
     font-weight: bold;

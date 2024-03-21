@@ -128,7 +128,8 @@ const Register = () => {
                                 sx={{ 
                                     width: 'calc(50% - 5px)', 
                                     '& .MuiOutlinedInput-input': { 
-                                        padding: '14px 10px', 
+                                        padding: '14px 10px',
+                                        width: '100% !important', 
                                     }, 
                                     marginRight: '10px', 
                                 }} 
@@ -140,9 +141,9 @@ const Register = () => {
                                 onChange={(e) => setLastName(e.target.value)} 
                                 margin="normal" 
                                 sx={{ 
-                                    width: 'calc(50% - 5px)', 
                                     '& .MuiOutlinedInput-input': { 
                                         padding: '14px 10px', 
+                                        width: '100% !important',  
                                     }, 
                                 }} 
                             />

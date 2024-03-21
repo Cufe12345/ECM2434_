@@ -18,8 +18,9 @@ export function FriendList({friends}) {
 
          
           {friends.map((friend) => (
+            console.log(friend),
             <tr key={friend.username}>
-              <td style={{width:'20%', padding:'10px'} }><PlayerIcon userData={friend} /></td>
+              <td style={{width:'20%', padding:'10px'} }><PlayerIcon userData={friend} width={50} height={50}/></td>
               <td>{friend.username}</td>
             </tr>
           ))}
