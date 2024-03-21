@@ -13,6 +13,9 @@ This web app aims to educate, engage, and inspire action towards sustainability 
 - **Leaderboards**: Compete with friends and the community to see who can make the most significant impact.
 - **Resources**: Access a wealth of information and resources to learn more about sustainability.
 - **Community**: Join a community of like-minded individuals passionate about making a difference.
+- **Image Feed**: View other quest submissions and view other people's profiles.
+- **Friends**: Add friends and see where they rank on a friends-only leaderboard.
+- **Roles**: Users can either be players or gamekeepers for verifying/submitting quest submissions.
 
 ## Technologies
 
