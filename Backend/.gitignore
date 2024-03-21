@@ -28,7 +28,6 @@ var/
 #db.sqlite3
 *.log
 local_settings.py
-media/
 
 # PyCharm
 .idea/
