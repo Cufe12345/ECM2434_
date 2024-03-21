@@ -82,7 +82,7 @@ const EditProfile = () => {
                 <div className={classes.profilePicContainer}>
                 <PlayerIcon userData={{...userData,imgURL:imgURL}} width={250} height={250} />
                 </div>
-                <u><h5 onClick={() => navigate('/profile/edit/upload')}  className={classes.uploadLink}>Upload</h5></u>
+                <u><button onClick={() => navigate('/profile/edit/upload')}  className={classes.uploadLink}>Upload</button></u>
                 
             </div>
             <div className={classes.names}>

@@ -149,12 +149,16 @@ def getQuest(request):
 
 class getActiveQuest(APIView):
     def get(self, request):
-        activeQuest = Quest.objects.filter(state=True)[0]
-        if activeQuest.date_made_active and timezone.now() - activeQuest.date_made_active > timedelta(days=1):
+        activeQuests = Quest.objects.filter(state=True)
+        if(len(activeQuests) == 0):
             activeQuest = update_quest_daily()
-            activeQuest.date_made_active = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            if activeQuest.date_made_active and timezone.now() - activeQuest.date_made_active > timedelta(days=1) or not activeQuest.date_made_active:
+                activeQuest = update_quest_daily()
+                activeQuest.date_made_active = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
-        serializer = QuestGetSerializer(activeQuest)
+            serializer = QuestGetSerializer(activeQuest)
+        else:
+            serializer = QuestGetSerializer(activeQuests[0])
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # Author: @Stickman230
