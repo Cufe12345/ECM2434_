@@ -20,10 +20,10 @@ const Login = () => {
       .login(username, password)
       .then((res) => {
         console.log(res);
-        if(res.auth_token === undefined){
+        if (res.auth_token === undefined) {
           toast.error('Login failed - Invalid credentials or non-verified email.');
           return;
-        
+
         }
         setUser(res.auth_token);
         toast.success('Login successful');
@@ -42,14 +42,20 @@ const Login = () => {
           <TextField
             label="Username"
             variant="outlined"
+            type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             margin="normal"
             fullWidth
+            className='userField'
             sx={{
               '& .MuiOutlinedInput-input': {
                 padding: '14px 10px',
-              }
+                border: 0,
+              },
+              '& .MuiOutlinedInput-root.Mui-focused': {
+                boxShadow: '0 0 0px 0px rgb(255, 255, 255, 255)',
+              },
             }}
           />
           <TextField
@@ -63,7 +69,8 @@ const Login = () => {
             sx={{
               '& .MuiOutlinedInput-input': {
                 padding: '14px 10px',
-              }
+
+              },
             }}
           />
           <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
@@ -92,7 +99,7 @@ const Login = () => {
             </p>
             <p>
               Forgot your password?{' '}
-              <NavLink to="/forgot-password">Change Password</NavLink>
+              <NavLink to="/forgot-password" >Change Password</NavLink>
             </p>
           </div>
         </form>

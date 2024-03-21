@@ -74,34 +74,34 @@ const Register = () => {
         console.log(username)
         ApiClient.api.register(email, username, password, firstName, lastName).then((res) => {
             //console.log(res)
-            if(res.id === undefined){
+            if (res.id === undefined) {
                 console.log(res)
-                if(res.email){
-                    toast.error('Registration failed - '+ res.email);
+                if (res.email) {
+                    toast.error('Registration failed - ' + res.email);
                 }
-                else if(res.username){
-                    toast.error('Registration failed - '+ res.username);
+                else if (res.username) {
+                    toast.error('Registration failed - ' + res.username);
                 }
-                else if(res.password){
-                    toast.error('Registration failed - '+ res.password);
+                else if (res.password) {
+                    toast.error('Registration failed - ' + res.password);
                 }
-                else if(res.first_name){
-                    toast.error('Registration failed - '+ res.first_name);
+                else if (res.first_name) {
+                    toast.error('Registration failed - ' + res.first_name);
                 }
-                else if(res.last_name){
-                    toast.error('Registration failed - '+ res.last_name);
+                else if (res.last_name) {
+                    toast.error('Registration failed - ' + res.last_name);
                 }
-                else{
-                    toast.error('Registration failed - '+ res.message);
+                else {
+                    toast.error('Registration failed - ' + res.message);
                 }
                 return;
             }
             console.log("Registered")
             toast.success("Registration successful! Please verify your email.");
             let data = {
-                username: username, 
+                username: username,
                 email: email
-              }
+            }
             ApiClient.api.sendEmail(data)
             navigate('/login');
         }).catch((error) => {
@@ -119,88 +119,94 @@ const Register = () => {
                     <form onSubmit={onSubmit}>
                         <div className="fields">
                             <div className="names">
-                             <TextField 
-                                label="First Name" 
-                                variant="outlined" 
-                                value={firstName} 
-                                onChange={(e) => setFirstName(e.target.value)} 
-                                margin="normal" 
-                                sx={{ 
-                                    width: 'calc(50% - 5px)', 
-                                    '& .MuiOutlinedInput-input': { 
-                                        padding: '14px 10px', 
-                                    }, 
-                                    marginRight: '10px', 
-                                }} 
-                            />
-                             <TextField 
-                                label="Last Name" 
-                                variant="outlined" 
-                                value={lastName} 
-                                onChange={(e) => setLastName(e.target.value)} 
-                                margin="normal" 
-                                sx={{ 
-                                    width: 'calc(50% - 5px)', 
-                                    '& .MuiOutlinedInput-input': { 
-                                        padding: '14px 10px', 
-                                    }, 
-                                }} 
-                            />
-                        </div>
-                            <TextField 
-                                label="Username" 
-                                variant="outlined" 
-                                value={username} 
-                                onChange={(e) => setUsername(e.target.value)} 
-                                fullWidth 
-                                margin="normal" 
-                                sx={{ 
-                                    '& .MuiOutlinedInput-input': { 
-                                        padding: '14px 10px', 
+                                <TextField
+                                    label="First Name"
+                                    variant="outlined"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    margin="normal"
+                                    sx={{
+                                        width: 'calc(50% - 5px)',
+                                        '& .MuiOutlinedInput-input': {
+                                            padding: '14px 10px',
+                                            border: 0,
+                                        },
+                                        '& .MuiOutlinedInput-root.Mui-focused': {
+                                            boxShadow: '0 0 0px 0px rgb(255, 255, 255, 255)',
+                                        },
+                                        marginRight: '10px',
+                                    }}
+                                />
+                                <TextField
+                                    label="Last Name"
+                                    variant="outlined"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    margin="normal"
+                                    sx={{
+                                        width: 'calc(50% - 5px)',
+                                        '& .MuiOutlinedInput-input': {
+                                            padding: '14px 10px',
+                                            border: 0,
+                                        },
+                                    }}
+                                />
+                            </div>
+                            <TextField
+                                label="Username"
+                                variant="outlined"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                fullWidth
+                                margin="normal"
+                                sx={{
+                                    '& .MuiOutlinedInput-input': {
+                                        padding: '14px 10px',
+                                        border: 0,
                                     }
-                                }} 
+                                }}
                             />
-                            <TextField 
-                                label="Email" 
-                                type="email" 
-                                variant="outlined" 
-                                value={email} 
-                                onChange={(e) => setEmail(e.target.value)} 
-                                fullWidth 
-                                margin="normal" 
-                                sx={{ 
-                                    '& .MuiOutlinedInput-input': { 
-                                        padding: '14px 10px', 
+                            <TextField
+                                label="Email"
+                                type="email"
+                                variant="outlined"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                fullWidth
+                                margin="normal"
+                                sx={{
+                                    '& .MuiOutlinedInput-input': {
+                                        padding: '14px 10px',
                                     }
-                                }} 
+                                }}
                             />
-                            <TextField 
-                                label="Password" 
-                                type="password" 
-                                variant="outlined" 
-                                value={password} 
-                                onChange={(e) => setPassword(e.target.value)} 
-                                fullWidth 
-                                margin="normal" 
-                                sx={{ 
-                                    '& .MuiOutlinedInput-input': { 
-                                        padding: '14px 10px', 
+                            <TextField
+                                label="Password"
+                                type="password"
+                                variant="outlined"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                fullWidth
+                                margin="normal"
+                                sx={{
+                                    '& .MuiOutlinedInput-input': {
+                                        padding: '14px 10px',
                                     }
-                                }} 
+                                }}
                             />
-                            <TextField 
-                                label="Repeat Password" 
-                                type="password" 
-                                variant="outlined" 
-                                value={repeatPassword} 
-                                onChange={(e) => setRepeatPassword(e.target.value)} 
-                                fullWidth 
-                                margin="normal" 
-                                sx={{ 
-                                    '& .MuiOutlinedInput-input': { 
-                                        padding: '14px 10px', 
-                                    }, 
-                                }} 
+                            <TextField
+                                label="Repeat Password"
+                                type="password"
+                                variant="outlined"
+                                value={repeatPassword}
+                                onChange={(e) => setRepeatPassword(e.target.value)}
+                                fullWidth
+                                margin="normal"
+                                sx={{
+                                    '& .MuiOutlinedInput-input': {
+                                        padding: '14px 10px',
+                                    },
+                                }}
                             />
                             <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
                                 <Button
@@ -215,9 +221,9 @@ const Register = () => {
                                         'margin-bottom': '20px',
                                         backgroundColor: 'green',
                                         '&:hover': {
-                                          backgroundColor: '#045d04',
+                                            backgroundColor: '#045d04',
                                         },
-                                      }}
+                                    }}
                                 >
                                     Register
                                 </Button>
