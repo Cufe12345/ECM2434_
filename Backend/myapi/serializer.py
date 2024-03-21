@@ -63,7 +63,7 @@ class QuestGetSerializer(serializers.ModelSerializer):
 class QuestAddSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ('user','questTypeID','locationID','name','task','reward','state','imgURL')
+        fields = ('user','questTypeID','locationID','name','task','reward','imgURL')
         
 # Author: @Stickman230
 # Serializer for retrieving quest submission information
