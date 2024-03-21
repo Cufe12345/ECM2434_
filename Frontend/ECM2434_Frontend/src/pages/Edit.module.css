@@ -25,6 +25,44 @@
     position: relative;
     overflow: hidden;
 }
+
+@media screen and (max-width: 600px) {
+    .container {
+        /* position:fixed !important; */
+        overflow: unset !important;
+        height: auto !important;
+    }
+    .edit-form {
+        flex-direction: column !important;
+        margin: 0 !important;
+        align-items: center !important;
+    }
+    .profilePicSection{
+        position: unset;
+        width: 90% !important;
+        max-width: unset !important;
+        margin-left: unset !important;
+        /* margin-bottom: 5px !important; */
+    }
+    .profilePicSection h5{
+        font-size: xx-large !important;
+    }
+    .names{
+        margin-left: unset !important;
+        width: 90% !important;
+        max-width: unset !important;
+        margin-bottom: 1em !important;
+    }
+    .names h5{
+        font-size: xx-large !important;
+    }
+    .uploadLink{
+        font-size: 2em;
+
+    }
+
+    
+}
 .profilePicContainer{
     /* padding: 10px; */
     margin: 18px;
@@ -38,7 +76,10 @@
     flex-wrap: wrap;
 }
 .uploadLink {
-    color: #1f57d8;
+    color: black;
+    font-size: 1.5em;
+    border-radius: 3px;
+    background-color: white;
 }
 
 .fields {
@@ -95,7 +136,7 @@ h5 {
     background-color: #000000c1;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .edit-profile-container {
         padding: 10px;
     }
@@ -103,4 +144,4 @@ h5 {
     .names {
         flex-direction: column;
     }
-}
+} */
