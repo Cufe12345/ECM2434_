@@ -32,7 +32,23 @@
 
 .leaderboardHeadings{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     width: 90%;
 
+}
+.leaderboardHeadings h1{
+    font-size: 2rem;
+    font-weight: bold;
+    margin-right: 2em;
+    padding: 0;
+}
+@media screen and (max-width: 600px) {
+    .leaderboardHeadings h1{
+        font-size: 1.5rem;
+    }
+    .leaderboardHeadings Button{
+        font-size: 0.8rem;
+    }
+    
 }

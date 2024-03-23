@@ -29,7 +29,6 @@ import {useParams} from "react-router-dom";
 import { FriendList } from "../components/friendList";
 
 const Profile = () => {
-
     // Gets the username specified in the URL
     const { id } = useParams();
     // Retrieves the user data
@@ -48,7 +47,6 @@ const Profile = () => {
     const [friends, setFriends] = useState([]);
     // Gets the list of friends' data
     const [friendUserData, setFriendUserData] = useState([]);
-
 
     useEffect(() => {
         if (userData){
@@ -173,6 +171,9 @@ const Profile = () => {
             });
     }, [user]); // Re-run this effect if 'user' changes, adjust dependencies as needed
     
+  
+    
+
   const levelImages = {
         1: level1,
         2: level2,
@@ -187,57 +188,60 @@ const Profile = () => {
       };
 
     return (
-        <>
+        <div className="main">
             {!(apiUserDataLoading == false && apiUserData != null) ? (<h1>Loading...</h1>) : username===null ? (<h1>Error username not found</h1>) : (
 
-            <div className="container3">
-                <FriendList friends={friendUserData} user={user} />
-
+            <div className="container">
+               
+                    <FriendList friends={friendUserData} user={user} />
+             
                 <div className="profile">
-
                     <div className="header">
                     {/* <img className="ProfilePicImg" alt="User Profile Picture" src={imgURL ? `http://localhost:8000${imgURL}` : LogoImage} sx={{ width: 150, height: 150 }} /> */}
                         <PlayerIcon userData={apiUserData} width={150} height={150}/>
-                        <h1>{apiUserData?.first_name + ' ' + apiUserData?.last_name}</h1>
-                        <h2> {apiUserData?.username} </h2>
-                    </div>
-                    { id == "me" && <div className="buttonContainer">
-                        <NavLink to="/profile/edit">
-                            <Button variant="contained" sx={
-                                {
-                                    height: '40px',
-                                    color: '#000000',
-                                    border: '1px solid #000000',
-                                    fontSize: '16px',
-                                    fontWeight: 'bold',
-                                    backgroundColor: '#EDF0EC',
-                                    '&:hover': {
-                                        backgroundColor: '#EAFCE8',
-                                        opacity: '0.8'
+                        <div className="headerContainer">
+                            <div>
+                                <h1 className="h1_1">{apiUserData?.first_name + ' ' + apiUserData?.last_name}</h1>
+                                <h2 className="h2_1"> {apiUserData?.username} </h2>
+                            </div>
+                            { id == "me" && <div className="buttonContainer">
+                            <NavLink to="/profile/edit">
+                                <Button variant="contained" sx={
+                                    {
+                                        height: '40px',
+                                        color: '#000000',
+                                        border: '1px solid #000000',
+                                        fontSize: '16px',
+                                        fontWeight: 'bold',
+                                        backgroundColor: '#EDF0EC',
+                                        '&:hover': {
+                                            backgroundColor: '#EAFCE8',
+                                            opacity: '0.8'
+                                        }
                                     }
-                                }
-                            }> <FaUserEdit style={{ marginRight: '5px' }} />
-                                Edit Profile</Button>
-                        </NavLink>
-                    </div>}
-                    { id != "me" && <div className="buttonContainer">
-                        <Button onClick={addFriend} variant="contained" sx={
-                            {
-                                height: '40px',
-                                color: '#000000',
-                                border: '1px solid #000000',
-                                fontSize: '16px',
-                                fontWeight: 'bold',
-                                backgroundColor: '#EDF0EC',
-                                '&:hover': {
-                                    backgroundColor: '#EAFCE8',
-                                    opacity: '0.8'
-                                }
-                            }
-                        } disabled={friendAdded} > Add Friend</Button>
-                    </div>}
-                   
+                                }> <FaUserEdit style={{ marginRight: '5px' }} />
+                                    Edit Profile</Button>
+                            </NavLink>
+                            </div>}
+                            { id != "me" && <div className="buttonContainer">
+                                <Button onClick={addFriend} variant="contained" sx={
+                                    {
+                                        height: '40px',
+                                        color: '#000000',
+                                        border: '1px solid #000000',
+                                        fontSize: '16px',
+                                        fontWeight: 'bold',
+                                        backgroundColor: '#EDF0EC',
+                                        '&:hover': {
+                                            backgroundColor: '#EAFCE8',
+                                            opacity: '0.8'
+                                        }
+                                    }
+                                } disabled={friendAdded} > Add Friend</Button>
+                            </div>}
+                        </div>
                     </div>
+                    
                     <div className="icons">
                         <div className="stats">
                             <div className="icon">
@@ -277,8 +281,9 @@ const Profile = () => {
                             </div>
                     </div>
                 </div>
+            </div>
             )}
-        </>
+        </div>
     );
 }
 

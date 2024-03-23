@@ -84,3 +84,17 @@ h1 {
 .popupText {
     padding-bottom: 13px;
 }
+@media screen and (max-width: 600px) {
+    .leftSideContent h1 {
+        font-size: 3rem;
+    }
+
+    .leftSideContent button {
+        font-size: 0.8rem;
+    }
+    .textGroup h5{
+        font-size: 1rem;
+    }
+    
+
+}

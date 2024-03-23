@@ -68,7 +68,7 @@ AUTH_USER_MODEL = 'myapi.UserProfile'
 # configure Djoser
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'reset-password/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
+    # 'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS' : {
         #'token_create': 'apps.accounts.serializers.CustomTokenCreateSerializer',
         'user_create' : 'myapi.serializer.UserProfileAddSerializer'
@@ -83,37 +83,37 @@ EMAIL_HOST_PASSWORD = 'zqgk vnku dndz eims'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        # email backend logger
-        'django.core.mail': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': 'logs/debug.log',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'file'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#         'django.request': {
+#             'handlers': ['console', 'file'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         # email backend logger
+#         'django.core.mail': {
+#             'handlers': ['console', 'file'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

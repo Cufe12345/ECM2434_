@@ -287,13 +287,14 @@ export function CreateQuestForm({ handleClose, setShowPopup, setPopupMessage }) 
                         }}> {!showCustomLocation ? <p>Add Custom Location</p> : <p>Hide Custom Location</p>}</button>
                     </div>
                     {showCustomLocation && (
-                        <div className={classes.locationContainer}>
+                    <div className={classes.locationContainer2}>
+                        
+                        <input className={classes.inputField} type="text" placeholder="Location Name" value={locationName} onChange={(e) => setLocationName(e.target.value)}/>
+                        <input className={classes.inputField} type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)}/>
+                        <input className={classes.inputField} type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)}/>
+                        <button type="button" onClick={addLocation}className={classes.locationButton}>Add Location</button>
+                    </div>
 
-                            <input className={classes.inputField} type="text" placeholder="Location Name" value={locationName} onChange={(e) => setLocationName(e.target.value)} />
-                            <input className={classes.inputField} type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
-                            <input className={classes.inputField} type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
-                            <button type="button" onClick={addLocation} className={classes.locationButton}>Add Location</button>
-                        </div>
                     )}
 
                 </div>
