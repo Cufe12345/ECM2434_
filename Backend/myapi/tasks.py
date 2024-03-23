@@ -14,8 +14,7 @@ def update_quest_daily():
         if all_quests:  # Check for at least 1 quest
             curr_quest = all_quests[0]
         else:
-            print("HJSAJSIasaassasaasaassaIS")
-            return "No quests found"
+            return None
 
     # If there are any, set their state to 0
     if active_quests and len(active_quests) > 0:
