@@ -16,11 +16,12 @@ def update_quest_daily():
         else:
             return None
 
-    # If there are any, set their state to 0
+    # If there are any, set their state and active date to 0
     if active_quests and len(active_quests) > 0:
         curr_quest = active_quests[0]
         for quest in active_quests:
             quest.state = 0
+            quest.date_made_active = None
             quest.save()
     # Find all quests and select a random one to set to state 1
     all_quests = list(Quest.objects.all())
@@ -29,14 +30,10 @@ def update_quest_daily():
             random_quest = random.choice(all_quests)
 
         random_quest.state = 1
-        print(datetime.datetime.now())
-        print(random_quest)
-        print("HJSAJSIIS")
-        random_quest.date_made_active = datetime.datetime.now()
+        random_quest.date_made_active = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         random_quest.save()
         return random_quest
     else:
-        print("HJSAJSIIassaaS")
         return "No quests found"
     
 def check_streak(userId):

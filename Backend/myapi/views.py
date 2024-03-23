@@ -153,9 +153,10 @@ class getActiveQuest(APIView):
         # If there are no active quests, set a new one
         if(len(activeQuests) == 0):
             activeQuest = update_quest_daily()
-            if activeQuest.date_made_active and datetime.now() - activeQuest.date_made_active > timedelta(days=1) or not activeQuest.date_made_active:
+            if (activeQuest.date_made_active and datetime.now() - activeQuest.date_made_active > timedelta(days=1)) or not activeQuest.date_made_active:
                 activeQuest = update_quest_daily()
-                activeQuest.date_made_active = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                # activeQuest.date_made_active = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                # activeQuest.save()
 
             serializer = QuestGetSerializer(activeQuest)
         # If there is an active quest, return the first one
