@@ -15,7 +15,7 @@ const EditProfile = () => {
     const [imgURL, setimgURL] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [birthday, setBirthday] = useState('');
+    const [birthday, setBirthday] = useState(null);
     const [bio, setBio] = useState('');
 
     const [borders, setBorders] = useState([]);
@@ -28,7 +28,7 @@ const EditProfile = () => {
             setimgURL(userData.imgURL|| '');
             setFirstName(userData.first_name || '');
             setLastName(userData.last_name || '');
-            setBirthday(userData.birthday || '');
+            setBirthday(userData.birthday || null);
             setBio(userData.bio || '');
         }
     }, [userData]);
