@@ -9,4 +9,4 @@ class MyapiConfig(AppConfig):
     
     def ready(self):
         from . import startup
-        startup.run_startup_check()
+        # startup.run_startup_check()
