@@ -36,7 +36,7 @@ const Navbar = ({ }) => {
         <div className="banner">
             <div className="navContainer">
                 {!showDropdown && (
-                <img src={logoImage} alt="Logo" className="navbarLogo" />
+                    <img src={logoImage} alt="Logo" className="navbarLogo" />
                 )}
                 <div className={classes.navLinks}>
                     <NavLink to="/">Home</NavLink>
@@ -58,25 +58,25 @@ const Navbar = ({ }) => {
                 </div>
                 <div className={classes.mobile}>
                     <div className="dropdown">
-                        <button className={classes.dropbtn} onClick={()=>setShowDropdown(!showDropdown)}>{!showDropdown ? (<p>Show Menu</p>) : (<p>Hide Menu</p>)}</button>
+                        <button className={classes.dropbtn} onClick={() => setShowDropdown(!showDropdown)}>{!showDropdown ? (<p>Show Menu</p>) : (<p>Hide Menu</p>)}</button>
                         {showDropdown && (
-                        <div className={classes.dropdown}>
-                            <NavLink to="/">Home</NavLink>
-                            {user ? (
-                                <>
-                                    <NavLink to="/Leaderboard">Leaderboard</NavLink>
-                                    <NavLink to="/Profile/me">Profile</NavLink>
-                                    {(userData?.role === "GameKeeper" || userData?.role === "Developer") && (<NavLink to="/Submissions">Submissions</NavLink>)}
-                                    <button className={classes.button} onClick={logout}>Logout</button>
-                                </>
+                            <div className={classes.dropdown}>
+                                <NavLink to="/">Home</NavLink>
+                                {user ? (
+                                    <>
+                                        <NavLink to="/Leaderboard">Leaderboard</NavLink>
+                                        <NavLink to="/Profile/me">Profile</NavLink>
+                                        {(userData?.role === "GameKeeper" || userData?.role === "Developer") && (<NavLink to="/Submissions">Submissions</NavLink>)}
+                                        <button className={classes.button} onClick={logout}>Logout</button>
+                                    </>
 
-                            ) : (
-                                <>
-                                    <NavLink to="/Login">Login</NavLink>
-                                    <NavLink to="/Register">Register</NavLink>
-                                </>
-                            )}
-                        </div>
+                                ) : (
+                                    <>
+                                        <NavLink to="/Login">Login</NavLink>
+                                        <NavLink to="/Register">Register</NavLink>
+                                    </>
+                                )}
+                            </div>
                         )}
                     </div>
                 </div>
