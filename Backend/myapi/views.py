@@ -4,6 +4,7 @@ Email: mpcr201@exeter.ac.uk, ui204@exeter.ac.uk, cm1099@exeter.ac.uk
 
 This file defines how we create views using our serializers
 """
+from django.utils import timezone
 from datetime import timedelta, datetime
 from django.shortcuts import render, get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -150,18 +151,27 @@ def getQuest(request):
 class getActiveQuest(APIView):
     def get(self, request):
         activeQuests = Quest.objects.filter(state=True)
+        now = timezone.now()
+        print(activeQuests)
         # If there are no active quests, set a new one
         if(len(activeQuests) == 0):
             activeQuest = update_quest_daily()
-            if (activeQuest.date_made_active and datetime.now() - activeQuest.date_made_active > timedelta(days=1)) or not activeQuest.date_made_active:
-                activeQuest = update_quest_daily()
-                # activeQuest.date_made_active = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-                # activeQuest.save()
-
             serializer = QuestGetSerializer(activeQuest)
-        # If there is an active quest, return the first one
+        elif (len(activeQuests) > 1):
+            activeQuest = update_quest_daily()
+            activeQuest.date_made_active = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            activeQuest.save()
+            serializer = QuestGetSerializer(activeQuest)
+
+        # If there is an active quest, check if it needs to be changed and return it
         else:
-            serializer = QuestGetSerializer(activeQuests[0])
+            activeQuest = activeQuests[0]
+            if (now - activeQuest.date_made_active > timedelta(days=1) or not activeQuest.date_made_active):
+                activeQuest = update_quest_daily() 
+            print("Performed check")
+            activeQuest.date_made_active = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            activeQuest.save()
+            serializer = QuestGetSerializer(activeQuest)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # Author: @Stickman230

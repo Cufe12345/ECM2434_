@@ -99,7 +99,7 @@ class Quest(models.Model):
     reward = models.PositiveBigIntegerField(default=0)
     state = models.BooleanField(default=False)
     imgURL = models.CharField(max_length=200)
-    date_made_active = models.DateTimeField()
+    date_made_active = models.DateTimeField(default=None, null=True)
     
     def __str__(self):
         return f"{self.user} | {self.name}"
