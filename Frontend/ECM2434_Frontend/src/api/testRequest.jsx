@@ -1,12 +1,14 @@
 import axios from "axios";
 import { json } from "react-router-dom";
+import { useNetwork } from "../contexts/networkContext";
 
 
-
-const baseURL = "http://localhost:8000/api/";
+const baseURL = "https://backend.cufe12345.uk/api/";
+// const baseURL = `http://localhost:8000/api/`;
 // Currently set to HTTP. Could use a config file to modify this easily.
 
 export default class ApiClient {
+  
   constructor() {
     this.axios = axios.create({
       baseURL,
@@ -65,7 +67,7 @@ export default class ApiClient {
     //   return error;
     // });
 
-
+    console.log("Base URL: ", baseURL);
     const requestOptions = {
       method: "POST",
       headers: {

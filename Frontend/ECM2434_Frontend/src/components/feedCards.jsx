@@ -7,10 +7,12 @@ import Chip  from "@mui/material/Chip";
 import { CiStar } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { PlayerIcon } from "./playerIcon";
+import { useNetwork } from "../contexts/networkContext";
 
 // Author: Callum Young(Cufe12345)
 export function FeedCards() {
 
+    const { ip } = useNetwork();
     //Stores all the valid submissions for the daily quest
     const [submissions, setSubmissions] = useState([]);
 
@@ -211,7 +213,7 @@ export function FeedCards() {
                     </div>
                     <hr className={classes.line}/>
                     <div className={classes.imgContainer}>
-                        <img src={"http://localhost:8000" + feedObject.img} alt="Quest" className={classes.imgPreview} />
+                        <img src={ip + feedObject.img} alt="Quest" className={classes.imgPreview} />
                     </div>
                     <hr className={classes.line}/>
                     <div className={classes.infoContainer}>

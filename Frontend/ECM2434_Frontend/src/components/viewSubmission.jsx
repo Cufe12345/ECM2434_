@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import classes from "./viewSubmission.module.css";
 import { useUser } from "../contexts/userContext";
 import ApiClient from "../api/index";
+import { useNetwork } from "../contexts/networkContext";
 
 // Author: Callum Young(Cufe12345)
 export function ViewSubmission() {
+
+    const { ip } = useNetwork();
 
     //Stores all the valid submissions
     const [submissions, setSubmissions] = useState([]);
@@ -158,7 +161,7 @@ export function ViewSubmission() {
                     <div className={classes.imgContainer}>
 
 
-                        <img src={"http://localhost:8000" + submissions[submission]?.imgURL} alt="Quest" className={classes.imgPreview} />
+                        <img src={ip + submissions[submission]?.imgURL} alt="Quest" className={classes.imgPreview} />
                     </div>
                     <p>{submissions[submission]?.info}</p>
                     <div className={classes.btnContainer}>

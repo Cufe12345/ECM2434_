@@ -5,12 +5,14 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import classes from './dailyQuest.module.css';
 import image from "../assets/images/600px-Example_image.png";
 import { Map } from './map';
+import { useNetwork } from '../contexts/networkContext';
 
 //Created by Cufe12345(Callum Young)
 
 export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fetchQuests }) {
     const { user, setUser, userDataLoading, userData } = useUser();
-
+    const { ip } = useNetwork();
+    console.log("IP: ",ip)
     //Stores todays quest
     // const[quest,setQuest] = useState(null);
 
@@ -126,7 +128,7 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
                             <div className={classes.rightContainer}>
                                 <div className={classes.imgContainer2}>
                                     <p className={classes.questName}>Example Image</p>
-                                    <img className={classes.img} ref={imageRef} src={"http://localhost:8000" + quest?.imgURL} alt="Example Image" />
+                                    <img className={classes.img} ref={imageRef} src={`${ip}`+ quest?.imgURL} alt="Example Image" />
                                 </div>
                             </div>
                         </div>
