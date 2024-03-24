@@ -54,6 +54,7 @@ export function SubmitQuestForm({ onBackClick, setOpen,setPopupText,quest,reject
       info: text,
       verified: false,
     };
+    console.log("DATA",data);
     await ApiClient.api
       .questSubmission(user, data)
       .then((res) => {

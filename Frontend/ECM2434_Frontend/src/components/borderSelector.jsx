@@ -32,7 +32,16 @@ export function BorderSelector({userData,borders,setBorders,selectedBorder,setSe
         return 0;
     }
     function getBorders(){
-        switch(localUserData?.rank)
+        let rank = 0;
+        if(localUserData.XP){
+            if(localUserData.XP < 100){
+                rank = 0;
+            }
+            else{
+                rank = Math.floor(localUserData.XP/100);
+            }
+        }
+        switch(rank)
         {
             case 0:
                 return ["none"];
