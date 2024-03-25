@@ -10,8 +10,8 @@ export const useNetwork = () => useContext(NetworkContext);
 
 export function NetworkContextProvider({ children }) {
     //Stores users uid
-    const [ip, setIp] = useState("http://localhost:8000");
-    // const [ip, setIp] = useState("https://backend.cufe12345.uk");
+    // const [ip, setIp] = useState("http://localhost:8000");
+    const [ip, setIp] = useState("https://backend.cufe12345.uk");
 
   return (
     <NetworkContext.Provider value={{ ip,setIp }}>

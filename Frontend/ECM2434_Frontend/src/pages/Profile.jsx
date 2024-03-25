@@ -48,7 +48,7 @@ const Profile = () => {
     // Gets the list of friends' data
     const [friendUserData, setFriendUserData] = useState([]);
 
-    let level = 0;
+    const [level,setLevel] = useState(0);
 
     useEffect(() => {
         if (userData) {
@@ -150,15 +150,17 @@ const Profile = () => {
                 setapiUserData(res);
                 if(res.XP){
                     if(res.XP < 100){
-                        level = 0;
+                        setLevel(0);
                     }
                     else{
-                        level = Math.floor(res.XP/100);
+                        setLevel(Math.floor(res.XP/100));
                         if(level > 10){
-                            level = 10;
+                            setLevel(10);
                         }
                     }
                 }
+                console.log(res.XP);
+                console.log(level);
                 setapiUserDataLoading(false);
             })
             .catch((error) => {
