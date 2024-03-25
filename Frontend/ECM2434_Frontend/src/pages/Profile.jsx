@@ -48,6 +48,8 @@ const Profile = () => {
     // Gets the list of friends' data
     const [friendUserData, setFriendUserData] = useState([]);
 
+    let level = 0;
+
     useEffect(() => {
         if (userData) {
             // If the id is me, then set the username to the current user 
@@ -146,6 +148,17 @@ const Profile = () => {
                     setUsername(null);
                 }
                 setapiUserData(res);
+                if(res.XP){
+                    if(res.XP < 100){
+                        level = 0;
+                    }
+                    else{
+                        level = Math.floor(res.XP/100);
+                        if(level > 10){
+                            level = 10;
+                        }
+                    }
+                }
                 setapiUserDataLoading(false);
             })
             .catch((error) => {
@@ -264,10 +277,10 @@ const Profile = () => {
                             <div className="stats">
                                 <div className="icon">
                                     {/* <CiStar style={{ color: '#A00120' }} /> */}
-                                    <img src={levelImages[apiUserData.rank] || levelImages[1]} alt="Level Icon" className="level-icon" />
+                                    <img src={levelImages[level] || levelImages[10]} alt="Level Icon" className="level-icon" />
                                     <p>Level</p>
                                 </div>
-                                <p>{apiUserData.rank}</p>
+                                <p>{Math.floor(apiUserData.XP/100) || 0}</p>
                             </div>
 
                             {/* XP Bar */}

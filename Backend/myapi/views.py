@@ -253,12 +253,14 @@ def validate_quest_submission(request):
     # Checks that it hasn't been verified yet, so they don't receive the reward twice
     if (quest_sub.verified == False):
         quest_sub.verified = True
+        quest_sub.save()
         # Gets users to give them the reward
         user = get_object_or_404(UserProfile, username=quest_sub.user.username)
-        update_streak(user.id)
+        streakVal = update_streak(user.id)
+        print("STREAK VAL: ",streakVal)
+        user.streak = streakVal
         user.XP += quest_sub.questID.reward
         user.save()
-        quest_sub.save()
         return Response({'status': 'Submission verified'}, status=status.HTTP_200_OK)
     return Response({'status': 'Submission already verified'}, status=status.HTTP_200_OK)
 
@@ -356,7 +358,7 @@ class EmailVerification(APIView):
         # Sends token to their email, so they can verify that they own their email
         success = send_mail(
             'Activate your account',
-            f'Click the link to activate your account: http://localhost:5173/emailVerify/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
+            f'Click the link to activate your account: https://ecoquest.cufe12345.uk/emailVerify/{request.data["username"]}/{token}', recipient_list=[request.data["email"]], from_email=None, fail_silently=False)
         return Response({"message": f"Activation email sent.{success}"}, status=status.HTTP_200_OK)
         
         

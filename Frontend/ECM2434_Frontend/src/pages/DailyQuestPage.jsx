@@ -114,19 +114,16 @@ export default function DailyQuestPage() {
           if (res[i].verified === false) {
             setWaitingApproval(true);
           }
-          else {
-            if (res[i].verified === false) {
-              setWaitingApproval(true);
-              if (res[i].rejected === true) {
+          else{
+            navigate("/feed");
+          }
+          
+          if (res[i].rejected === true) {
                 setRejected(res[i].questsubID);
                 setWaitingApproval(false);
                 setPopupText("Your submission was rejected, please try again");
                 setShowPopup(true);
-              }
-            }
-            else {
-              navigate("/feed");
-            }
+                return
           }
         }
       }
@@ -155,6 +152,7 @@ export default function DailyQuestPage() {
           setOpen={setShowPopup}
           setPopupText={setPopupText}
           quest={quest}
+          rejected={rejected}
         />
       ) : (
         showCreateQuest ? (<CreateQuestForm handleClose={handleCloseCreateQuest} setPopupMessage={setPopupText} setShowPopup={setShowPopup} />) :

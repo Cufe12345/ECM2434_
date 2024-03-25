@@ -3,8 +3,8 @@ import { json } from "react-router-dom";
 import { useNetwork } from "../contexts/networkContext";
 
 
-const baseURL = "https://backend.cufe12345.uk/api/";
-// const baseURL = `http://localhost:8000/api/`;
+// const baseURL = "https://backend.cufe12345.uk/api/";
+const baseURL = `http://localhost:8000/api/`;
 // Currently set to HTTP. Could use a config file to modify this easily.
 
 export default class ApiClient {

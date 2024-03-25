@@ -59,13 +59,15 @@ const Leaderboard = () => {
                 if (user) { // Check if user data and token are loaded=
                     if (leaderboardFriend) {
                         var res = await ApiClient.api.getFriendTopTen(user);
+                        res.sort((a, b) => b.XP - a.XP);
                         console.log(res);
                         setData(res); // Update the state with the fetched data
                     }
-                    else {
-                        var res = await ApiClient.api.getTopTen(user);
-                        console.log("buddy", res);
-                        setData(res); // Update the state with the fetched data
+                    else{
+                    var res = await ApiClient.api.getTopTen(user);
+                    res.sort((a, b) => b.XP - a.XP);
+                    console.log("buddy",res);
+                    setData(res); // Update the state with the fetched data
                     }
                 }
             } catch (error) {
@@ -124,7 +126,7 @@ const Leaderboard = () => {
                             <TableBody>
                                 {data.map((item, index) => (
                                     <StyledTableRow key={item.id || index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <StyledTableCell className="rank" padding="checkbox">{item.rank || index + 1}</StyledTableCell>
+                                        <StyledTableCell className="rank" padding="checkbox">{Math.floor(item.XP/100)   || 0}</StyledTableCell>
                                         <StyledTableCell>{item.first_name + " " + item.last_name}</StyledTableCell>
                                         <StyledTableCell>{item.username}</StyledTableCell>
                                         <StyledTableCell>{item.XP}</StyledTableCell>

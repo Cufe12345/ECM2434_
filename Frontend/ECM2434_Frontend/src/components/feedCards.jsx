@@ -8,6 +8,16 @@ import { CiStar } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { PlayerIcon } from "./playerIcon";
 import { useNetwork } from "../contexts/networkContext";
+import level1 from '../assets/images/Level1.png'; 
+import level2 from '../assets/images/Level2.png';
+import level3 from '../assets/images/Level3.png';
+import level4 from '../assets/images/Level4.png'; 
+import level5 from '../assets/images/Level5.png';
+import level6 from '../assets/images/Level6.png';
+import level7 from '../assets/images/Level7.png'; 
+import level8 from '../assets/images/Level8.png';
+import level9 from '../assets/images/Level9.png';
+import level10 from '../assets/images/Level10.png';
 
 // Author: Callum Young(Cufe12345)
 export function FeedCards() {
@@ -59,6 +69,19 @@ export function FeedCards() {
             fetchUsers();
         }
     }, [submissions]);
+
+    const levelImages = {
+        1: level1,
+        2: level2,
+        3: level3,
+        4: level4,
+        5: level5,
+        6: level6,
+        7: level7,
+        8: level8,
+        9: level9,
+        10: level10,
+      };
 
 
     /**
@@ -154,12 +177,25 @@ export function FeedCards() {
             else if(user.role === "Developer"){
                 colour = "error";
             }
+            let rank = 0;
+            if(user.XP){
+                if(user.XP < 100){
+                    rank = 0;
+                }
+                else{
+                    rank = Math.floor(user.XP/100);
+                    if(rank > 10){
+                        rank = 10;
+                    }
+                }
+            }
             let feedObject = {
                 username: user.username,
                 first_name: user.first_name,
                 last_name: user.last_name,
                 imgURL: user.imgURL,
-                rank: user.rank,
+                rank: rank,
+                XP: user.XP,
                 role:user.role,
                 img:submission.imgURL,
                 info:submission.info,
@@ -200,8 +236,8 @@ export function FeedCards() {
                                 </div>
                             </div>
                             <div className={classes.rankIcon}>
-                                    <CiStar style={{ color: '#A00120' }} size={30}/>
-                                        <p>Level {feedObject.rank}</p>
+                            <img src={levelImages[feedObject.rank] || levelImages[0]} alt="Level Icon" className="level-icon" />
+                                        <p>Level {Math.floor(feedObject.XP/100) || 0}</p>
                                 </div>
                             
                         </div>

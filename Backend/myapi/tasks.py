@@ -1,9 +1,12 @@
 import datetime
+
+from django.shortcuts import get_object_or_404
 from .models import Quest
 from .models import QuestSubmission
 from .models import UserProfile as User
 from django.utils import timezone
 import random
+
 
 def update_quest_daily():
     now = timezone.now()
@@ -48,9 +51,8 @@ def update_quest_daily():
 def check_streak(userId):
     # Find the latest user submission
     latest_submission = QuestSubmission.objects.filter(user=userId).order_by('date_created').first()
-    
     # Check if the latest submission was submitted before yesterday
-    if latest_submission and latest_submission.submission_date.date() < datetime.date.today() - datetime.timedelta(days=1):
+    if latest_submission and latest_submission.date_created.date() < timezone.now().date() - datetime.timedelta(days=1):
         user = User.objects.get(id=userId)
         user.streak = 0
         user.save()
@@ -59,14 +61,16 @@ def check_streak(userId):
     elif latest_submission and latest_submission.verified == True:
         return 1
     # Do nothing (no previous submission / submission not verified)
-    return 0
+    return 1
 
 def update_streak(userId):
     check_outcome = check_streak(userId)
     if check_outcome == 1:
-        user = User.objects.get(id=userId)
+        user = get_object_or_404(User, id=userId)
+        print(f"User streak: {user.streak}")
+        return user.streak+1
         user.streak += 1
         user.save()
     else:
-        pass
+        return 0
     return "Streak updated"
