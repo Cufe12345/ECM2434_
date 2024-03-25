@@ -1,7 +1,5 @@
 .button {
-
     border: none;
-
 }
 
 
@@ -24,7 +22,12 @@
     display: none !important;
 }
 
-@media screen and (max-width: 600px) {
+.menuItem {
+    color: black;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 900px) {
     .button {
         font-size: 0.7em !important;
     }
@@ -34,7 +37,7 @@
     }
 
     .navLinks {
-        display: none;
+        display: none !important;
     }
 
     .dropdown a {
@@ -46,16 +49,9 @@
         padding: 5px;
     }
 
-    .dropbtn p {
-        font-size: 0.8em !important;
-        margin: 0;
-        /* width: auto; */
-    }
-
     .dropbtn {
-        border-radius: 3px;
-        background-color: #f5f5f5;
-        border: 1px solid #000000;
+        font-size: 2em;
+        border: none;
     }
 
 }

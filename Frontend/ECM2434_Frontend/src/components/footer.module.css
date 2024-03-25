@@ -14,7 +14,7 @@
 }
 
 .footerContainer {
-    border-top: 1px solid transparent;
+    border-top: 1px solid black;
     height: 60px;
     /* position: absolute; */
     bottom: 0;

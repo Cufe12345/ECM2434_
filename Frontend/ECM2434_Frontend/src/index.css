@@ -3,3 +3,7 @@
 
   background-color: #F8FAF7;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -18,9 +18,37 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
     const [location, setLocation] = useState(null);
 
     const [height, setHeight] = useState(100);
+    const [currentTime, setCurrentTime] = useState(calculateTimeLeft());
 
     //Reference to the map container element
     const mapRef = useRef();
+
+    function calculateTimeLeft() {
+        const now = new Date();
+        const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+        const timeLeft = midnight - now;
+
+        let hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+        let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+        let seconds = Math.floor((timeLeft / 1000) % 60);
+
+        hours = hours.toString().padStart(2, '0');
+        minutes = minutes.toString().padStart(2, '0');
+        seconds = seconds.toString().padStart(2, '0');
+
+        return `${hours}:${minutes}:${seconds}`;
+    };
+
+
+    useEffect(() => {
+        const timerID = setInterval(() => {
+            setCurrentTime(calculateTimeLeft());
+        }, 1000);
+
+        return () => {
+            clearInterval(timerID);
+        };
+    }, []);
 
 
     /*Fetches the quests once the users data is finished loading*/
@@ -36,9 +64,9 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
             fetchLocations(quest.locationID);
         }
     }, [quest]);
-    useEffect(()=>{
-        console.log("DATA: ",userData);
-    },[userDataLoading])
+    useEffect(() => {
+        console.log("DATA: ", userData);
+    }, [userDataLoading])
 
 
 
@@ -97,7 +125,7 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
                     </div>
                 )}
                 <div className={classes.titleContainer}>
-                    <h1>Daily Quest</h1>
+                    <h1>Today's Quest</h1>
                 </div>
                 {(quest === undefined || quest === null) ? (
                     <div className={classes.titleContainer}>
@@ -105,11 +133,14 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
                     </div>
                 ) : (
                     <>
-                        <div className={classes.titleContainer}>
-                            <p className={classes.questName}>Quest: {quest?.name}</p>
+                        <div className={classes.questContainer}>
+                            {/* <div className={classes.titleContainer}>
+                                <p className={classes.questName}>Title: {quest?.name}</p>
+                            </div> */}
+                            <p className={classes.questDesc}>"{quest?.task}"</p>
+                            <p className={classes.questName}>Reward: {quest?.reward}xp</p>
+                            <p className={classes.countdownText}>{currentTime}</p>
                         </div>
-                        <p className={classes.questName}>Objective: {quest?.task}</p>
-                        <p className={classes.questName}>Reward: {quest?.reward}pts</p>
 
                         <div className={classes.imgContainer}>
                             <div className={classes.leftContainer}>
@@ -118,15 +149,15 @@ export function DailyQuest({ onDailyQuestComplete, onCreateQuestClick, quest, fe
                                     {/*this will be a map in the future*/}
                                     {/* <img className={classes.img} src={image} alt="Example Image" /> */}
                                     <div className={classes.mapContainer} ref={mapRef} id={classes.map}>
-                                        {location?.longitude && location?.latitude ? <Map center={[location?.latitude, location?.longitude]} zoom={20} scrollWheelZoom={false} height={height}/> : null}
-                                        {/* <Map center={[location?.longitude,location?.latitude]} zoom={10} scrollWheelZoom={false}/> */}
+                                        {location?.longitude && location?.latitude ? <Map center={[location?.latitude, location?.longitude]} zoom={20} scrollWheelZoom={false} height={height} /> : null}
+                                        {/* <Map center={[location?.longitude, location?.latitude]} zoom={10} scrollWheelZoom={false} /> */}
                                     </div>
                                 </div>
                             </div>
                             <div className={classes.rightContainer}>
                                 <div className={classes.imgContainer2}>
                                     <p className={classes.questName}>Example Image</p>
-                                    <img className={classes.img} ref={imageRef} src={"http://localhost:8000" + quest?.imgURL} alt="Example Image" />
+                                    {/* <img className={classes.img} ref={imageRef} src={"http://localhost:8000" + quest?.imgURL} alt="Example Image" /> */}
                                 </div>
                             </div>
                         </div>

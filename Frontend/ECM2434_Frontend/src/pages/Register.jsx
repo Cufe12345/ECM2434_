@@ -1,3 +1,4 @@
+
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -9,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import "./authPages.css";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 
@@ -26,6 +29,7 @@ const Register = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [repeatPasswordError, setRepeatPasswordError] = useState('');
+    const [isChecked, setIsChecked] = useState(false);
 
     const navigate = useNavigate();
 
@@ -207,11 +211,20 @@ const Register = () => {
                                     },
                                 }}
                             />
+                            <FormControlLabel required sx={{
+                                display: 'flex',
+                                width: '100%',
+                                marginTop: '10px',
+                                '& .MuiTypography-body1': {
+                                    fontSize: '0.9rem',
+                                },
+                            }}
+                                control={<Checkbox checked={isChecked} onChange={(e) => setIsChecked(e.target.checked)} />} label="You've read and accepted the Terms & Conditions as well as the Code of Conduct" />
                             <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    disabled={!(emailValid && passwordValid && repeatPasswordValid)}
+                                    disabled={!(emailValid && passwordValid && repeatPasswordValid && isChecked)}
                                     sx={{
                                         borderRadius: '8px',
                                         fontSize: '1rem',
