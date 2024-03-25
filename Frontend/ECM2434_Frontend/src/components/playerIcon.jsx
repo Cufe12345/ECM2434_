@@ -8,9 +8,12 @@ import _5 from "../assets/images/5.png";
 
 import classes from "./playerIcon.module.css";
 import { useState } from "react";
+import { useNetwork } from "../contexts/networkContext";
 
 // Author: Callum Young(Cufe12345)
 export function PlayerIcon({ userData,width,height }) {
+
+    const { ip } = useNetwork();
 
     //Stores the border image to be displayed
     const [border, setBorder] = useState(null);
@@ -66,7 +69,7 @@ export function PlayerIcon({ userData,width,height }) {
             ):(
                 <></>
             )}
-            <Avatar alt="User Profile Picture" src={"http://localhost:8000"+userData?.imgURL} sx={{ width: width, height: height }} className={classes.icon} >{userData?.first_name != undefined ? (userData?.first_name[0]) : 'N/'}{userData?.last_name != undefined ? (userData?.last_name[0]) : 'A'}</Avatar>
+            <Avatar alt="User Profile Picture" src={ip+userData?.imgURL} sx={{ width: width, height: height }} className={classes.icon} >{userData?.first_name != undefined ? (userData?.first_name[0]) : 'N/'}{userData?.last_name != undefined ? (userData?.last_name[0]) : 'A'}</Avatar>
         </div>
     );
 }
