@@ -94,22 +94,24 @@ const Leaderboard = () => {
             ) : (
                 <div className="formater">
                     <div className="leaderboardHeadings">
-                    <h1>{leaderboardFriend ? "Friend Leaderboard" : "Leaderboard"}</h1>
+                        <h1>{leaderboardFriend ? "Friend Leaderboard" : "Leaderboard"}</h1>
                         <Button onClick={() => setLeaderboardFriend(!leaderboardFriend)} variant="contained" sx={
-                                {
-                                    height: '40px',
-                                    color: '#000000',
-                                    border: '1px solid #000000',
-                                    fontSize: '16px',
-                                    fontWeight: 'bold',
+                            {
+                                height: '40px',
+                                color: '#000000',
+                                border: '1px solid #000000',
+                                padding: '12px',
+                                fontSize: '16px',
+                                fontWeight: 'bold',
+                                lineHeight: '18px',
+                                backgroundColor: '#EDF0EC',
+                                '&:hover': {
                                     backgroundColor: '#EDF0EC',
-                                    '&:hover': {
-                                        backgroundColor: '#EAFCE8',
-                                        opacity: '0.8'
-                                    }
+                                    opacity: '0.8'
                                 }
-                            }> 
-                                Toggle Leaderboard</Button>
+                            }
+                        }>
+                            {leaderboardFriend ? "See Main Leaderboard" : "See Friend Leaderboard"}</Button>
                     </div>
                     <TableContainer component={Paper} className='tableContainer'>
                         <StyledTable sx={{ width: 650, color: "ActiveBorder" }} aria-label="simple table">

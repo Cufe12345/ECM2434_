@@ -5,8 +5,9 @@
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid black;
     transition: 0.3s;
-    background-color: #f2f2f2;
+    background-color: #eaeaea;
     width: auto;
     height: auto;
     display: flex;
@@ -18,20 +19,36 @@
     .card {
         width: 100%;
         margin: 0;
+        padding: 20px;
     }
-    .titleContainer h1{
+
+    .titleContainer h1 {
         font-size: 1.5rem;
-    
+
     }
+
     .questName {
         font-size: 0.8rem !important;
     }
-    .createButton{
+
+    .createButton {
         font-size: 0.8rem !important;
         width: 50% !important;
     }
-    
+
+    .questDesc {
+        font-size: 1.5rem !important;
+    }
+
+    .countdownText {
+        font-size: 1.5rem !important;
+        color: rgb(140, 0, 0);
+        border-radius: 8px;
+        padding: 5px;
+    }
+
 }
+
 .titleContainer {
     display: flex;
     flex-direction: row;
@@ -41,7 +58,7 @@
 
 .questName {
     font-size: 25px;
-    font-weight: bold;
+    margin: 0
 }
 
 .img {
@@ -115,6 +132,26 @@
     overflow: hidden;
     display: block;
     z-index: 0;
+}
+
+.questContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.questDesc {
+    font-size: 2.5rem;
+    font-style: italic;
+    margin: 0;
+}
+
+.countdownText {
+    font-size: 2rem;
+    margin: 0;
 }
 
 /* #leaflet-container {
